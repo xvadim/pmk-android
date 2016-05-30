@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <gradient
+        android:angle="270"
+        android:endColor="@color/sliderGradientEnd"
+        android:startColor="@color/sliderGradientStart" />
+
+    <size
+        android:height="@dimen/slider_height"
+        android:width="@dimen/slider_thumb_width_angle_mode" />
+
+    <stroke
+        android:width="@dimen/slider_thumb_border"
+        android:color="@android:color/transparent" />
+
+</shape>

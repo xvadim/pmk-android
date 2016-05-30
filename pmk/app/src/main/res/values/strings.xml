@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="on_off_label_weight">1</string>
+
+<!-- Messages for i18n -->
+    <string name="locale">en</string>
+
+<!-- Menu buttons -->
+    <string name="menu_about">About</string>
+    <string name="menu_load">Load</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_swap">MK 61 ↔ MK-54</string>
+    <string name="menu_export">Export</string>
+    <string name="menu_import">Import</string>
+
+<!-- Screen settings screen -->	
+    <string name="settings_screen">Screen settings</string>
+    <string name="settings_screen_summary">Global screen settings</string>
+
+    <string name="settings_category_screen">Screen</string>
+    <string name="settings_screen_always_on_title">Keep screen on</string>
+    <string name="settings_screen_always_on_summary">Prevent screen from turning off while calculator is in use</string>
+    <string name="settings_full_screen_title">Full screen</string>
+    <string name="settings_full_screen_summary">Enable full-screen mode, hiding the notification bar</string>
+    <string name="settings_grayscale_title">Grayscale</string>
+    <string name="settings_grayscale_summary">Black-and-white mode for better contrast on e-ink screens</string>
+
+<!-- Appearance settings screen -->	
+    <string name="settings_ui_visual">Appearance settings</string>
+    <string name="settings_ui_visual_summary">Visual appearance of switches, buttons etc.</string>
+
+    <string name="settings_category_switches">Switches</string>
+    <string name="settings_slider_on_off">\"On\" switch as slider</string>
+    <string name="settings_slider_on_off_summary">If unchecked, \"Вкл\" slider is replaced with check box</string>
+    <string name="settings_slider_angle">Angle switch as slider</string>
+    <string name="settings_slider_angle_summary">If unchecked, \"Р/ГРД/Г\" slider is replaced with radio buttons</string>
+
+    <string name="settings_category_border">Outline</string>
+    <string name="settings_border_black_buttons">Outline black buttons</string>
+    <string name="settings_border_black_buttons_summary">Thin white border around black buttons</string>
+    <string name="settings_border_other_buttons">Outline other buttons</string>
+    <string name="settings_border_other_buttons_summary">Thin black border around all buttons except black ones</string>
+
+    <string name="settings_category_scaling">Scaling</string>
+    <string name="settings_scaling_buttons">Text on buttons</string>
+    <string name="settings_scaling_buttons_summary">Set size of text on buttons</string>
+    <string name="settings_scaling_labels">Text above buttons</string>
+    <string name="settings_scaling_labels_summary">Set size of text above/under buttons</string>
+
+<!-- Behavior settings screen -->
+    <string name="settings_ui_behavior">Behavior settings</string>
+    <string name="settings_ui_behavior_summary">User interface behavior settings</string>
+
+    <string name="settings_category_vibration">Vibration</string>
+    <string name="settings_vibrate_title">Vibrate</string>
+    <string name="settings_vibrate_summary">Enable haptic feedback for buttons and switches</string>
+    <string name="settings_vibrate_keypad_more_title">Intensive vibration</string>
+    <string name="settings_vibrate_keypad_more_summary">Vibrate keypad buttons with more intensity</string>
+
+    <string name="settings_category_sound">Sound</string>
+    <string name="settings_sound_title">Buttons sound</string>
+    <string name="settings_sound_summary">Produce sound on button press</string>
+    <string name="settings_button_sound_title">Sound type</string>
+    <string name="settings_button_sound_summary">Select buttons sound from the list</string>
+
+    <string name="settings_category_buttons">Buttons</string>
+    <string name="settings_on_button_touch_title">Pressed on touch</string>
+    <string name="settings_on_button_touch_summary">Buttons react when touched and not when released</string>
+
+<!-- Dialogs buttons labels -->
+    <string name="label_save">Save</string>
+    <string name="label_load">Load</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_close">Close</string>
+
+<!-- FileBrowser labels -->
+    <string name="label_new_directory">New Folder</string>
+    <string name="label_new_directory_name">New Folder Name</string>
+
+<!-- Messages -->	
+    <string name="savestate_name_slot">Slot</string>
+    <string name="savestate_name_empty">(empty)</string>
+    <string name="savestate_name_noname">(no name)</string>
+    <string name="import_common_error">Can\'t import program</string>
+    <string name="export_common_error">Can\'t export program</string>
+    <string name="export_no_sd_card_error">SD-card is not mounted</string>
+
+    <string name="msg_choose_name">Enter save name</string>
+    <string name="msg_choose_slot">Choose slot to</string>
+    <string name="msg_save">save</string>
+    <string name="msg_load">load</string>
+
+    <string name="item_mk61">Elektronika MK 61 (MK 52 compatible excluding ↑↓)</string>
+    <string name="item_mk54">Elektronika MK&#x2010;54 (compatible with Б3&#x2010;34, MK 56)</string>
+
+    <string name="msg_about">
+        Emulator of \"Elektronika  MK 61\" and \"Elektronika MK-54\" programmable calculators\n
+        \n
+        Usage hints:\n
+        - Touch indicator to toggle emulation speed slow/fast\n
+        - Long-touch indicator to hide/show switches\n
+        - Switch calculator off to select MK 61 or MK-54 in Menu\n
+        \n
+        Developer: Vadim Khohlov\n
+        vadim.khohlov@gmail.com\n
+        \n
+        Version: {0}\n
+        \n
+        Based on emu145 project\n
+        by Felix Lazarev\n
+        http://code.google.com/p/emu145\n
+        and pmk-android\n
+        by Stanislav Borutsky\n
+        https://github.com/cax/pmk-android
+    </string>
+
+<!-- end of i18n messages -->
+
+    <string name="electronica">Электроника</string>
+    <string name="app_name">MK 61/54</string>
+
+    <string name="labelPowerOnOff">Вкл</string>
+    <string name="TextViewRadians">P</string>
+    <string name="TextViewDegrees">Г</string>
+    <string name="TextViewGrads">ГРД</string>
+    <string name="indicatorTestString">&#x2010;9.8765432&#x2010;10</string>
+
+    <!-- 1st row of buttons -->
+    <string name="buttonF">F</string>
+
+    <string name="buttonStepForward">&gt;</string> <!-- ШГ→ -->
+    <string name="buttonStepForwardYellow">x&lt;0</string>
+
+    <string name="buttonStepBack">&lt;</string> <!-- ШГ← -->
+    <string name="buttonStepBackYellow">x=0</string>
+
+    <string name="buttonReturn">В/О</string>
+    <string name="buttonReturnYellow">x≥0</string>
+
+    <string name="buttonStopStart">С/П</string>
+    <string name="buttonStopStartYellow">x≠0</string>
+
+    <!-- 2nd row of buttons -->
+    <string name="buttonK">K</string>
+
+    <string name="buttonRegisterToX">:</string> <!-- П→X -->
+    <string name="buttonRegisterToXYellow">L0</string>
+
+    <string name="buttonXToRegister">;</string> <!-- X→П -->
+    <string name="buttonXToRegisterYellow">L1</string>
+
+    <string name="buttonGoto">БП</string>
+    <string name="buttonGotoYellow">L2</string>
+
+    <string name="buttonSubroutine">ПП</string>
+    <string name="buttonSubroutineYellow">L3</string>
+
+    <!-- 3rd row of buttons -->
+    <string name="button7">7</string>
+    <string name="button7Yellow">sin</string>
+    <string name="button7Blue">[x]</string>
+
+    <string name="button8">8</string>
+    <string name="button8Yellow">cos</string>
+    <string name="button8Blue">{x}</string>
+
+    <string name="button9">9</string>
+    <string name="button9Yellow">tg</string>
+    <string name="button9Blue">max</string>
+
+    <string name="buttonSubtract">–</string>
+    <string name="buttonSubtractYellow">)</string> <!-- √ -->
+
+    <string name="buttonDivide">÷</string>
+    <string name="buttonDivideYellow">1/x</string>
+
+    <!-- 4th row of buttons -->
+    <string name="button4">4</string>
+    <string name="button4Yellow">sin-¹</string>
+    <string name="button4Blue">|x|</string>
+
+    <string name="button5">5</string>
+    <string name="button5Yellow">cos-¹</string>
+    <string name="button5Blue">ЗН</string>
+
+    <string name="button6">6</string>
+    <string name="button6Yellow">tg-¹</string>
+    <string name="button6Blue">←°\'</string>
+
+    <string name="buttonAdd">+</string>
+    <string name="buttonAddYellow">π</string>
+    <string name="buttonAddBlue">→°\'</string>
+
+    <string name="buttonMultiply">×</string>
+    <string name="buttonMultiplyYellow">x²</string>
+
+    <!-- 5th row of buttons -->
+    <string name="button1">1</string>
+    <string name="button1Yellow">%$</string> <!-- eⁿ -->
+
+    <string name="button2">2</string>
+    <string name="button2Yellow">lg</string>
+
+    <string name="button3">3</string>
+    <string name="button3Yellow">ln</string>
+    <string name="button3Blue">←°\'\"</string>
+
+    <string name="buttonExchangeXY">=</string> <!-- ↔ -->
+    <string name="buttonExchangeXYYellow">(&amp;</string> <!-- x^y -->
+    <string name="buttonExchangeXYBlue">→°\'\"</string>
+
+    <string name="buttonUpStack">BA</string> <!-- В↑ -->
+    <string name="buttonUpStackYellow">Bx</string>
+    <string name="buttonUpStackBlue">СЧ</string>
+
+    <!-- 6th row of buttons -->
+    <string name="button0">0</string>
+    <string name="button0Yellow">!#$</string> <!-- 10ⁿ -->
+    <string name="button0Blue">НОП</string>
+
+    <string name="buttonDot">•</string>
+    <string name="buttonDotYellow">0</string> <!-- ○ -->
+    <string name="buttonDotBlue">∧</string>
+
+    <string name="buttonNegate">/–/</string>
+    <string name="buttonNegateYellow">АВТ</string>
+    <string name="buttonNegateYellow_small">авт</string>
+    <string name="buttonNegateBlue">∨</string>
+
+    <string name="buttonExponent">ВП</string>
+    <string name="buttonExponentYellow">ПРГ</string>
+    <string name="buttonExponentYellow_small">прг</string>
+    <string name="buttonExponentBlue">⊕</string>
+
+    <string name="buttonClear">CX</string>
+    <string name="buttonClearMK54">Cx</string>
+    <string name="buttonClearYellow">CF</string>
+    <string name="buttonClearYellow_small">cf</string>
+    <string name="buttonClearBlue">ИНВ</string>
+    <string name="buttonClearBlue_small">инв</string>
+
+    <!-- under 6th row of buttons -->
+    <string name="buttonLetterA">a</string>
+    <string name="buttonLetterB">b</string>
+    <string name="buttonLetterC">c</string>
+    <string name="buttonLetterD">d</string>
+    <string name="buttonLetterE">e</string>
+
+</resources>

@@ -1,0 +1,1528 @@
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="@color/commonBackground"
+    android:orientation="vertical" >
+
+    <!-- ======================= Indicator ======================== -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout_Indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indicator_top_margin"
+        android:layout_weight="20"
+        android:background="@color/indicatorOff"
+        android:orientation="vertical" >
+
+        <com.cax.pmk.widget.AutoScaleTextView
+            android:id="@+id/textView_Indicator"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:gravity="center_vertical|left"
+            android:lines="1"
+            android:longClickable="true"
+            android:maxLines="1"
+            android:minHeight="@dimen/indicator_min_height"
+            android:minLines="1"
+            android:onClick="onIndicatorTouched"
+            android:paddingLeft="@dimen/indicator_left_padding"
+            android:paddingRight="@dimen/indicator_right_padding"
+            android:scrollHorizontally="true"
+            android:text="@string/indicatorTestString"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/indicatorDigits"
+            android:textSize="@dimen/indicator_orig_text_size" />
+    </LinearLayout>
+
+    <!-- ======================= Switches ======================== -->
+
+    <TableLayout
+        android:id="@+id/tableLayoutSwitches"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/switches_height"
+        android:layout_marginLeft="@dimen/switches_margin"
+        android:layout_marginRight="@dimen/switches_margin"
+        android:layout_weight="15"
+        android:gravity="center_vertical" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <com.cax.pmk.widget.AutoScaleTextView
+                android:id="@+id/TextViewTableCellCalculatorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_span="3"
+                android:layout_weight="5"
+                android:text="@string/electronica" />
+
+            <TextView
+                android:id="@+id/TextViewGrads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/TextViewGrads" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <CheckBox
+                android:id="@+id/powerOnOffCheckBox"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="0.1"
+                android:gravity="left|center_vertical"
+                android:onClick="onPowerCheckBoxTouched"
+                android:visibility="gone" />
+
+            <com.cax.pmk.widget.Slider
+                android:id="@+id/powerOnOffSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:max="1"
+                android:maxHeight="@dimen/slider_height"
+                android:minHeight="@dimen/slider_height"
+                android:minWidth="@dimen/slider_width_on_off"
+                android:mirrorForRtl="false"
+                android:progressDrawable="@drawable/slider_progress"
+                android:thumb="@drawable/slider_thumb_on_off"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/TextViewPowerOnOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/slider_label_margin"
+                android:layout_weight="@string/on_off_label_weight"
+                android:gravity="center_vertical|left"
+                android:longClickable="true"
+                android:text="@string/labelPowerOnOff" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/TextViewRadians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="@dimen/slider_label_margin"
+                    android:text="@string/TextViewRadians" />
+
+                <RadioButton
+                    android:id="@+id/radioRadians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/radio_button_margin"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center_vertical|right"
+                    android:onClick="onAngleModeRadioButtonTouched"
+                    android:tag="0"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/radioGrads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/radio_button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:onClick="onAngleModeRadioButtonTouched"
+                    android:tag="1"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/radioDegrees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/radio_button_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:onClick="onAngleModeRadioButtonTouched"
+                    android:tag="2"
+                    android:visibility="gone" />
+
+                <com.cax.pmk.widget.Slider
+                    android:id="@+id/angleModeSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_weight="3"
+                    android:clickable="false"
+                    android:max="2"
+                    android:maxHeight="@dimen/slider_height"
+                    android:minHeight="@dimen/slider_height"
+                    android:minWidth="@dimen/slider_width_angle_mode"
+                    android:mirrorForRtl="false"
+                    android:progressDrawable="@drawable/slider_progress"
+                    android:thumb="@drawable/slider_thumb_angle"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/TextViewDegrees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/slider_label_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:text="@string/TextViewDegrees" />
+            </RadioGroup>
+        </TableRow>
+    </TableLayout>
+
+    <!-- =========================== Keyboard =========================== -->
+    <!-- ================================================================ -->
+
+    <TableLayout
+        android:id="@+id/tableLayoutKeyboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="65" >
+
+        <!-- 1st row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonF"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_yellow"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="39"
+                    android:text="@string/buttonF"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelLessThanZero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonStepForwardYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonStepForward"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="35"
+                    android:text="@string/buttonStepForward"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelIsZero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonStepBackYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonStepBack"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="37"
+                    android:text="@string/buttonStepBack"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelGreaterOrEqualsZero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonReturnYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonReturn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="32"
+                    android:text="@string/buttonReturn"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelIsNotZero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonStopStartYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonStopStart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="30"
+                    android:text="@string/buttonStopStart"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- 2nd row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonK"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_blue"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="38"
+                    android:text="@string/buttonK"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelL0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonRegisterToXYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonRegisterToX"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="36"
+                    android:text="@string/buttonRegisterToX"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelL1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonXToRegisterYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonXToRegister"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="34"
+                    android:text="@string/buttonXToRegister"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelL2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonGotoYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonGoto"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="31"
+                    android:text="@string/buttonGoto"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelL3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonSubroutineYellow"
+                    android:textColor="@color/aboveButtonTextYellow"
+                    android:textSize="@dimen/label_font_size" />
+
+                <Button
+                    android:id="@+id/buttonSubroutine"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom|left"
+                    android:background="@drawable/button_black"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="33"
+                    android:text="@string/buttonSubroutine"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- 3rd row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelSin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button7Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelFloor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button7Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="17"
+                    android:text="@string/button7"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelCos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button8Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelFrac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button8Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="18"
+                    android:text="@string/button8"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelTg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button9Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button9Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="19"
+                    android:text="@string/button9"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelSquare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/buttonSubtractYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="21"
+                    android:text="@string/buttonSubtract"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/label1divX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/buttonDivideYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="23"
+                    android:text="@string/buttonDivide"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- 4th row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelArcSin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button4Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelAbs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button4Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="14"
+                    android:text="@string/button4"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelArcCos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button5Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelSign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button5Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="15"
+                    android:text="@string/button5"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelArcTg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button6Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelFromHM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button6Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="16"
+                    android:text="@string/button6"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelPi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonAddYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelToHM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonAddBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="20"
+                    android:text="@string/buttonAdd"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelXpower2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/buttonMultiplyYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="22"
+                    android:text="@string/buttonMultiply"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- 5th row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelEpowerX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/button1Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="11"
+                    android:text="@string/button1"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelLg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/button2Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="12"
+                    android:text="@string/button2"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelLn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button3Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelFromHMS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button3Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="13"
+                    android:text="@string/button3"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelXpowerY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonExchangeXYYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelToHMS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonExchangeXYBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/buttonExchangeXY"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="24"
+                    android:text="@string/buttonExchangeXY"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelBx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonUpStackYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:text="@string/buttonLetterE"
+                        android:textColor="@color/buttonTextWhite"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelRandom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonUpStackBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/buttonUpStack"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="29"
+                    android:text="@string/buttonUpStack"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- 6th row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/label10powerX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/button0Yellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelNOP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/button0Blue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="10"
+                    android:text="@string/button0"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelDot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonDotYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelAnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonDotBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="25"
+                    android:text="@string/buttonDot"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelAVT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonNegateYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelOr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonNegateBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="26"
+                    android:text="@string/buttonNegate"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelPRG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonExponentYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelXor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonExponentBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_other"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="27"
+                    android:text="@string/buttonExponent"
+                    android:textColor="@color/buttonTextBlack"
+                    android:textColorHint="@color/buttonTextBlack"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/labelCF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="@dimen/label_left_padding"
+                        android:text="@string/buttonClearYellow"
+                        android:textColor="@color/aboveButtonTextYellow"
+                        android:textSize="@dimen/label_font_size" />
+
+                    <TextView
+                        android:id="@+id/labelInv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/label_right_padding"
+                        android:text="@string/buttonClearBlue"
+                        android:textColor="@color/aboveButtonTextBlue"
+                        android:textSize="@dimen/label_font_size" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/buttonClear"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/button_red"
+                    android:onClick="onKeypadButtonTouched"
+                    android:tag="28"
+                    android:text="@string/buttonClear"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textColorHint="@color/buttonTextWhite"
+                    android:textSize="@dimen/button_font_size_regular"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </TableRow>
+
+        <!-- line under 6th row of buttons -->
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/labelNop54"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/buttonTextWhite"
+                    android:textSize="@dimen/label_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonLetterA"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textSize="@dimen/label_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonLetterB"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textSize="@dimen/label_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonLetterC"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textSize="@dimen/label_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/buttonLetterD"
+                    android:textColor="@color/buttonTextWhite"
+                    android:textSize="@dimen/label_font_size" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
