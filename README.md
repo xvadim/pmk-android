@@ -1,8 +1,11 @@
 # "MK 61/54" для платформы Android
 
-Здесь размещен исходный текст приложения "МК 61/54" для платформы Android - эмулятора программируемых калькуляторов (ПМК) "Электроника МК 61", "Электроника МК-54" и других совместимых с ними советских калькуляторов расширяющегося ряда.
+Здесь размещен исходный текст приложения "МК 61/54" для платформы Android - эмулятора программируемых калькуляторов
+(ПМК) "Электроника МК 61", "Электроника МК-54" и других совместимых с ними советских калькуляторов расширяющегося ряда.
+Данный форк содержит немного улучшенный вид для МК-54 и возможность экспортировать/импортировать программы в/из 
+внешних файлов.
 
-<a href="https://play.google.com/store/apps/details?id=com.cax.pmk&hl=ru" alt="Download from Google Play">
+<a href="https://play.google.com/store/apps/details?id=com.cax.pmk.ext&hl=ru" alt="Download from Google Play">
   <img src="http://www.android.com/images/brand/android_app_on_play_large.png">
 </a>
 
@@ -20,7 +23,9 @@
 Механизм эмуляции реализован на основе исходного кода Феликса Лазарева ([http://code.google.com/p/emu145](проект emu145)) и портирован с C++ на Java.
 Скорость эмуляции значительно улучшена по сравнению с оригинальной, что позволяет эмулировать МК-61 в реальном времени на любом телефоне или планшете.
 
-Для удобства приложение предоставляет возможность сохранения и загрузки состояний эмуляции, что приближает эмулятор по возможностям к калькулятору МК-52.
+Для удобства приложение предоставляет возможность сохранения и загрузки состояний эмуляции, что приближает эмулятор по
+возможностям к калькулятору МК-52.
+Также имеется возможность экспорта/импорта состояния в/из внешних файлов.
 
 
 ## Сборка эмулятора
@@ -31,18 +36,21 @@
 
 ## Участие в разработке
 
-Вы можете предлагать свои исправления и дополнения эмулятора, используя GitHub fork и [pull requests](https://github.com/github/android/pulls).
+Вы можете предлагать свои исправления и дополнения эмулятора, используя GitHub fork и
+[pull requests](https://github.com/github/android/pulls).
 
 
 ## Контакты
 
-Вопросы и пожелания, касающиеся работы эмулятора, направляйте по адресу: <stanislavb@gmail.com>.
+Вопросы и пожелания, касающиеся работы эмулятора, направляйте по адресу: <vadim.khohlov@gmail.com>.
 
 ---
 
 # "MK 61/54" for Android
 
-This repository contains the source code for "MK 61/54" Android application - emulator of Soviet RPN programmable calculators "Electronika MK 61" and "Electronika MK-54".
+This repository contains the source code for "MK 61/54" Android application - emulator of Soviet RPN programmable
+calculators "Electronika MK 61" and "Electronika MK-54".
+This fork allows to export/import programs to/from external files.
 
 <a href="https://play.google.com/store/apps/details?id=com.cax.pmk" alt="Download from Google Play">
   <img src="http://www.android.com/images/brand/android_app_on_play_large.png">
@@ -63,7 +71,8 @@ Calculators are emulated on microcode level so they behave exactly like the orig
 This app's emulation engine Java code is based on C++ source of Felix Lazarev's ([http://code.google.com/p/emu145](emu145 project)).
 Emulation was highly optimized for speed and should run in real time on any Android phone or tablet.
 
-For ease of use application features saving and loading emulation states.
+For ease of use application features saving and loading emulation states. Also it is possible to export/import states 
+to/from external files.
 
 
 ## Building
@@ -78,4 +87,4 @@ Please fork this repository and contribute back using [pull requests](https://gi
 
 ## Contacts
 
-Feel free to send all your questions and suggestions about emulator to e-mail <stanislavb@gmail.com>.
+Feel free to send all your questions and suggestions about emulator to e-mail <vadim.khohlov@gmail.com>.
