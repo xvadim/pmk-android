@@ -54,13 +54,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <com.cax.pmk.widget.AutoScaleTextView
+            <!-- <com.cax.pmk.widget.AutoScaleTextView -->
+            <TextView
                 android:id="@+id/TextViewTableCellCalculatorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_span="3"
                 android:layout_weight="5"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/electronica" />
 
             <TextView

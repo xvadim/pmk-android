@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cax.pmk"
-    android:versionCode="261"
-    android:versionName="2.6.1" >
+    android:versionCode="262"
+    android:versionName="2.6.2" >
 
     <!--  min is 4  to support Android 1.6 -->
     <!--  max is 10 to ensure soft menu button will be shown on modern versions of Android -->
