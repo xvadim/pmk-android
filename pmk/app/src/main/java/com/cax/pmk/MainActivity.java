@@ -118,7 +118,13 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-    
+
+        findViewById(R.id.TextViewTableCellCalculatorName).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MenuHelper.onChooseMkModel(mkModel);
+            }
+        });
     }
 
     // ----------------------- Activity life cycle handlers --------------------------------
