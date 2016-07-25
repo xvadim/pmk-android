@@ -119,10 +119,13 @@ public class MainActivity extends Activity {
             }
         });
 
-        findViewById(R.id.TextViewTableCellCalculatorName).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.TextViewTableCellCalculatorName).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                MenuHelper.onChooseMkModel(mkModel);
+            public boolean onLongClick(View v) {
+                if (poweredOn == 0) {
+                    setMkModel(1 - mkModel, false);
+                }
+                return true;
             }
         });
     }
