@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.cax.pmk.widget.AutoScaleTextView;
+
 public class SkinHelper {
     static MainActivity mainActivity;
     private static int yellowLabelLeftPadding = 0;
@@ -89,9 +91,13 @@ public class SkinHelper {
     }
 
     static void setMkModelName(int mkModel) {
-        if (mainActivity.findViewById(R.id.TextViewTableCellCalculatorName) != null)
-            ((TextView) mainActivity.findViewById(R.id.TextViewTableCellCalculatorName))
-                .setText(mainActivity.getString(R.string.electronica) + "  MK" + (mkModel==1 ? "-54" : " 61"));
+        View v = mainActivity.findViewById(R.id.buttonReturn);
+        int x = v.getWidth() + v.getPaddingLeft();
+        AutoScaleTextView textView = (AutoScaleTextView)mainActivity.findViewById(R.id.TextViewTableCellCalculatorName);
+        if (textView != null) {
+            textView.setMaxWidth(x * 3);
+            textView.setText(mainActivity.getString(R.string.electronica) + "  MK" + (mkModel == 1 ? "-54" : " 61"));
+        }
     }
 
     static void setMkModelSkin(int mkModel) {

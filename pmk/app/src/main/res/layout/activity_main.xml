@@ -54,8 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <!-- <com.cax.pmk.widget.AutoScaleTextView -->
-            <TextView
+            <com.cax.pmk.widget.AutoScaleTextView
                 android:id="@+id/TextViewTableCellCalculatorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
