@@ -11,6 +11,7 @@ It's an extended version of the original emulator МК 61/54 by Stanislav Boruts
 (https://play.google.com/store/apps/details?id=com.cax.pmk). This version allows to export/import programs from external
 files and contains some UI improvements.
 
+Hint 0: you can found the list of all tips in the About dialog
 Hint 1: touch calculator's indicator to toggle slow/fast mode. Indicator's blinking looks better in slow mode.
 Hint 2: you can choose between MK-61 and MK-54 using menu option that becomes visible when calculator is switched off. 
 Hint 3: with the menu "Import" you can import programs from external files, several such programs you can find in https://github.com/xvadim/pmk61-programms
