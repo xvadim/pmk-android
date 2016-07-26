@@ -53,8 +53,10 @@ public class MainActivity extends Activity {
     private boolean isLandscape = false;
     private boolean hideSwitches  = false;
     private boolean grayscale  = false;
-    
-    private int poweredOn = 0;
+
+    private static final int sPowerOFF = 0;
+    private static final int sPowerON = 1;
+    private int poweredOn = sPowerOFF;
     private Vibrator vibrator = null;
 
     private boolean makeSounds = false;
@@ -122,12 +124,12 @@ public class MainActivity extends Activity {
         findViewById(R.id.TextViewTableCellCalculatorName).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (poweredOn == 0) {
-                    setMkModel(1 - mkModel, false);
-                }
+                setMkModel(1 - mkModel, false);
                 return true;
             }
         });
+
+        setPowerOn(sPowerOFF);
     }
 
     // ----------------------- Activity life cycle handlers --------------------------------
@@ -228,7 +230,7 @@ public class MainActivity extends Activity {
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);      
 
-        if(poweredOn == 1) 
+        if(poweredOn == sPowerON)
         {           
             menu_swap.setVisible(false);
             menu_save.setVisible(true);
@@ -291,7 +293,7 @@ public class MainActivity extends Activity {
     }
     
     void setPowerOnOffControl(int mode) {
-        poweredOn = mode;
+        setPowerOn(mode);
         SeekBar powerOnOffSlider 	= (SeekBar) findViewById(R.id.powerOnOffSlider);
         if (powerOnOffSlider   != null && powerOnOffSlider.getProgress() != mode) powerOnOffSlider.setProgress(mode);
         CheckBox powerOnOffCheckBox	= (CheckBox)findViewById(R.id.powerOnOffCheckBox);
@@ -334,7 +336,7 @@ public class MainActivity extends Activity {
     private void onPower(int progress) {
         if (poweredOn == progress)
             return;
-        poweredOn = progress;
+        setPowerOn(progress);
         if (vibrate) vibrator.vibrate(PreferencesActivity.VIBRATE_ON_OFF_SWITCH);
         switchOnCalculator(poweredOn == 1);
     }
@@ -487,7 +489,7 @@ public class MainActivity extends Activity {
         
     private void switchOnCalculator(boolean enable) {
         if (enable) {
-            if (poweredOn == 1) {
+            if (poweredOn == sPowerON) {
                 emulator = new com.cax.pmk.emulator.Emulator();
                 emulator.setAngleMode(angleMode);
                 emulator.setSpeedMode(speedMode);
@@ -512,7 +514,12 @@ public class MainActivity extends Activity {
             saveStateManager.deleteSlot(-1);
 
             setIndicatorColor(-1);
+
         }
     }
 
+    private void setPowerOn(int mode) {
+        poweredOn = mode;
+        findViewById(R.id.TextViewTableCellCalculatorName).setLongClickable(poweredOn == sPowerOFF);
+    }
 }
