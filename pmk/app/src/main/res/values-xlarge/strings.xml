@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="on_off_label_weight">15</string>
+    <string name="on_off_label_weight" translatable="false">15</string>
 
 </resources>

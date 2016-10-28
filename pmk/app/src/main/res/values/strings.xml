@@ -10,7 +10,7 @@
     <string name="menu_load">Load</string>
     <string name="menu_save">Save</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_swap">MK 61 ↔ MK-54</string>
+    <string name="menu_swap" translatable="false">MK 61 ↔ MK-54</string>
     <string name="menu_export">Export</string>
     <string name="menu_import">Import</string>
 
@@ -103,7 +103,7 @@
         - Long-touch indicator to hide/show switches\n
         - You can import programms from external files via the \"Import\" menu
         - Switch calculator off to select MK 61 or MK-54 in Menu\n
-        - Long-touch the \"Электроника МК\" label when calculator turned off to toggle calculator\'s model\n
+        - Long-touch the \"Электроника МК\" label when calculator turned off to toggle calculator model\n
         \n
         Developer: Vadim Khohlov\n
         vadim.khohlov@gmail.com\n
@@ -120,134 +120,134 @@
 
 <!-- end of i18n messages -->
 
-    <string name="electronica">Электроника</string>
+    <string name="electronica" translatable="false">Электроника</string>
     <string name="app_name">MK 61/54</string>
 
-    <string name="labelPowerOnOff">Вкл</string>
-    <string name="TextViewRadians">P</string>
-    <string name="TextViewDegrees">Г</string>
-    <string name="TextViewGrads">ГРД</string>
-    <string name="indicatorTestString">&#x2010;9.8765432&#x2010;10</string>
+    <string name="labelPowerOnOff" translatable="false">Вкл</string>
+    <string name="TextViewRadians" translatable="false">P</string>
+    <string name="TextViewDegrees" translatable="false">Г</string>
+    <string name="TextViewGrads" translatable="false">ГРД</string>
+    <string name="indicatorTestString" translatable="false">&#x2010;9.8765432&#x2010;10</string>
 
     <!-- 1st row of buttons -->
-    <string name="buttonF">F</string>
+    <string name="buttonF" translatable="false">F</string>
 
-    <string name="buttonStepForward">&gt;</string> <!-- ШГ→ -->
-    <string name="buttonStepForwardYellow">x&lt;0</string>
+    <string name="buttonStepForward" translatable="false">&gt;</string> <!-- ШГ→ -->
+    <string name="buttonStepForwardYellow" translatable="false">x&lt;0</string>
 
-    <string name="buttonStepBack">&lt;</string> <!-- ШГ← -->
-    <string name="buttonStepBackYellow">x=0</string>
+    <string name="buttonStepBack" translatable="false">&lt;</string> <!-- ШГ← -->
+    <string name="buttonStepBackYellow" translatable="false">x=0</string>
 
-    <string name="buttonReturn">В/О</string>
-    <string name="buttonReturnYellow">x≥0</string>
+    <string name="buttonReturn" translatable="false">В/О</string>
+    <string name="buttonReturnYellow" translatable="false">x≥0</string>
 
-    <string name="buttonStopStart">С/П</string>
-    <string name="buttonStopStartYellow">x≠0</string>
+    <string name="buttonStopStart" translatable="false">С/П</string>
+    <string name="buttonStopStartYellow" translatable="false">x≠0</string>
 
     <!-- 2nd row of buttons -->
-    <string name="buttonK">K</string>
+    <string name="buttonK" translatable="false">K</string>
 
-    <string name="buttonRegisterToX">:</string> <!-- П→X -->
-    <string name="buttonRegisterToXYellow">L0</string>
+    <string name="buttonRegisterToX" translatable="false">:</string> <!-- П→X -->
+    <string name="buttonRegisterToXYellow" translatable="false">L0</string>
 
-    <string name="buttonXToRegister">;</string> <!-- X→П -->
-    <string name="buttonXToRegisterYellow">L1</string>
+    <string name="buttonXToRegister" translatable="false">;</string> <!-- X→П -->
+    <string name="buttonXToRegisterYellow" translatable="false">L1</string>
 
-    <string name="buttonGoto">БП</string>
-    <string name="buttonGotoYellow">L2</string>
+    <string name="buttonGoto" translatable="false">БП</string>
+    <string name="buttonGotoYellow" translatable="false">L2</string>
 
-    <string name="buttonSubroutine">ПП</string>
-    <string name="buttonSubroutineYellow">L3</string>
+    <string name="buttonSubroutine" translatable="false">ПП</string>
+    <string name="buttonSubroutineYellow" translatable="false">L3</string>
 
     <!-- 3rd row of buttons -->
-    <string name="button7">7</string>
-    <string name="button7Yellow">sin</string>
-    <string name="button7Blue">[x]</string>
+    <string name="button7" translatable="false">7</string>
+    <string name="button7Yellow" translatable="false">sin</string>
+    <string name="button7Blue" translatable="false">[x]</string>
 
-    <string name="button8">8</string>
-    <string name="button8Yellow">cos</string>
-    <string name="button8Blue">{x}</string>
+    <string name="button8" translatable="false">8</string>
+    <string name="button8Yellow" translatable="false">cos</string>
+    <string name="button8Blue" translatable="false">{x}</string>
 
-    <string name="button9">9</string>
-    <string name="button9Yellow">tg</string>
-    <string name="button9Blue">max</string>
+    <string name="button9" translatable="false">9</string>
+    <string name="button9Yellow" translatable="false">tg</string>
+    <string name="button9Blue" translatable="false">max</string>
 
-    <string name="buttonSubtract">–</string>
-    <string name="buttonSubtractYellow">)</string> <!-- √ -->
+    <string name="buttonSubtract" translatable="false">–</string>
+    <string name="buttonSubtractYellow" translatable="false">)</string> <!-- √ -->
 
-    <string name="buttonDivide">÷</string>
-    <string name="buttonDivideYellow">1/x</string>
+    <string name="buttonDivide" translatable="false">÷</string>
+    <string name="buttonDivideYellow" translatable="false">1/x</string>
 
     <!-- 4th row of buttons -->
-    <string name="button4">4</string>
-    <string name="button4Yellow">sin-¹</string>
-    <string name="button4Blue">|x|</string>
+    <string name="button4" translatable="false">4</string>
+    <string name="button4Yellow" translatable="false">sin-¹</string>
+    <string name="button4Blue" translatable="false">|x|</string>
 
-    <string name="button5">5</string>
-    <string name="button5Yellow">cos-¹</string>
-    <string name="button5Blue">ЗН</string>
+    <string name="button5" translatable="false">5</string>
+    <string name="button5Yellow" translatable="false">cos-¹</string>
+    <string name="button5Blue" translatable="false">ЗН</string>
 
-    <string name="button6">6</string>
-    <string name="button6Yellow">tg-¹</string>
-    <string name="button6Blue">←°\'</string>
+    <string name="button6" translatable="false">6</string>
+    <string name="button6Yellow" translatable="false">tg-¹</string>
+    <string name="button6Blue" translatable="false">←°\'</string>
 
-    <string name="buttonAdd">+</string>
-    <string name="buttonAddYellow">π</string>
-    <string name="buttonAddBlue">→°\'</string>
+    <string name="buttonAdd" translatable="false">+</string>
+    <string name="buttonAddYellow" translatable="false">π</string>
+    <string name="buttonAddBlue" translatable="false">→°\'</string>
 
-    <string name="buttonMultiply">×</string>
-    <string name="buttonMultiplyYellow">x²</string>
+    <string name="buttonMultiply" translatable="false">×</string>
+    <string name="buttonMultiplyYellow" translatable="false">x²</string>
 
     <!-- 5th row of buttons -->
-    <string name="button1">1</string>
-    <string name="button1Yellow">%$</string> <!-- eⁿ -->
+    <string name="button1" translatable="false">1</string>
+    <string name="button1Yellow" translatable="false">%$</string> <!-- eⁿ -->
 
-    <string name="button2">2</string>
-    <string name="button2Yellow">lg</string>
+    <string name="button2" translatable="false">2</string>
+    <string name="button2Yellow" translatable="false">lg</string>
 
-    <string name="button3">3</string>
-    <string name="button3Yellow">ln</string>
-    <string name="button3Blue">←°\'\"</string>
+    <string name="button3" translatable="false">3</string>
+    <string name="button3Yellow" translatable="false">ln</string>
+    <string name="button3Blue" translatable="false">←°\'\"</string>
 
-    <string name="buttonExchangeXY">=</string> <!-- ↔ -->
-    <string name="buttonExchangeXYYellow">(&amp;</string> <!-- x^y -->
-    <string name="buttonExchangeXYBlue">→°\'\"</string>
+    <string name="buttonExchangeXY" translatable="false">=</string> <!-- ↔ -->
+    <string name="buttonExchangeXYYellow" translatable="false">(&amp;</string> <!-- x^y -->
+    <string name="buttonExchangeXYBlue" translatable="false">→°\'\"</string>
 
-    <string name="buttonUpStack">BA</string> <!-- В↑ -->
-    <string name="buttonUpStackYellow">Bx</string>
-    <string name="buttonUpStackBlue">СЧ</string>
+    <string name="buttonUpStack" translatable="false">BA</string> <!-- В↑ -->
+    <string name="buttonUpStackYellow" translatable="false">Bx</string>
+    <string name="buttonUpStackBlue" translatable="false">СЧ</string>
 
     <!-- 6th row of buttons -->
-    <string name="button0">0</string>
-    <string name="button0Yellow">!#$</string> <!-- 10ⁿ -->
-    <string name="button0Blue">НОП</string>
+    <string name="button0" translatable="false">0</string>
+    <string name="button0Yellow" translatable="false">!#$</string> <!-- 10ⁿ -->
+    <string name="button0Blue" translatable="false">НОП</string>
 
-    <string name="buttonDot">•</string>
-    <string name="buttonDotYellow">0</string> <!-- ○ -->
-    <string name="buttonDotBlue">∧</string>
+    <string name="buttonDot" translatable="false">•</string>
+    <string name="buttonDotYellow" translatable="false">0</string> <!-- ○ -->
+    <string name="buttonDotBlue" translatable="false">∧</string>
 
-    <string name="buttonNegate">/–/</string>
-    <string name="buttonNegateYellow">АВТ</string>
-    <string name="buttonNegateYellow_small">авт</string>
-    <string name="buttonNegateBlue">∨</string>
+    <string name="buttonNegate" translatable="false">/–/</string>
+    <string name="buttonNegateYellow" translatable="false">АВТ</string>
+    <string name="buttonNegateYellow_small" translatable="false">авт</string>
+    <string name="buttonNegateBlue" translatable="false">∨</string>
 
-    <string name="buttonExponent">ВП</string>
-    <string name="buttonExponentYellow">ПРГ</string>
-    <string name="buttonExponentYellow_small">прг</string>
-    <string name="buttonExponentBlue">⊕</string>
+    <string name="buttonExponent" translatable="false">ВП</string>
+    <string name="buttonExponentYellow" translatable="false">ПРГ</string>
+    <string name="buttonExponentYellow_small" translatable="false">прг</string>
+    <string name="buttonExponentBlue" translatable="false">⊕</string>
 
-    <string name="buttonClear">CX</string>
-    <string name="buttonClearMK54">Cx</string>
-    <string name="buttonClearYellow">CF</string>
-    <string name="buttonClearYellow_small">cf</string>
-    <string name="buttonClearBlue">ИНВ</string>
-    <string name="buttonClearBlue_small">инв</string>
+    <string name="buttonClear" translatable="false">CX</string>
+    <string name="buttonClearMK54" translatable="false">Cx</string>
+    <string name="buttonClearYellow" translatable="false">CF</string>
+    <string name="buttonClearYellow_small" translatable="false">cf</string>
+    <string name="buttonClearBlue" translatable="false">ИНВ</string>
+    <string name="buttonClearBlue_small" translatable="false">инв</string>
 
     <!-- under 6th row of buttons -->
-    <string name="buttonLetterA">a</string>
-    <string name="buttonLetterB">b</string>
-    <string name="buttonLetterC">c</string>
-    <string name="buttonLetterD">d</string>
-    <string name="buttonLetterE">e</string>
+    <string name="buttonLetterA" translatable="false">a</string>
+    <string name="buttonLetterB" translatable="false">b</string>
+    <string name="buttonLetterC" translatable="false">c</string>
+    <string name="buttonLetterD" translatable="false">d</string>
+    <string name="buttonLetterE" translatable="false">e</string>
 
 </resources>
