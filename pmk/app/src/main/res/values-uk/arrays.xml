@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sizes">
+        <item name="10">Ще менше</item>
+        <item name="20">Менше</item>
+        <item name="30">Звичайного розміру</item>
+        <item name="40">Більше</item>
+        <item name="50">Ще більше</item>
+    </string-array>
+    <string-array name="buttonSounds">
+        <item name="1">Звук клавіши 1</item>
+        <item name="2">Звук клавіши 2</item>
+        <item name="3">Звук клавіши 3</item>
+        <item name="4">Звук клавіши 4</item>
+        <item name="5">Звук клавіши 5</item>
+    </string-array>
+
+</resources>

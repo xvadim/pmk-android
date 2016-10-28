@@ -1,4 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MK 61/54</string>
+    <string name="export_common_error">Помилка експорту</string>
+    <string name="export_no_sd_card_error">SD-карта недоступна</string>
+    <string name="import_common_error">Помилка експорту</string>
+    <string name="item_mk54">Электроника MK&#x2010;54 (сумісний з Б3&#x2010;34, MK 56)</string>
+    <string name="item_mk61">Электроника MK 61 (сумісний з MK 52 без ↑↓)</string>
+    <string name="label_cancel">Скасувати</string>
+    <string name="label_close">Закрити</string>
+    <string name="label_load">Завантажити</string>
+    <string name="label_new_directory">Новий каталог</string>
+    <string name="label_new_directory_name">Ім\'я нового каталогу</string>
+    <string name="label_save">Зберегти</string>
+    <string name="locale">uk</string>
+    <string name="menu_about">Про програму</string>
+    <string name="menu_export">Експорт</string>
+    <string name="menu_import">Імпорт</string>
+    <string name="menu_load">Завантажити</string>
+    <string name="menu_save">Зберегти</string>
+    <string name="menu_settings">Налаштування</string>
+    <string name="msg_choose_name">Введіть назву для збереження</string>
+    <string name="msg_choose_slot">Виберіть слот для</string>
+    <string name="msg_load">завантаження</string>
+    <string name="msg_save">сбереження</string>
+    <string name="savestate_name_empty">(вільний)</string>
+    <string name="savestate_name_noname">(без назви)</string>
+    <string name="savestate_name_slot">Слот</string>
+    <string name="settings_border_black_buttons">Окантовка чорних</string>
+    <string name="settings_border_black_buttons_summary">Тонкий білий ободок навколо чорних клавіш</string>
+    <string name="settings_border_other_buttons">Окантовка решти</string>
+    <string name="settings_border_other_buttons_summary">Тонкий білий ободок навколо всіх клавіш окрім чорних</string>
+    <string name="settings_button_sound_summary">Вибрати звук клавіш зі списку</string>
+    <string name="settings_button_sound_title">Тип звуку</string>
+    <string name="settings_category_border">Окантовка клавіш</string>
+    <string name="settings_category_buttons">Клавіши</string>
+    <string name="settings_category_scaling">Масштабування</string>
+    <string name="settings_category_screen">Екран</string>
+    <string name="settings_category_sound">Звук</string>
+    <string name="settings_category_switches">Перемикачі</string>
+    <string name="settings_category_vibration">Вібрация</string>
+    <string name="settings_full_screen_summary">Сховати рядок стану</string>
+    <string name="settings_full_screen_title">Повноекраний режим</string>
+    <string name="settings_grayscale_summary">Контрастний режим для чорно-білих екранів</string>
+    <string name="settings_grayscale_title">Чорно-білий режим</string>
+    <string name="settings_on_button_touch_summary">Спрацювання клавіш відбувається в момент дотику, а не після відпускання</string>
+    <string name="settings_on_button_touch_title">Натиск по дотику</string>
+    <string name="settings_scaling_buttons">Написи на клавішах</string>
+    <string name="settings_scaling_buttons_summary">Задати розмір тексту написів на клавішах</string>
+    <string name="settings_scaling_labels">Надписи над клавішами</string>
+    <string name="settings_scaling_labels_summary">Задати розмір тексту надписів над та під клавішами</string>
+    <string name="settings_screen">Налаштування екрану</string>
+    <string name="settings_screen_always_on_summary">Не переходити в сплячий режим після строку бездії</string>
+    <string name="settings_screen_always_on_title">Не відключати екран</string>
+    <string name="settings_screen_summary">Загальне налаштування екрану</string>
+    <string name="settings_slider_angle">Перемикач Р/ГРД/Г</string>
+    <string name="settings_slider_angle_summary">Показувати Р/ГРД/Г як перемикач або як 3 кнопки</string>
+    <string name="settings_slider_on_off">Перемикач \"Вкл\"</string>
+    <string name="settings_slider_on_off_summary">Показувати \"Вкл\" як перемикач або як флаг-кнопку</string>
+    <string name="settings_sound_summary">Звук при натисканні на кнопку</string>
+    <string name="settings_sound_title">Звук клавіш</string>
+    <string name="settings_ui_behavior">Налаштування поведінки</string>
+    <string name="settings_ui_behavior_summary">Налаштування поведінки екрану, вібрації та ін.</string>
+    <string name="settings_ui_visual">Налаштування зовнішнього вигляду</string>
+    <string name="settings_ui_visual_summary">Налаштування зовнішнього вигляду перемикачів, клавіш та ін.</string>
+    <string name="settings_vibrate_keypad_more_summary">Підсилена вібрація клавіш</string>
+    <string name="settings_vibrate_keypad_more_title">Вібрувати сільніше</string>
+    <string name="settings_vibrate_summary">Тактильний зворотні зв\'язок для клавіш та перемикачів</string>
+    <string name="settings_vibrate_title">Вібрувати</string>
+
+
+    <string name="msg_about">
+        Емулятор програмованих калькуляторів \"Электроника  МК 61\" та \"Электроника МК-54\"\n
+        \n
+        Підказки користувачу:\n
+        - довгий дотик на напису \"Вкл\" відкриває\n
+        - торкніться індикатора для прискорення / уповільнення емуляції\n
+        - довгий дотик на індикаторі приховає / покаже перемикачі\n
+        - Ви можете імпортувати програми із зовнішніх файлів в меню \ "Імпорт \"\n
+        - вимкніть калькулятор для вибору між MK 61 і MK-54 з меню\n
+        - довге натискання на напису \ "Електроніка МК \" перемикає модель, якщо калькулятор вимкнений\n
+        \n
+        Розробник: Вадим Хохлов\n
+        vadim.khohlov@gmail.com\n
+        \n
+        Версия: {0}\n
+        \n
+        Емуляция реалізована на основі\n
+        проекту emu145 Фелікса Лазарева\n
+        http://code.google.com/p/emu145\n
+        и pmk-android Станіслава Боруцького\n
+        https://github.com/cax/pmk-android
+    </string>
 </resources>
