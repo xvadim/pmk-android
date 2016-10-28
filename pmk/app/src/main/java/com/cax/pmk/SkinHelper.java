@@ -337,9 +337,11 @@ public class SkinHelper {
             }
         }
 
+        /*
         float smallerButtonTextSize = (float) (chosenButtonTextSize * 0.8);
         ((Button)mainActivity.findViewById(R.id.buttonReturn   )).setTextSize(TypedValue.COMPLEX_UNIT_PX, smallerButtonTextSize);
         ((Button)mainActivity.findViewById(R.id.buttonStopStart)).setTextSize(TypedValue.COMPLEX_UNIT_PX, smallerButtonTextSize);
+        */
     }
     
 }
