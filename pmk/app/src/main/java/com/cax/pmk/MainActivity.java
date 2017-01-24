@@ -6,8 +6,10 @@ import java.util.List;
 //import com.cax.pmk.R;
 import com.cax.pmk.widget.AutoScaleTextView;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.net.nsd.NsdManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -65,6 +67,7 @@ public class MainActivity extends Activity {
     private int buttonSoundId[] = new int[BUTTON_SOUNDS_NUMBER];
 
     private SaveStateManager saveStateManager = null;
+    private String mProgramDescription = null;
 
     // flags that regulate onPause/onResume behavior
     static boolean splashScreenMode = false;
@@ -74,8 +77,9 @@ public class MainActivity extends Activity {
         
         List<View> keyboardViews = SkinHelper.getAllChildrenBFS(findViewById(R.id.tableLayoutKeyboard));
         for (View view: keyboardViews) {
-            if (view instanceof Button)
-                ((Button)view).setOnTouchListener(onButtonTouchListener);
+            if (view instanceof Button) {
+                view.setOnTouchListener(onButtonTouchListener);
+            }
         }
 
         // let AutoScaleTextView do the work - set font size and fix layout
@@ -224,25 +228,26 @@ public class MainActivity extends Activity {
     }
     
     // ----------------------- Menu hooks --------------------------------
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu)  {
         MenuItem menu_save = menu.findItem(R.id.menu_save);
         MenuItem menu_export = menu.findItem(R.id.menu_export);
-        MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);      
+        MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
+        MenuItem menu_descr = menu.findItem(R.id.menu_description);
 
         if(poweredOn == sPowerON)
         {           
             menu_swap.setVisible(false);
             menu_save.setVisible(true);
             menu_export.setVisible(true);
+            menu_descr.setVisible(true);
         }
         else
         {
             menu_swap.setVisible(true);
             menu_save.setVisible(false);
             menu_export.setVisible(false);
+            menu_descr.setVisible(false);
         }
-
         return true;
     }
     
@@ -255,19 +260,19 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          switch (item.getItemId()) {
-            case R.id.menu_about:
+             case R.id.menu_about:
                 MenuHelper.aboutDialog();
                 return true;
-            case R.id.menu_settings:
+             case R.id.menu_settings:
                 MenuHelper.goSettingsScreen();
                 return true;
-            case R.id.menu_swap_model:
+             case R.id.menu_swap_model:
                 MenuHelper.onChooseMkModel(mkModel);
                 return true;
-            case R.id.menu_save:
+             case R.id.menu_save:
                 saveStateManager.chooseAndUseSaveSlot(emulator, true);
                 return true;
-            case R.id.menu_load:
+             case R.id.menu_load:
                 saveStateManager.chooseAndUseSaveSlot(emulator, false);
                 return true;
              case R.id.menu_export:
@@ -275,9 +280,13 @@ public class MainActivity extends Activity {
                  return true;
              case R.id.menu_import:
                  saveStateManager.importState(emulator);
+
                  return true;
-            default:
-                return super.onOptionsItemSelected(item);
+             case R.id.menu_description:
+                 openProgramDescription();
+                 return true;
+             default:
+                 return super.onOptionsItemSelected(item);
             }
     }
     
@@ -521,5 +530,14 @@ public class MainActivity extends Activity {
     private void setPowerOn(int mode) {
         poweredOn = mode;
         findViewById(R.id.TextViewTableCellCalculatorName).setLongClickable(poweredOn == sPowerOFF);
+    }
+
+    private void openProgramDescription() {
+        Intent descrIntent = new Intent(this, DescriptionActivity.class);
+        mProgramDescription = saveStateManager.mProgramDescription;
+        if (mProgramDescription != null) {
+            descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, mProgramDescription);
+        }
+        startActivity(descrIntent);
     }
 }

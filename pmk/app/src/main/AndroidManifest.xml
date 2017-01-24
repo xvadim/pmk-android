@@ -35,6 +35,10 @@
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
+        <activity
+            android:name=".DescriptionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.FullScreen" />
     </application>
 
 </manifest>

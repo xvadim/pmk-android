@@ -8,6 +8,7 @@
     <string name="menu_about">О программе</string>
     <string name="menu_export">Экспорт</string>
     <string name="menu_import">Импорт</string>
+    <string name="menu_description">Описание</string>
 
 <!-- Screen settings screen -->	
     <string name="settings_screen">Настройки экрана</string>
@@ -111,6 +112,29 @@
         и pmk-android Станислава Боруцкого\n
         https://github.com/cax/pmk-android
     </string>
+
+    <string name="default_description">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Описание программы</h2>
+                <p>
+                Описание программы импортируется вместе с программой из внешнего файла.
+                </p>
+
+                <p>
+                Описание программы хранится в <b><i>html</i></b>-файле с таким же именем, как и у файла с программой.
+                </p>
+
+                <p>
+                Вы можете скачать несколько МК-программ и их описаний из этого
+                <a href="https://github.com/xvadim/pmk61-programms">репозитария</a>.
+                </p>
+            </body>
+        </html>
+        ]]>
+    </string>
+
     <string name="app_name">MK 61/54</string>
 
 </resources>

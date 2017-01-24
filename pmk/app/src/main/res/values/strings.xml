@@ -13,6 +13,7 @@
     <string name="menu_swap" translatable="false">MK 61 ↔ MK-54</string>
     <string name="menu_export">Export</string>
     <string name="menu_import">Import</string>
+    <string name="menu_description">Description</string>
 
 <!-- Screen settings screen -->	
     <string name="settings_screen">Screen settings</string>
@@ -116,6 +117,26 @@
         and pmk-android\n
         by Stanislav Borutsky\n
         https://github.com/cax/pmk-android
+    </string>
+
+    <string name="default_description">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Program description</h2>
+                <p>
+                A program description can be imported with a program from an external file.
+                </p>
+
+                <p>The program description is stored in a <b><i>html</i></b>-file with the same name as the program file.</p>
+
+                <p>
+                You can download some МК-programs and descriptions from this
+                <a href="https://github.com/xvadim/pmk61-programms">repository</a>.
+                </p>
+            </body>
+        </html>
+        ]]>
     </string>
 
 <!-- end of i18n messages -->
