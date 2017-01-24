@@ -96,27 +96,50 @@
     <string name="item_mk54">Elektronika MK&#x2010;54 (compatible with Б3&#x2010;34, MK 56)</string>
 
     <string name="msg_about">
-        Emulator of \"Elektronika  MK 61\" and \"Elektronika MK-54\" programmable calculators\n
-        \n
-        Usage hints:\n
-        - Long-touch the \"Вкл\" label to open menu\n
-        - Touch indicator to toggle emulation speed slow/fast\n
-        - Long-touch indicator to hide/show switches\n
-        - You can import programms from external files via the \"Import\" menu
-        - Switch calculator off to select MK 61 or MK-54 in Menu\n
-        - Long-touch the \"Электроника МК\" label when calculator turned off to toggle calculator model\n
-        \n
-        Developer: Vadim Khohlov\n
-        vadim.khohlov@gmail.com\n
-        \n
-        Version: {0}\n
-        \n
-        Based on emu145 project\n
-        by Felix Lazarev\n
-        http://code.google.com/p/emu145\n
-        and pmk-android\n
+        <![CDATA[
+        <html>
+            <body>
+        <h2 align="center">Emulator of \"Elektronika  MK 61\" and
+        \"Elektronika MK-54\" programmable calculators</h2>
+
+        <h4 align="center">Version: {0}</h4>
+
+        <p>
+        Usage hints:
+        <ul>
+            <li> Long-touch the \"Вкл\" label to open menu</li>
+        <li> ouch indicator to toggle emulation speed slow/fast</li>
+        <li> Long-touch indicator to hide/show switches</li>
+        <li> ou can import programms from external files via the \"Import\" menu</li>
+        <li> Switch calculator off to select MK 61 or MK-54 in Menu</li>
+        <li> Long-touch the \"Электроника МК\" label when calculator turned off to toggle calculator model</li>
+        </ul>
+        </p>
+
+        <p>Developer: <a href="mailto:vadim.khohlov@gmail.com">Vadim Khohlov</a></p>
+
+        <p>
+        Based on <a href="http://code.google.com/p/emu145">emu145</a> project
+        by Felix Lazarev
+        and <br>
+        <a href="https://github.com/cax/pmk-android">pmk-android</a>
         by Stanislav Borutsky\n
-        https://github.com/cax/pmk-android
+        </p>
+
+        <p>
+        Project <a href="https://github.com/xvadim/pmk-android">repository</a>.
+        </p>
+
+        <p>
+        A small  <a href="https://github.com/xvadim/pmk61-programms">repository</a> of МК-61/54 progarms.
+        </p>
+
+        <p align="center">
+        <font size=-2><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Support project</a></font>
+        </p>
+        </body>
+        </html>
+        ]]>
     </string>
 
     <string name="default_description">

@@ -1,12 +1,14 @@
 package com.cax.pmk;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 //import com.cax.pmk.R;
 import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.nsd.NsdManager;
@@ -261,7 +263,8 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
          switch (item.getItemId()) {
              case R.id.menu_about:
-                MenuHelper.aboutDialog();
+                //MenuHelper.aboutDialog();
+                openAbout();
                 return true;
              case R.id.menu_settings:
                 MenuHelper.goSettingsScreen();
@@ -283,7 +286,7 @@ public class MainActivity extends Activity {
 
                  return true;
              case R.id.menu_description:
-                 openProgramDescription();
+                 openProgramDescription(saveStateManager.mProgramDescription);
                  return true;
              default:
                  return super.onOptionsItemSelected(item);
@@ -532,11 +535,19 @@ public class MainActivity extends Activity {
         findViewById(R.id.TextViewTableCellCalculatorName).setLongClickable(poweredOn == sPowerOFF);
     }
 
-    private void openProgramDescription() {
+    private void openAbout() {
+        String versionName = "1.0";
+        try {
+            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        openProgramDescription(MessageFormat.format(getString(R.string.msg_about), versionName));
+    }
+
+    private void openProgramDescription(String pProgramDescription) {
         Intent descrIntent = new Intent(this, DescriptionActivity.class);
-        mProgramDescription = saveStateManager.mProgramDescription;
-        if (mProgramDescription != null) {
-            descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, mProgramDescription);
+        if (pProgramDescription != null) {
+            descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, pProgramDescription);
         }
         startActivity(descrIntent);
     }
