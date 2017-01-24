@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -32,6 +33,7 @@ public class SaveStateManager {
     private static int tempSaveSlot = 0;
 
 	MainActivity mainActivity;
+    public String mProgramDescription = null;
 	
 	private String getString(int resId) { return mainActivity.getString(resId); }
 	private File getFileStreamPath(String file) { return mainActivity.getFileStreamPath(file); }
@@ -246,17 +248,18 @@ public class SaveStateManager {
     boolean importState(final EmulatorInterface emulator) {
 
         SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
-                new SimpleFileDialog.SimpleFileDialogListener()
-                {
+                new SimpleFileDialog.SimpleFileDialogListener()  {
                     @Override
-                    public void onChosenDir(String chosenFileName)
-                    {
+                    public void onChosenDir(String chosenFileName)  {
                         File file = new File(chosenFileName);
                         FileInputStream fileIn = null;
+                        mProgramDescription = null;
                         try {
                             fileIn = new FileInputStream(file);
                             if (!loadStateFromFile(emulator, fileIn)) {
                                 showErrorMessage(R.string.import_common_error);
+                            } else {
+                                loadProgramDescription(chosenFileName);
                             }
                         } catch (Exception e) {
                             showErrorMessage(R.string.import_common_error);
@@ -283,7 +286,9 @@ public class SaveStateManager {
         } catch(Exception i) {
             return false;
         } finally {
-            try { if (in != null)         in.close(); } catch(IOException i) {}
+            try {
+                if (in != null)         in.close();
+            } catch(IOException i) {}
         }
 
         if (emulator != null) {
@@ -305,7 +310,37 @@ public class SaveStateManager {
         return true;
     }
 
-    void deleteSlot(int slot) {
+    private void loadProgramDescription(String pFileName) {
+        try {
+            int pointIndex = pFileName.lastIndexOf('.');
+            if (pointIndex != -1) {
+                pointIndex++;
+                StringBuffer descrFileName = new StringBuffer(pFileName);
+                descrFileName.replace(pointIndex, pFileName.length(), "html");
+
+                File file = new File(descrFileName.toString());
+                FileInputStream fileIn = null;
+                try {
+                    fileIn = new FileInputStream(file);
+                    InputStreamReader inputStreamReader = new InputStreamReader(fileIn);
+                    int size = fileIn.available();
+                    char[] buffer = new char[size];
+                    inputStreamReader.read(buffer);
+                    inputStreamReader.close();
+                    fileIn.close();
+
+                    mProgramDescription = new String(buffer);
+                } catch (IOException ex) {
+                    mProgramDescription = null;
+                }
+                finally {
+                    try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
+                }
+            }
+        } catch (Exception ex) {}
+    }
+
+    public void deleteSlot(int slot) {
         File file = getFileStreamPath(getSlotFilename(slot));
         if (file.exists())
         	file.delete();
