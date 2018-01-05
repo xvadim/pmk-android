@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import android.graphics.Typeface;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,8 +208,12 @@ public class SkinHelper {
         SkinHelper.styleLabels(grayscale);
     }
 
+    /**
+     * Sets indicator colors
+     * @param grayscale true if grayscale mode
+     * @param mode -1 - off, 0 - fast mode, 1 - normal mode
+     */
     static void styleIndicator(boolean grayscale, int mode) {
-
         TextView calculatorIndicator = (TextView) mainActivity.findViewById(R.id.textView_Indicator);
 
         // set indicator digits color
@@ -236,6 +239,9 @@ public class SkinHelper {
         }
 
         calculatorIndicator.setBackgroundColor(mainActivity.getResources().getColor(color));
+
+        mainActivity.findViewById(R.id.indicatorTurbo).setVisibility(mode == 0 ? View.VISIBLE :
+                                                                                 View.INVISIBLE);
     }
     
     private static void styleScreen(boolean grayscale) {

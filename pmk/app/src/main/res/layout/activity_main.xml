@@ -215,10 +215,15 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/indicatorTurbo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="@dimen/label_font_size" />
+                    android:text="(turbo)"
+                    android:textSize="@dimen/label_font_size"
+                    android:textColor="@color/buttonTextWhite"
+                    android:visibility="invisible"
+                    />
 
                 <Button
                     android:id="@+id/buttonF"

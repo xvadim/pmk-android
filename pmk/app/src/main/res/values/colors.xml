@@ -33,7 +33,7 @@
     <color name="indicatorOff">#000000</color>
     <color name="indicatorSlowSpeedMode">#103010</color>
     <color name="indicatorSlowSpeedModeGrayscale">#222222</color>
-    <color name="indicatorFastSpeedMode">#255525</color>
+    <color name="indicatorFastSpeedMode">#103810</color>
     <color name="indicatorFastSpeedModeGrayscale">#444444</color>
     
 </resources>
