@@ -481,9 +481,10 @@ public class MainActivity extends Activity {
         
         SeekBar angleModeSlider	= (SeekBar) findViewById(R.id.angleModeSlider);
         angleModeSlider.setVisibility(sliderAngle ? View.VISIBLE : View.GONE);
-        ((RadioButton) findViewById(R.id.radioRadians)).setVisibility(sliderAngle ? View.GONE : View.VISIBLE);
-        ((RadioButton) findViewById(R.id.radioGrads  )).setVisibility(sliderAngle ? View.GONE : View.VISIBLE);
-        ((RadioButton) findViewById(R.id.radioDegrees)).setVisibility(sliderAngle ? View.GONE : View.VISIBLE);
+        int visibility = sliderAngle ? View.GONE : View.VISIBLE;
+        findViewById(R.id.radioRadians).setVisibility(visibility);
+        findViewById(R.id.radioGrads  ).setVisibility(visibility);
+        findViewById(R.id.radioDegrees).setVisibility(visibility);
         
         // set background color, scale buttons text, set buttons borders, style labels above buttons, etc.
         // all the default values are set in preferences.xml, so second argument in getters is dummy

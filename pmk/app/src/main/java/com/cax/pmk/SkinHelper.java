@@ -252,25 +252,22 @@ public class SkinHelper {
     }
 
     private static void styleLabels(boolean grayscale) {
+
+        int color = mainActivity.getResources().getColor(grayscale
+                ? R.color.aboveButtonTextYellowGrayscale
+                : R.color.aboveButtonTextYellow);
         for (int i=0; i < singleYellowLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(singleYellowLabels[i])).setTextColor(
-                    (mainActivity.getResources().getColor(grayscale
-                            ? R.color.aboveButtonTextYellowGrayscale
-                            : R.color.aboveButtonTextYellow)));
+            ((TextView)mainActivity.findViewById(singleYellowLabels[i])).setTextColor(color);
         }
-
         for (int i=0; i < pairedYellowLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(pairedYellowLabels[i])).setTextColor(
-                    (mainActivity.getResources().getColor(grayscale
-                            ? R.color.aboveButtonTextYellowGrayscale
-                            : R.color.aboveButtonTextYellow)));
+            ((TextView)mainActivity.findViewById(pairedYellowLabels[i])).setTextColor(color);
         }
 
+        color = mainActivity.getResources().getColor(grayscale
+                ? R.color.aboveButtonTextBlueGrayscale
+                : R.color.aboveButtonTextBlue);
         for (int i=0; i < blueLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(blueLabels[i])).setTextColor(
-                    (mainActivity.getResources().getColor(grayscale
-                            ? R.color.aboveButtonTextBlueGrayscale
-                            : R.color.aboveButtonTextBlue)));
+            ((TextView)mainActivity.findViewById(blueLabels[i])).setTextColor(color);
         }
     }
     
@@ -281,13 +278,21 @@ public class SkinHelper {
         float chosenButtonTextSize = buttonTextSize * prefButtonTextSize;
         float chosenLabelTextSize  = labelTextSize  * prefLabelTextSize;
 
+        int bgResource = borderOtherButtons ? R.drawable.button_other_border : R.drawable.button_other;
+
         HashSet<View> set = new HashSet<View>(getAllChildrenBFS(mainActivity.findViewById(R.id.tableLayoutKeyboard)));
         for (View view: set) {
             if (view instanceof Button) {
                 Button b = (Button)view;
                 b.setTextSize(TypedValue.COMPLEX_UNIT_PX, chosenButtonTextSize);
                 boolean isBlack = false;
-                for (int j=0; j < blackButtons.length; j++) if (b.getId() == blackButtons[j]) { isBlack = true; break; }
+                int butId = b.getId();
+                for (int j=0; j < blackButtons.length; j++) {
+                    if (butId == blackButtons[j]) {
+                        isBlack = true;
+                        break;
+                    }
+                }
 
                 if (isBlack) {
                     b.setBackgroundResource(borderBlackButtons
@@ -295,7 +300,7 @@ public class SkinHelper {
                             : R.drawable.button_black
                     );
 
-                } else if (b.getId() == R.id.buttonF) {
+                } else if (butId == R.id.buttonF) {
                         b.setBackgroundResource(borderOtherButtons
                                 ?	(grayscale
                                         ? R.drawable.button_yellow_border_grayscale
@@ -307,7 +312,7 @@ public class SkinHelper {
                                     )
                         );
 
-                } else if (b.getId() == R.id.buttonK) {
+                } else if (butId == R.id.buttonK) {
                         b.setBackgroundResource(borderOtherButtons
                                 ?	(grayscale
                                         ? R.drawable.button_blue_border_grayscale
@@ -319,7 +324,7 @@ public class SkinHelper {
                                     )
                         );
 
-                } else if (b.getId() == R.id.buttonClear) {
+                } else if (butId == R.id.buttonClear) {
                         b.setBackgroundResource(borderOtherButtons
                                 ?	(grayscale
                                         ? R.drawable.button_red_border_grayscale
@@ -332,10 +337,7 @@ public class SkinHelper {
                         );
 
                 } else {
-                        b.setBackgroundResource(borderOtherButtons
-                                ? R.drawable.button_other_border
-                                : R.drawable.button_other
-                        );
+                        b.setBackgroundResource(bgResource);
                 }
 
             } else if (view instanceof TextView) {
