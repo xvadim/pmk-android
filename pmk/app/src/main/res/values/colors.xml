@@ -13,8 +13,10 @@
     <color name="buttonTextWhite">#FFFFFF</color>
 
     <color name="buttonBackgroundYellow">#F5E345</color>
+    <color name="buttonBackgroundYellowPressed">#BFAD16</color>
     <color name="buttonBackgroundYellowGrayscale">#EEEEEE</color>
     <color name="buttonBackgroundBlue">#71E3FF</color>
+    <color name="buttonBackgroundBluePressed">#3A95AC</color>
     <color name="buttonBackgroundBlueGrayscale">#444444</color>
     <color name="buttonBackgroundBlack">#000000</color>
     <color name="buttonBackgroundGray">#CCCCCC</color>

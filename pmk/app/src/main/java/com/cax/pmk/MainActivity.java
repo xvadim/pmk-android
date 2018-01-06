@@ -58,6 +58,9 @@ public class MainActivity extends Activity {
     private boolean isLandscape = false;
     private boolean hideSwitches  = false;
     private boolean grayscale  = false;
+    private boolean borderOtherButtons = true;
+    private boolean buttonFPressed = false;
+    private boolean buttonKPressed = false;
 
     private static final int sPowerOFF = 0;
     private static final int sPowerON = 1;
@@ -70,7 +73,6 @@ public class MainActivity extends Activity {
     private int buttonSoundId[] = new int[BUTTON_SOUNDS_NUMBER];
 
     private SaveStateManager saveStateManager = null;
-    private String mProgramDescription = null;
 
     // flags that regulate onPause/onResume behavior
     static boolean splashScreenMode = false;
@@ -264,7 +266,6 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
          switch (item.getItemId()) {
              case R.id.menu_about:
-                //MenuHelper.aboutDialog();
                 openAbout();
                 return true;
              case R.id.menu_settings:
@@ -399,6 +400,26 @@ public class MainActivity extends Activity {
                 : PreferencesActivity.VIBRATE_KEYPAD);
 
         int keycode = Integer.parseInt((String)view.getTag());
+        if (keycode == 39) {    //button F
+            buttonFPressed = true;
+            SkinHelper.styleButtonF(grayscale, true, borderOtherButtons);
+        } else {
+            if (buttonFPressed) {
+                buttonFPressed = false;
+                SkinHelper.styleButtonF(grayscale, false, borderOtherButtons);
+            }
+        }
+
+        if (keycode == 38) {    //button K
+            buttonKPressed = true;
+            SkinHelper.styleButtonK(grayscale, true, borderOtherButtons);
+        } else {
+            if (buttonKPressed) {
+                buttonKPressed = false;
+                SkinHelper.styleButtonK(grayscale, false, borderOtherButtons);
+            }
+        }
+
         emulator.keypad(keycode);
     }
 
@@ -460,6 +481,8 @@ public class MainActivity extends Activity {
 
         grayscale = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_GRAYSCALE,
                                           PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
+        borderOtherButtons = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_OTHER_BUTTONS,
+                                          PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
 
         TextView calculatorIndicator = (TextView) findViewById(R.id.textView_Indicator);
         calculatorIndicator.setKeepScreenOn(
@@ -499,9 +522,7 @@ public class MainActivity extends Activity {
                                                       PreferencesActivity.DEFAULT_DUMMY_STRING)),
                 sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_BLACK_BUTTONS,
                                       PreferencesActivity.DEFAULT_DUMMY_BOOLEAN),
-                sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_OTHER_BUTTONS,
-                                      PreferencesActivity.DEFAULT_DUMMY_BOOLEAN)
-        );
+                borderOtherButtons);
     }
         
     private void switchOnCalculator(boolean enable) {

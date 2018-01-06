@@ -243,6 +243,42 @@ public class SkinHelper {
         mainActivity.findViewById(R.id.indicatorTurbo).setVisibility(mode == 0 ? View.VISIBLE :
                                                                                  View.INVISIBLE);
     }
+
+    static void styleButtonF(boolean grayscale, boolean isPressed, boolean borderOtherButtons) {
+        View buttonF = mainActivity.findViewById(R.id.buttonF);
+
+        int bgResourceId;
+        if (grayscale) {
+            bgResourceId = borderOtherButtons ? R.drawable.button_yellow_border_grayscale :
+                                                R.drawable.button_yellow_grayscale;
+        } else {
+            if (isPressed) {
+                bgResourceId = R.drawable.button_yellow_pressed;
+            } else {
+                bgResourceId = borderOtherButtons ? R.drawable.button_yellow_border :
+                                                    R.drawable.button_yellow;
+            }
+        }
+        buttonF.setBackgroundResource(bgResourceId);
+    }
+
+    static void styleButtonK(boolean grayscale, boolean isPressed, boolean borderOtherButtons) {
+        View buttonK = mainActivity.findViewById(R.id.buttonK);
+
+        int bgResourceId;
+        if (grayscale) {
+            bgResourceId = borderOtherButtons ? R.drawable.button_blue_border_grayscale :
+                    R.drawable.button_blue_grayscale;
+        } else {
+            if (isPressed) {
+                bgResourceId = R.drawable.button_blue_pressed;
+            } else {
+                bgResourceId = borderOtherButtons ? R.drawable.button_blue_border :
+                                                    R.drawable.button_blue;
+            }
+        }
+        buttonK.setBackgroundResource(bgResourceId);
+    }
     
     private static void styleScreen(boolean grayscale) {
         mainActivity.findViewById(R.id.mainLayout).setBackgroundColor(
@@ -301,28 +337,10 @@ public class SkinHelper {
                     );
 
                 } else if (butId == R.id.buttonF) {
-                        b.setBackgroundResource(borderOtherButtons
-                                ?	(grayscale
-                                        ? R.drawable.button_yellow_border_grayscale
-                                        : R.drawable.button_yellow_border
-                                    )
-                                :	(grayscale
-                                        ? R.drawable.button_yellow_grayscale
-                                        : R.drawable.button_yellow
-                                    )
-                        );
+                    styleButtonF(grayscale, false, borderOtherButtons);
 
                 } else if (butId == R.id.buttonK) {
-                        b.setBackgroundResource(borderOtherButtons
-                                ?	(grayscale
-                                        ? R.drawable.button_blue_border_grayscale
-                                        : R.drawable.button_blue_border
-                                    )
-                                :	(grayscale
-                                        ? R.drawable.button_blue_grayscale
-                                        : R.drawable.button_blue
-                                    )
-                        );
+                    styleButtonK(grayscale, false, borderOtherButtons);
 
                 } else if (butId == R.id.buttonClear) {
                         b.setBackgroundResource(borderOtherButtons
