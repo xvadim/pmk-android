@@ -7,8 +7,8 @@ android {
         applicationId "com.cax.pmk.ext"
         minSdkVersion 4
         targetSdkVersion 10
-        versionCode 270
-        versionName "2.7.0"
+        versionCode 275
+        versionName "2.7.5"
 
         lintOptions {
             checkReleaseBuilds false

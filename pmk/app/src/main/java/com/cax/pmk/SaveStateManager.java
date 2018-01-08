@@ -217,7 +217,7 @@ public class SaveStateManager {
         } else {
             FileOpenDialog.chooseFile_or_Dir(programsDir);
         }
-        
+
         return true;
     }
 
