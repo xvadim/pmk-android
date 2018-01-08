@@ -28,6 +28,7 @@ public class PreferencesActivity extends PreferenceActivity {
 	static final String SPEED_MODE_PREFERENCE_KEY		= "speedMode";
 	static final String MK_MODEL_PREFERENCE_KEY			= "mkModel";
 	static final String HIDE_SWITCHES_PREFERENCE_KEY	= "hideSwitches";
+	static final String PROGRAMS_DIR_KEY                = "programsDir";
 	
 	// defaults
 	public static final boolean DEFAULT_DUMMY_BOOLEAN		 = false;

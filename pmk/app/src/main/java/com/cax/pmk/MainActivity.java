@@ -285,7 +285,6 @@ public class MainActivity extends Activity {
                  return true;
              case R.id.menu_import:
                  saveStateManager.importState(emulator);
-
                  return true;
              case R.id.menu_description:
                  openProgramDescription(saveStateManager.mProgramDescription);

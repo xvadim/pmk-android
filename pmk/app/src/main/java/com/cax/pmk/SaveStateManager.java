@@ -12,7 +12,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.util.Log;
@@ -189,6 +191,8 @@ public class SaveStateManager {
                     public void onChosenDir(String chosenFileName)
                     {
                         File file = new File(chosenFileName);
+                        saveProgramsDir(file);
+
                         FileOutputStream fileOut = null;
                         try {
                             fileOut = new FileOutputStream(file);
@@ -204,8 +208,16 @@ public class SaveStateManager {
                     }
                 });
 
+        String programsDir = PreferenceManager.getDefaultSharedPreferences(mainActivity)
+                                              .getString(PreferencesActivity.PROGRAMS_DIR_KEY,
+                                                         PreferencesActivity.DEFAULT_DUMMY_STRING);
         FileOpenDialog.Default_File_Name = "dump.pmk";
-        FileOpenDialog.chooseFile_or_Dir();
+        if (programsDir == null) {
+            FileOpenDialog.chooseFile_or_Dir();
+        } else {
+            FileOpenDialog.chooseFile_or_Dir(programsDir);
+        }
+        
         return true;
     }
 
@@ -252,6 +264,8 @@ public class SaveStateManager {
                     @Override
                     public void onChosenDir(String chosenFileName)  {
                         File file = new File(chosenFileName);
+                        saveProgramsDir(file);
+
                         FileInputStream fileIn = null;
                         mProgramDescription = null;
                         try {
@@ -269,8 +283,16 @@ public class SaveStateManager {
                     }
                 });
 
+        String programsDir = PreferenceManager.getDefaultSharedPreferences(mainActivity)
+                .getString(PreferencesActivity.PROGRAMS_DIR_KEY,
+                        PreferencesActivity.DEFAULT_DUMMY_STRING);
         FileOpenDialog.Default_File_Name = "dump.pmk";
-        FileOpenDialog.chooseFile_or_Dir();
+        if (programsDir == null) {
+            FileOpenDialog.chooseFile_or_Dir();
+        } else {
+            FileOpenDialog.chooseFile_or_Dir(programsDir);
+        }
+
         return true;
     }
 
@@ -348,5 +370,14 @@ public class SaveStateManager {
 
     private void showErrorMessage(int errorTextID) {
         Toast.makeText(mainActivity, mainActivity.getString(errorTextID), Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveProgramsDir(File pFile) {
+	    String dir = pFile.getParent();
+	    if (dir != null) {
+            SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(mainActivity).edit();
+            sharedPrefEditor.putString(PreferencesActivity.PROGRAMS_DIR_KEY, dir);
+            sharedPrefEditor.commit();
+        }
     }
 }
