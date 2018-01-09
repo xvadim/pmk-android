@@ -35,6 +35,10 @@
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/menu_save"/>
     <item
+        android:id="@+id/menu_instruction"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/menu_instruction"/>
+    <item
         android:id="@+id/menu_donate"
         android:title="@string/menu_donate"/>
 </menu>

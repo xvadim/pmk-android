@@ -1,0 +1,108 @@
+body {
+    background: #BBBBBB;
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
+td {
+    padding: 4px;
+}
+
+@font-face {
+    font-family: code;
+    src: url(Segment7Standard.otf) format('opentype');
+}
+
+/* common button */
+#but {
+    background-color:#CCCCCC;
+    color:black;
+
+    text-transform:uppercase;
+
+    font-size:1.2em;
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 1px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+    
+    width:12px;
+}
+
+
+/* F button */
+#but_f {
+    background-color:#F5E345;
+    color:black;
+
+    text-transform:uppercase;
+
+    font-size:1.2em;
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 1px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+    
+    width:12px;
+}
+
+/* K button */
+#but_k {
+    background-color:#71E3FF;
+    color:white;
+
+    text-transform:uppercase;
+
+    font-size:1.2em;
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 1px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+    
+    width:12px;
+}
+
+/* black button */
+#but_b {
+    background-color:black;
+    color:white;
+
+    text-transform:uppercase;
+
+    font-size:1.2em;
+    font-weight:bold;
+    font-family:monospace;
+
+    padding:1px 8px 1px 8px;
+    
+    border:thin solid white;
+    border-radius:3px;
+    width:12px;
+}
+
+#code {
+    background-color:#103810;
+    color:#77FF77;
+    
+    font-family: code;
+    font-size:1.3em;
+    font-weight:bold;
+
+    padding-top:3px;
+}

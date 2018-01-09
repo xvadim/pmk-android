@@ -289,6 +289,9 @@ public class MainActivity extends Activity {
              case R.id.menu_description:
                  openProgramDescription(saveStateManager.mProgramDescription);
                  return true;
+             case R.id.menu_instruction:
+                 startActivity(new Intent(this, InstructionActivity.class));
+                 return true;
              case R.id.menu_donate:
                  openDonatePage();
                 return true;
