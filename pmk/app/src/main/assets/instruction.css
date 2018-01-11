@@ -78,6 +78,25 @@ td {
     width:12px;
 }
 
+/* CX button */
+#but_cx {
+    background-color:#F00505;
+    color:white;
+
+    text-transform:uppercase;
+
+    font-size:1.2em;
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 1px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+    
+    width:12px;
+}
+
 /* black button */
 #but_b {
     background-color:black;
@@ -105,4 +124,8 @@ td {
     font-weight:bold;
 
     padding-top:3px;
+}
+
+#reg {
+    color:white;
 }

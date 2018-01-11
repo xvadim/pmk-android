@@ -6,23 +6,62 @@
         <title>Инструкция</title>
     </head>
     <body>
-        <h2>Микрокалькулятор МК-52/МК-61. Руководство по эксплуатации.</h2>
+        <h3>Микрокалькулятор МК-52/МК-61. Руководство по эксплуатации.</h3>
 
+        <a name=regs>
+        <h4>Регистры калькулятора</h4>
+
+        <p>
+            Для хранения исходных данных и промежуточных результатов в микрокалькуляторе предусмотрена регистровая память,
+            состоящая из 15 адресуемых регистров RG0, RG1-RG9, RGa, RGb, RGc, RGd, RGe.
+        </p>
+        <table width=100%>
+            <tr><th>Номер регистра</th><th>Код регистра</th></tr>
+            <tr><td>RG0<br>-<br>RG9</td><td><span id=code>0</span><br>-<br><span id=code>9</span></td></tr>
+            <tr><td>RGa</td><td><span id=code>-</span></td></tr>
+            <tr><td>RGb</td><td><span id=code>L</span></td></tr>
+            <tr><td>RGc</td><td><span id=code>C</span></td></tr>
+            <tr><td>RGd</td><td><span id=code>Г</span></td></tr>
+            <tr><td>RGe</td><td><span id=code>E</span></td></tr>
+        </table>
+        <p>
+            Запись числа в адресуемые регистры осуществляется из регистра X после нажатия клавиши <span id=but_b>x&rarr;п</span>
+            и одной из клавиш <span id=but>0</span>-<span id=but>9</span>, 
+            <span id=reg>a</span>, <span id=reg>b</span>, <span id=reg>c</span>, <span id=reg>d</span>, <span id=reg>e</span>,
+            совпадающих с индексом адресуемого регистра.
+            При этом число, переданное в адресуемый регистр, сохраняется в регистре X
+        </p>
+        <p>
+            Вызов числа адресуемого регистра в регистр X осуществляется после нажатия клавиши <span id=but_b>п&rarr;х</span> 
+            и клавиш с индексом адресуемого регистра.
+        </p>
+
+        <h4>Назначение клавиш</h4>
         <table width=100%>
             <tr><th>Клавиши</th><th>Назначение</th><th>Код</th></tr>
             
-            <tr><td><span id=but_f>f</span></td><td>Переход на вторую символику</td><td></td></tr>
-            <tr><td><span id=but_k>k</span></td><td>Переход на вторую символику</td><td></td></tr>
+            <tr><td><span id=but_f>f</span></td>
+                <td>Переход на вторую символику</td><td></td></tr>
+
+            <tr><td><span id=but_k>k</span></td>
+                <td>Переход на вторую символику. Косвенный переход и косвенное обращение к адресуемым регистрам</td>
+                <td></td></tr>
 
             <tr><td><span id=but>0</span><br>-<br><span id=but>9</span></td>
                 <td>Занесение цифр от 0 до 9 в регистр X</td>
                 <td><span id=code>00</span><br>-<br><span id=code>09</span></td></tr>
 
-            <tr><td> <span id=but_b>x&rarr;п</span><span id=but>r</span></td>
-                <td>Запись содержимого регистра X в регистр RGr</td>
+            <tr><td><span id=but_b>x&rarr;п</span><span id=but>r</span></td>
+                <td>Запись содержимого регистра X в регистр <a href=#regs>RGr</a></td>
                 <td><span id=code>0r</span></td></tr>
             
-            <tr><td></td><td></td><td></td></tr>
+            <tr><td><span id=but_cx>cx</span></td>
+                <td>Сброс содержимого регистра X</td>
+                <td><span id=code>0Г</span></td></tr>
+
+
+
+            
             <tr><td></td><td></td><td></td></tr>
         </table>
     </body>
