@@ -5,3 +5,5 @@ iab bb <span id=but_b></span><ESC>bba
 iab bu <span id=but></span><ESC>bba
 iab co <span id=code></span><ESC>bba
 iab re <span id=reg></span><ESC>bba
+iab of <span id=op_f></span><ESC>bba
+iab ob <span id=op_b></span><ESC>bba
