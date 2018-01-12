@@ -122,11 +122,10 @@ public class MainActivity extends Activity {
             }
         });
 
-        findViewById(R.id.TextViewPowerOnOff).setOnLongClickListener(new View.OnLongClickListener() {
+        findViewById(R.id.TextViewPowerOnOff).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 openOptionsMenu();
-                return true;
             }
         });
 
