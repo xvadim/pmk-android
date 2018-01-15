@@ -27,7 +27,7 @@
 возможностям к калькулятору МК-52.
 Также имеется возможность экспорта/импорта состояния в/из внешних файлов.
 
-[Инструкция к калькулятору](http://htmlpreview.github.io/?instruction/instruction.html)
+[Инструкция к калькулятору](http://htmlpreview.github.io/?https://github.com/xvadim/pmk-android/blob/develop_instruction/instruction/instruction.html)
 
 ## Сборка эмулятора
 
