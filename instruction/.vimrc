@@ -6,4 +6,5 @@ iab bu <span id=but></span><ESC>bba
 iab co <span id=code></span><ESC>bba
 iab re <span id=reg></span><ESC>bba
 iab of <span id=op_f></span><ESC>bba
-iab ob <span id=op_b></span><ESC>bba
+iab ok <span id=op_k></span><ESC>bba
+iab pp <p><ENTER></p><UP>
