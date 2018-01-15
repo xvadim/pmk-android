@@ -31,3 +31,5 @@ proguard/
 # Gradle files
 */gradle/*
 gradlew*
+
+pmk/app/release/*
