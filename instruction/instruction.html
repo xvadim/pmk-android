@@ -8,12 +8,12 @@
     <body>
         <h2>Микрокалькулятор Б3-34/МК-52/МК-54/МК-61. Руководство по эксплуатации.</h2>
 
-        <h3>Общие   сведения  об   устройстве    микрокалькулятора</h3>
+        <h3>Общие сведения</h3>
         <p>
             Ввод чисел, операций и команд в микрокалькулятор осуществляется нажатием соответствующих клавиш. 
             Многие клавиши имеют двойную и тройную символику. Цвет символов, изображенных над клавишами, 
             соответствует цвету клавиш <span id=but_f>f</span> и <span id=but_k>k</span>. Ввод функции, 
-            символ которой изображен на клавишной панели, осуществляется следующим образом: сначала нажимают 
+            символ которой изображён на клавишной панели, осуществляется следующим образом: сначала нажимают 
             клавишу <span id=but_f>f</span> или <span id=but_k>k</span>, затем клавишу, над которой изображен 
             символ вводимой функции. Назначение клавиш приведено в табл. 
             <a href="#table_keys">Назначение функциональных клавиш</a> и 
@@ -39,25 +39,83 @@
                 <td>Занесение цифр от 0 до 9 в регистр X</td>
                 <td><span id=code>00</span><br>-<br><span id=code>09</span></td></tr>
 
-            <tr><td><span id=but_b>x&rarr;п</span>&nbsp;<span id=but>r</span></td>
-                <td>Запись содержимого регистра X в регистр RGr. Номера и коды регистров см. в таблице
-                <a href=#table_regs>Номера регистров</a></td>
-                <td><span id=code>4r</span></td></tr>
+            <tr><td><span id=but>&bull;</span></td>
+                <td>Занесение десятичной запятой</td>
+                <td><span id=code>0-</span></td></tr>
+
+            <tr><td><span id=but>B&uarr;</span></td>
+                <td>Разделение водимых чисел и передвижение информации в стеке</td>
+                <td><span id=code>0E</span></td></tr>
 
             <tr><td><span id=but_cx>cx</span></td>
                 <td>Сброс содержимого регистра X</td>
-                <td><span id=code>0Г</span></td></tr>
+                <td><span id=code>0D</span></td></tr>
 
+            <tr><td><span id=but>+</span></td>
+                <td>Сложение содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td><span id=code>10</span></td></tr>
+
+            <tr><td><span id=but>-</span></td>
+                <td>Вычитание содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td><span id=code>11</span></td></tr>
+
+            <tr><td><span id=but>&times;</span></td>
+                <td>Умножение содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td><span id=code>12</span></td></tr>
+
+            <tr><td><span id=but>&divide;</span></td>
+                <td>Деление содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td><span id=code>13</span></td></tr>
+
+            <tr><td><span id=but>&harr;</span></td>
+                <td>Обмен содержимым между регистрами X и Y</td>
+                <td><span id=code>14</span></td></tr>
+
+            <tr><td><span id=but>/-/</span></td>
+                <td>Смена знака числа и порядка</td>
+                <td><span id=code>0L</span></td></tr>
+
+            <tr><td><span id=but>ВП</span></td>
+                <td>Подготовка ввода порядка</td>
+                <td><span id=code>0C</span></td></tr>
 
             <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>10<sup>x</sup></span></td>
                 <td>Вычисление степенной функции 10<sup>x</sup></td>
                 <td><span id=code>15</span></td></tr>
 
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>e<sup>x</sup></span></td>
+                <td>Вычисление показательной функции <i>e</i><sup>x</sup></td>
+                <td><span id=code>16</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f></span></td>
+                <td></td><td><span id=code></span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f><span id=missing_symb><sup>0</sup></span></span></td>
+                <td>Кольцевое перемещение информации в стеке</td>
+                <td><span id=code>25</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>Bx</span></td>
+                <td>Восстановление предыдущего результата</td><td><span id=code>0&nbsp;</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>CF</span></td>
+                <td>Сброс перехода на вторую символику</td><td><span id=code></span></td></tr>
+
+            <tr><td><span id=but_b>x&rarr;п</span>&nbsp;<span id=but>r</span></td>
+                <td>Запись содержимого регистра X в регистр RGr. Номера и коды регистров см. в таблице
+                <a href=#table_regs>Номера и коды регистров</a></td>
+                <td><span id=code>4r</span></td></tr>
 
             <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>⊕</span></td>
                 <td>Логическая операция "Исключающее ИЛИ"</td><td><span id=code>39</span></td></tr>
 
-            <tr><td></td><td></td><td></td></tr>
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>&rarr;&deg;&prime;&Prime;</span></td>
+                <td>Перевод угловых (временных величин), выраженных в градусах (часах), минутах, секундах и
+                    долях секунды, в значения, выраженные в градусах (часах) и долях градуса (часа)</td>
+                <td><span id=code>2-</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k></span></td>
+                <td></td><td><span id=code></span></td></tr>
+
         </table>
 
         <br><br>
@@ -86,16 +144,19 @@
             RGe (отсутствует в Б3-34 и МК-54).
         </p>
         <a name=table_regs>
-        <table width=100%>
-            <caption>Номера регистров</caption>
-            <tr><th>Номер регистра</th><th>Код регистра</th></tr>
+        <div align=center>
+        <table>
+            <caption>Номера и коды регистров</caption>
+            <tr><th>&nbsp;Номер регистра&nbsp;</th><th>&nbsp;Код&nbsp;</th></tr>
             <tr><td>RG0<br>-<br>RG9</td><td><span id=code>0</span><br>-<br><span id=code>9</span></td></tr>
             <tr><td>RGa</td><td><span id=code>-</span></td></tr>
             <tr><td>RGb</td><td><span id=code>L</span></td></tr>
             <tr><td>RGc</td><td><span id=code>C</span></td></tr>
-            <tr><td>RGd</td><td><span id=code>Г</span></td></tr>
+            <tr><td>RGd</td><td><span id=code>D</span></td></tr>
             <tr><td>RGe</td><td><span id=code>E</span></td></tr>
         </table>
+        </div>
+
         <p>
             Запись числа в адресуемые регистры осуществляется из регистра X после нажатия клавиши <span id=but_b>x&rarr;п</span>
             и одной из клавиш <span id=but>0</span>-<span id=but>9</span>, 
@@ -131,7 +192,7 @@
         </p>
 
         <p>
-            Дня выполнения двухместных операций необходимо ввести в микрокалькулятор не менее двух чисел. 
+            Для выполнения двухместных операций необходимо ввести в микрокалькулятор не менее двух чисел. 
             Ввод чисел в микрокалькулятор осуществляется обычным способом. Чтобы отделить первое число от второго, 
             нажмите клавишу <span id=but>B&uarr;</span>.
         </p>
@@ -143,7 +204,7 @@
         </p>
 
         <p>
-            При выполнении некорректной операции на индикаторе высвечивается сигнал ошибки <span id=code>EГГ0Г</span>
+            При выполнении некорректной операции на индикаторе высвечивается сигнал ошибки <span id=code>EDD0D</span>
         </p>
 
         <h3>Работа калькулятора в режиме "Программирование"</h3>
@@ -167,13 +228,13 @@
         </p>
 
         <p>
-            В режиме "Программирование" индикатор используется для отображения кодов грех последовательных команд из 
-            программной памяти и текущего состояния счетчика команд, т.е. адреса, по которому будет записана следующая 
+            В режиме "Программирование" индикатор используется для отображения кодов трёх последовательных команд из 
+            программной памяти и текущего состояния счётчика команд, т.е. адреса, по которому будет записана следующая 
             команда. Например, на индикаторе отображено
             <div align=center><span id=code>02 01 0E 06</span></div>
             В этом случае двузначные команды операций на индикаторе означают:
             <ol>
-                <li>код <span id=code>06</span> - текущее состояние счетчика адреса;</li>
+                <li>код <span id=code>06</span> - текущее состояние счётчика адреса;</li>
                 <li>коды <span id=code>0E</span>, <span id=code>01</span>, <span id=code>02</span> - 
                     три последовательные команды, расположенные соответственно по адресам 03, 04, 05.</li>
             </ol>

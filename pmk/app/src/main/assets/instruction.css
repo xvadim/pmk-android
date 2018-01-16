@@ -17,7 +17,12 @@ td {
 
 @font-face {
     font-family: code;
-    src: url(Segment7Standard.otf) format('opentype');
+    src: url(fonts/digital-7-mod.ttf);
+}
+
+@font-face {
+    font-family: missing-symbols;
+    src: url(fonts/missing-symbols.ttf);
 }
 
 /* common button */
@@ -89,7 +94,7 @@ td {
     font-weight:bold;
     font-family:monospace;
 
-    padding: 1px 12px 1px 12px;
+    padding: 1px 8px 1px 8px;
 
     border:thin solid black;
     border-radius:3px;
@@ -108,7 +113,7 @@ td {
     font-weight:bold;
     font-family:monospace;
 
-    padding:1px 8px 1px 8px;
+    padding:1px 4px 1px 4px;
     
     border:thin solid white;
     border-radius:3px;
@@ -124,6 +129,12 @@ td {
     font-weight:bold;
 
     padding-top:3px;
+    padding-bottom:5px;
+}
+
+#missing_symb {
+    font-family: missing-symbols;
+    font-size:1.1em;
 }
 
 #reg {
