@@ -43,7 +43,7 @@
                 <td>Занесение десятичной запятой</td>
                 <td><span id=code>0-</span></td></tr>
 
-            <tr><td><span id=but>B&uarr;</span></td>
+            <tr><td><span id=but><span id=missing_symb><sup>BA</sup></span></span></span></td>
                 <td>Разделение водимых чисел и передвижение информации в стеке</td>
                 <td><span id=code>0E</span></td></tr>
 
@@ -67,7 +67,7 @@
                 <td>Деление содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
                 <td><span id=code>13</span></td></tr>
 
-            <tr><td><span id=but>&harr;</span></td>
+            <tr><td><span id=but><span id=missing_symb><sup>=</sup></span></span></td>
                 <td>Обмен содержимым между регистрами X и Y</td>
                 <td><span id=code>14</span></td></tr>
 
@@ -87,8 +87,57 @@
                 <td>Вычисление показательной функции <i>e</i><sup>x</sup></td>
                 <td><span id=code>16</span></td></tr>
 
-            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f></span></td>
-                <td></td><td><span id=code></span></td></tr>
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>lg</span></td>
+                <td>Вычисление десятичного логарифма</td>
+                <td><span id=code>17</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>ln</span></td>
+                <td>Вычисление натурального логарифма</td>
+                <td><span id=code>18</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>sin</span></td>
+                <td>Вычисление функции синуса</td>
+                <td><span id=code>1C</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>cos</span></td>
+                <td>Вычисление функции косинуса</td>
+                <td><span id=code>1D</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>tg</span></td>
+                <td>Вычисление функции тангенса</td>
+                <td><span id=code>1E</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>sin<sup>-1</sup></span></td>
+                <td>Вычисление обратной функции синуса</td>
+                <td><span id=code>19</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>cos<sup>-1</sup></span></td>
+                <td>Вычисление обратной функции косинуса</td>
+                <td><span id=code>1-</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>tg<sup>-1</sup></span></td>
+                <td>Вычисление обратной функции тангенса</td>
+                <td><span id=code>1L</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f><span id=missing_symb><sup>)</sup></span></span></td>
+                <td>Вычисление квадратного корня</td>
+                <td><span id=code>21</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>1/x</span></td>
+                <td>Вычисление обратной величины X</td>
+                <td><span id=code>23</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x<sup>2</sup></span></td>
+                <td>Возведение числа X в квадрат</td>
+                <td><span id=code>22</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x<sup>y</sup></span></td>
+                <td>Возведение числа X в степень Y</td>
+                <td><span id=code>24</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>π</span></td>
+                <td>Вызов константы π=3,1415926</td>
+                <td><span id=code>20</span></td></tr>
 
             <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f><span id=missing_symb><sup>0</sup></span></span></td>
                 <td>Кольцевое перемещение информации в стеке</td>
@@ -98,23 +147,76 @@
                 <td>Восстановление предыдущего результата</td><td><span id=code>0&nbsp;</span></td></tr>
 
             <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>CF</span></td>
-                <td>Сброс перехода на вторую символику</td><td><span id=code></span></td></tr>
+                <td>Сброс перехода на вторую символику</td><td></td></tr>
 
-            <tr><td><span id=but_b>x&rarr;п</span>&nbsp;<span id=but>r</span></td>
+            <tr><td><span id=but_b><span id=missing_symb><sup>;</sup></span></span>&nbsp;<span id=but>r</span></td>
                 <td>Запись содержимого регистра X в регистр RGr. Номера и коды регистров см. в таблице
                 <a href=#table_regs>Номера и коды регистров</a></td>
                 <td><span id=code>4r</span></td></tr>
 
-            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>⊕</span></td>
-                <td>Логическая операция "Исключающее ИЛИ"</td><td><span id=code>39</span></td></tr>
+            <tr><td><span id=but_b><span id=missing_symb><sup>:</sup></span></span>&nbsp;<span id=but>r</span></td>
+                <td>Вызов в регистр X содержимого регистра RGr. Номера и коды регистров см. в таблице
+                <a href=#table_regs>Номера и коды регистров</a></td>
+                <td><span id=code>6r</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>[x]</span></td>
+                <td>Выделение целой части числа</td>
+                <td><span id=code>34</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>{x}</span></td>
+                <td>Выделение дробной части числа</td>
+                <td><span id=code>35</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>max</span></td>
+                <td>Определение максимального значения одного из двух чисел, находящихся в регистрах X и Y</td>
+                <td><span id=code>36</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>|x|</span></td>
+                <td>Определение абсолютного значения числа</td>
+                <td><span id=code>31</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>ЗН</span></td>
+                <td>Определение знака числа</td>
+                <td><span id=code>32</span></td></tr>
 
             <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>&rarr;&deg;&prime;&Prime;</span></td>
                 <td>Перевод угловых (временных величин), выраженных в градусах (часах), минутах, секундах и
                     долях секунды, в значения, выраженные в градусах (часах) и долях градуса (часа)</td>
                 <td><span id=code>2-</span></td></tr>
 
-            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k></span></td>
-                <td></td><td><span id=code></span></td></tr>
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>&larr;&deg;&prime;&Prime;</span></td>
+                <td>Перевод угловых (временных величин), выраженных в градусах (часах) и долях градуса (часа)
+                    в значения, выраженные в градусах (часах), минутах, секундах и долях секунды</td>
+                <td><span id=code>30</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>&rarr;&deg;&prime;</span></td>
+                <td>Перевод угловых (временных величин), выраженных в градусах (часах), минутах, и
+                    долях минуты, в значения, выраженные в градусах (часах) и долях градуса (часа)</td>
+                <td><span id=code>26</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>&larr;&deg;&prime;</span></td>
+                <td>Перевод угловых (временных величин), выраженных в градусах (часах) и долях градуса (часа)
+                    в значения, выраженные в градусах (часах), минутах, и долях минуты</td>
+                <td><span id=code>33</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>СЧ</span></td>
+                <td>Генерация псевдослучайного числа от 0 до 1</td>
+                <td><span id=code>3L</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>∧</span></td>
+                <td>Поразрядное логическое умножение</td>
+                <td><span id=code>37</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>∨</span></td>
+                <td>Поразрядное логическое сложение</td>
+                <td><span id=code>38</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>⊕</span></td>
+                <td>Логическая операция "Исключающее ИЛИ"</td><td><span id=code>39</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>ИНВ</span></td>
+                <td>Логическая операция "Инверсия"</td>
+                <td><span id=code>3-</span></td></tr>
 
         </table>
 
@@ -133,8 +235,120 @@
             <tr><td><span id=but_b>БП</span></td>
                 <td>Безусловный переход</td><td><span id=code>51</span></td></tr>
 
-            <tr><td></td><td></td><td></td></tr>
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x&lt;0</span></td>
+                <td>Прямой переход по условию x&lt;0</td><td><span id=code>5C</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x=0</span></td>
+                <td>Прямой переход по условию x=0</td><td><span id=code>5E</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x&ge;0</span></td>
+                <td>Прямой переход по условию x&ge;0</td><td><span id=code>59</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>x&ne;0</span></td>
+                <td>Прямой переход по условию x&ne;0</td><td><span id=code>57</span></td></tr>
+
+            <tr><td><span id=but_b>ПП</span></td>
+                <td>
+                    1. Переход на подпрограмму в режиме "Программирование"<br>
+                    2. Потактовое прохождение программы в режиме "Программирование"
+                </td>
+                <td><span id=code>53</span></td></tr>
+
+            <tr><td><span id=but_b>В/О</span></td>
+                <td>
+                    1. Возврат из подпрограммы в режиме "Программирование"<br>
+                    2. Переход на нулевой адрес в режиме "Программирование"
+                </td>
+                <td><span id=code>52</span></td></tr>
+
+            <tr><td><span id=but_b>С/П</span></td>
+                <td>
+                    1. Прекращение прохождения программы в режиме "Программирование" и фиксация
+                    содержимого регистра X на индикаторе<br>
+                    2. Начало вычисления по программе в режиме "Программирование", а также
+                    прекращение вычислений в случае зацикливания
+                </td>
+                <td><span id=code>50</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>L0</span></td>
+                <td>Организация цикла с регистром RG0</td><td><span id=code>5D</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>L1</span></td>
+                <td>Организация цикла с регистром RG1</td><td><span id=code>5L</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>L2</span></td>
+                <td>Организация цикла с регистром RG2</td><td><span id=code>58</span></td></tr>
+
+            <tr><td><span id=but_f>f</span>&nbsp;<span id=op_f>L3</span></td>
+                <td>Организация цикла с регистром RG3</td><td><span id=code>5-</span></td></tr>
+
+            <tr><td><span id=but_k>k</span>&nbsp;<span id=op_k>НОП</span></td>
+                <td>Нет операции (при редактировании программ)</td>
+                <td><span id=code>54</span></td></tr>
+
+            <tr><td><span id=but_b><span id=missing_symb><sup>&gt;</sup></span></span></span></td>
+                <td>Потактовое прохождение программы в порядке возрастания адресов в режиме "Программирование"</td>
+                <td></td></tr>
+
+            <tr><td><span id=but_b><span id=missing_symb><sup>&lt;</sup></span></span></span></td>
+                <td>Потактовое прохождение программы в порядке уменьшения адресов в режиме "Программирование"</td>
+                <td></td></tr>
+
+            <tr><td colspan=3 align=center>
+                    <b><i>Команды косвенной адресации</i></b><br>
+                    Данные команды начинаются с клавиши <span id=but_k>k</span>, за которой идут клавиши, 
+                    указанные ниже.
+                </td></tr>
+
+                <tr><td><span id=but_b>БП</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный безусловный переход по модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>8r</span></td></tr>
+
+                <tr><td>&nbsp;&nbsp;<span id=op_f>x&lt;0</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный переход по условию x&lt;0 при выполнении которого осуществляется переход по
+                    модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>Cr</span></td></tr>
+
+                <tr><td>&nbsp;&nbsp;<span id=op_f>x=0</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный переход по условию x=0 при выполнении которого осуществляется переход по
+                    модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>Er</span></td></tr>
+
+                <tr><td>&nbsp;&nbsp;<span id=op_f>x&le;0</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный переход по условию x&le;0 при выполнении которого осуществляется переход по
+                    модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>9r</span></td></tr>
+
+                <tr><td>&nbsp;&nbsp;<span id=op_f>x&ne;0</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный переход по условию x&ne;0 при выполнении которого осуществляется переход по
+                    модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>7r</span></td></tr>
+
+                <tr><td><span id=but_b>ПП</span>&nbsp;<span id=but>R</span></span></td>
+                <td>Косвенный переход к подпрограмме по модифицированному адресу, хранящемуся в адресуемом 
+                    регистре, индекс которого входит в команду</td>
+                <td><span id=code>-r</span></td></tr>
+
+                <tr><td><span id=but_b><span id=missing_symb><sup>;</sup></span></span>&nbsp;<span id=but>r</span></td>
+                <td>Косвенная запись содержимого регистра X в регистр по модифицированному адресу,
+                    хранящемуся в адресуемом регистре, индекс которого входит в команду</td>
+                <td><span id=code>Lr</span></td></tr>
+
+                <tr><td><span id=but_b><span id=missing_symb><sup>:</sup></span></span>&nbsp;<span id=but>r</span></td>
+                <td>Косвенная индикация вызова в регистр X содержимого адресуемого регистра
+                    по модифицированному адресу,
+                    хранящемуся в адресуемом регистре, индекс которого входит в команду</td>
+                <td><span id=code>Dr</span></td></tr>
         </table>
+
+        <p><i>Примечание: для команд, работающих с регистрами, вторая цифра кода (<span id=code>r</span>) совпадает
+                с номером регистра из таблицы <a href=#table_regs>Номера и коды регистров</a>.
+        </i></p> 
 
         <h4>Регистры калькулятора</h4>
 
@@ -169,7 +383,7 @@
             и клавиш с индексом адресуемого регистра.
         </p>
         <p>
-            Кроме адресуемых регистров в микрокалькуляторе имеется стековая память, состоящая из четырех регистров: 
+            Кроме адресуемых регистров в микрокалькуляторе имеется стековая память, состоящая из четырёх регистров: 
             X, У, Z и Т. Регистры X и У - операционные.
         </p>
         <p>
@@ -190,11 +404,35 @@
              Одноместные операции выполняются с числом, находящимся в регистре X. Результат одноместной операции 
              записывается в регистр X, при этом содержимое остальных регистров не изменяется.
         </p>
+        <p>
+            Пример:
+            <div align=center>
+                <span id=but>3</span>&nbsp;
+                <span id=but_f>f</span>&nbsp;<span id=op_f>x<sup>2</sup></span>&nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+                <span id=code>9</span>
+            </div>
+        </p>
 
         <p>
-            Для выполнения двухместных операций необходимо ввести в микрокалькулятор не менее двух чисел. 
-            Ввод чисел в микрокалькулятор осуществляется обычным способом. Чтобы отделить первое число от второго, 
-            нажмите клавишу <span id=but>B&uarr;</span>.
+            Ввод аргумента при вычислении прямых тригонометрических функций и вычисление аргумента для обратных 
+            тригонометрических функций могут осуществляться в радианах, градах или градусах в зависимости от 
+            положения переключателя "Р/ГРД/Г" (радиан/град/градус).<br>
+            <i>Примечание: градусы, грады и радианы находятся в следующей зависимости: 360° = 400 град = 2π радиан.</i>
+        </p>
+
+        <p>
+            Для выполнения двухместных операций используется обратная польская запись при которой сначала вводятся оба
+            операнда, а затем - операция. Ввод чисел в микрокалькулятор осуществляется обычным способом. 
+            Чтобы отделить первое число от второго, нажмите клавишу 
+            <span id=but><span id=missing_symb><sup>BA</sup></span></span></span>.
+        </p>
+        <p>
+            Пример:
+            <div align=center>
+                <span id=but>3</span>&nbsp;<span id=but><span id=missing_symb><sup>BA</sup></span></span></span>&nbsp;
+                <span id=but>2</span>&nbsp;<span id=but>&times;</span>&nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+                <span id=code>6</span>
+            </div>
         </p>
 
         <p>
@@ -205,6 +443,34 @@
 
         <p>
             При выполнении некорректной операции на индикаторе высвечивается сигнал ошибки <span id=code>EDD0D</span>
+        </p>
+
+        <h3>Использование стековой памяти</h3>
+        <p>
+            В стековую память входят четыре регистра X, У, Z и T, которые организованы по принципу магазинной памяти, 
+            когда последовательно записанная информация может быть считана только в последовательности, обратной
+            последовательности записи (последнее записанное число является первым).
+        </p>
+        <p>
+            После включения микрокалькулятора регистры стека находятся в нулевом состоянии:
+                <table align=center>
+                    <tr><th>Р-р</th><th>Состояние</th><th>Примечание</th></tr>
+                    <tr><td>T</td><td>0</td><td></td></tr>
+                    <tr><td>Z</td><td>0</td><td></td></tr>
+                    <tr><td>Y</td><td>0</td><td></td></tr>
+                    <tr><td>X</td><td>0</td><td>Всегда индицируется</td></tr>
+                </table>
+        </p>
+        <p>
+            Ввод чисел всегда производится в регистр X. Информация в регистрах стека смещается вверх: T - теряется, 
+            Z&rarr;T, Y&rarr;Z, X&rarr;Y, X - введённое значение.
+                <table align=center>
+                    <tr><th>Р-р</th><th>Состояние</th><th>Клавиша</th><th>Состояние</th></tr>
+                    <tr><td>T</td><td>1</td><td rowspan=4 align=center><span id=but>5</span></td><td>2</td></tr>
+                    <tr><td>Z</td><td>2</td><td>3</td></tr>
+                    <tr><td>Y</td><td>3</td><td>4</td></tr>
+                    <tr><td>X</td><td>4</td><td>5</td></tr>
+                </table>
         </p>
 
         <h3>Работа калькулятора в режиме "Программирование"</h3>
@@ -239,5 +505,101 @@
                     три последовательные команды, расположенные соответственно по адресам 03, 04, 05.</li>
             </ol>
         </p>
+
+        <h3>Программа решения квадратных уравнений</h3>
+
+        <table>
+            <tr><th>Адр.</th><th>Команда</th><th>Примечание</th></tr>
+            <tr><td><span id=code>00</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>01</span></td>
+                <td><span id=but_f>f</span>&nbsp;<span id=op_f>x<sup>2</sup></span></td>
+                <td></td></tr>
+            <tr><td><span id=code>02</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>c</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>03</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>04</span></td>
+                <td><span id=but>4</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>05</span></td>
+                <td><span id=but>&times;</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>06</span></td>
+                <td><span id=but>&times;</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>07</span></td>
+                <td><span id=but>-</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>08</span></td>
+                <td><span id=but_f>f</span>&nbsp;<span id=op_f><span id=missing_symb><sup>)</sup></span></span></td>
+                <td></td></tr>
+            <tr><td><span id=code>09</span></td>
+                <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>d</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>10</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>11</span></td>
+                <td><span id=but>/-/</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>12</span></td>
+                <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>b</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>13</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>d</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>14</span></td>
+                <td><span id=but>+</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>15</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>16</span></td>
+                <td><span id=but>2</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>17</span></td>
+                <td><span id=but>&times;</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>18</span></td>
+                <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>a</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>19</span></td>
+                <td><span id=but>&divide;</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>20</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>21</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>d</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>22</span></td>
+                <td><span id=but>-</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>23</span></td>
+                <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>24</span></td>
+                <td><span id=but>&divide;</span></td>
+                <td></td></tr>
+            <tr><td><span id=code>25</span></td>
+                <td><span id=but_b>С/П</span></td>
+                <td></td></tr>
+        </table>
+
+        <h4>Выполнение вычислений</h4>
+            <p>
+                Рассмотрим решение уравнения <i>x</i><sup>2</sup>+2<i>x</i>-3=0
+            </p>
+            <p>1. <span id=but>1</span> <span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>a</span></p>
+            <p>2. <span id=but>2</span> <span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>b</span></p>
+            <p>3. <span id=but>3</span> <span id=but>/-/</span> <span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>c</span></p>
+            <p>4. <span id=but_b>В/О</span>&nbsp;<span id=but_b>C/П</span></p>
+            <p>5. <span id=code>-3.</span></p>
+            <p>6. <span id=but><span id=missing_symb><sup>=</sup></span></span></p>
+            <p>7. <span id=code> 1.</span></p>
     </body>
 </html>
