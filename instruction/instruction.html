@@ -508,6 +508,10 @@
 
         <h3>Программа решения квадратных уравнений</h3>
 
+        <p>
+            Рассмотрим программу для решения квадратных уравнений вида
+            <b>a</b><i>x</i><sup>2</sup> + <b>b</b><i>x</i> + <b>c</b> = 0
+        </p>
         <table>
             <tr><th>Адр.</th><th>Команда</th><th>Примечание</th></tr>
             <tr><td><span id=code>00</span></td>
@@ -524,7 +528,16 @@
                 <td></td></tr>
             <tr><td><span id=code>04</span></td>
                 <td><span id=but>4</span></td>
-                <td></td></tr>
+                <td>
+                    Состояние стековой памяти
+                    <table>
+                        <tr><th>Р-р</th><th>Содержимое</th></tr>
+                        <tr><td>T</td><td><b>b</b><sup>2</sup></td></tr>
+                        <tr><td>Z</td><td><b>c</b></td></tr>
+                        <tr><td>Y</td><td><b>a</b></td></tr>
+                        <tr><td>X</td><td>4</td></tr>
+                    </table>
+                </td></tr>
             <tr><td><span id=code>05</span></td>
                 <td><span id=but>&times;</span></td>
                 <td></td></tr>
@@ -539,7 +552,7 @@
                 <td></td></tr>
             <tr><td><span id=code>09</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>d</span></td>
-                <td></td></tr>
+                <td>Сохраняем в регистре <span id=reg>d</span> значение &radic;(<b>b</b><sup>2</sup>-4<b>ac</b>)</td></tr>
             <tr><td><span id=code>10</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
                 <td></td></tr>
@@ -548,7 +561,7 @@
                 <td></td></tr>
             <tr><td><span id=code>12</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>b</span></td>
-                <td></td></tr>
+                <td>Сохраняем в регистре <span id=reg>b</span> значение -<b>b</b> для дальнейших вычислений</td></tr>
             <tr><td><span id=code>13</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>d</span></td>
                 <td></td></tr>
@@ -563,13 +576,20 @@
                 <td></td></tr>
             <tr><td><span id=code>17</span></td>
                 <td><span id=but>&times;</span></td>
-                <td></td></tr>
+                <td>
+                    Состояние стековой памяти
+                    <table>
+                        <tr><th>Р-р</th><th>Содержимое</th></tr>
+                        <tr><td>Y</td><td>-<b>b</b> + &radic;(<b>D</b>)</td></tr>
+                        <tr><td>X</td><td>2<b>a</b></td></tr>
+                    </table>
+                </td></tr>
             <tr><td><span id=code>18</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>a</span></td>
-                <td></td></tr>
+                <td>Сохраняем в регистре <span id=reg>a</span> значение 2<b>a</b> для дальнейших вычислений</td></tr>
             <tr><td><span id=code>19</span></td>
                 <td><span id=but>&divide;</span></td>
-                <td></td></tr>
+                <td>В регистре X первый корень <i>x</i><sub>1</sub></td></tr>
             <tr><td><span id=code>20</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
                 <td></td></tr>
@@ -584,13 +604,28 @@
                 <td></td></tr>
             <tr><td><span id=code>24</span></td>
                 <td><span id=but>&divide;</span></td>
-                <td></td></tr>
+                <td>
+                    Состояние стековой памяти
+                    <table>
+                        <tr><th>Р-р</th><th>Содержимое</th></tr>
+                        <tr><td>Y</td><td><i>x</i><sub>1</sub></td></tr>
+                        <tr><td>X</td><td><i>x</i><sub>2</sub></td></tr>
+                    </table>
+                </td></tr>
             <tr><td><span id=code>25</span></td>
                 <td><span id=but_b>С/П</span></td>
-                <td></td></tr>
+                <td>Останов программы</td></tr>
         </table>
 
         <h4>Выполнение вычислений</h4>
+            <p>
+                Перед выполнением вычислений необходимо коэффициенты <b>a</b>, <b>b</b>, <b>c</b> занести в регистры
+                <span id=reg>a</span>, <span id=reg>b</span>, <span id=reg>c</span> соответственно. После останова в
+                регистре X находится один корень, в регистре Y - второй. Если уравнение не имеет действительных корней,
+                на экране высветится
+                <div align=center><span id=code>EDD0D</span></div>
+            </p>
+
             <p>
                 Рассмотрим решение уравнения <i>x</i><sup>2</sup>+2<i>x</i>-3=0
             </p>
