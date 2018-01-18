@@ -21,6 +21,7 @@
     <string name="menu_save">Зберегти</string>
     <string name="menu_settings">Налаштування</string>
     <string name="menu_donate">Підтримати розробку</string>
+    <string name="menu_instruction">Інструкція</string>
     <string name="msg_choose_name">Введіть назву для збереження</string>
     <string name="msg_choose_slot">Виберіть слот для</string>
     <string name="msg_load">завантаження</string>
