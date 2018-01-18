@@ -137,7 +137,13 @@
         </p>
 
         <p align="center">
-        <font size=-2><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Support project</a></font>
+        <font size=-2>Support project
+        <ul>
+            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
+            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
+            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.au">Gold donation</a> (1.5$)</li>
+        </ul>
+        </font>
         </p>
         </body>
         </html>
@@ -159,6 +165,26 @@
                 You can download some МК-programs and descriptions from this
                 <a href="https://github.com/xvadim/pmk61-programms">repository</a>.
                 </p>
+            </body>
+        </html>
+        ]]>
+    </string>
+
+    <string name="msg_donate">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Donate the project</h2>
+                <p>
+                You can support the project by purchasing one of these donate packages:
+                <ul>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.au">Gold donation</a> (1.5$)</li>
+                </ul>
+                </p>
+
+                <p>Thanks!</p>
             </body>
         </html>
         ]]>

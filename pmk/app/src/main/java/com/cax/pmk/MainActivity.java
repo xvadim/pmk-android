@@ -292,7 +292,7 @@ public class MainActivity extends Activity {
                  startActivity(new Intent(this, InstructionActivity.class));
                  return true;
              case R.id.menu_donate:
-                 openDonatePage();
+                 openProgramDescription(getString(R.string.msg_donate));
                 return true;
              default:
                  return super.onOptionsItemSelected(item);
@@ -569,11 +569,6 @@ public class MainActivity extends Activity {
         } catch (PackageManager.NameNotFoundException e) {
         }
         openProgramDescription(MessageFormat.format(getString(R.string.msg_about), versionName));
-    }
-
-    private void openDonatePage() {
-        startActivity(new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate")));
     }
 
     private void openProgramDescription(String pProgramDescription) {
