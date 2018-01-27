@@ -8,13 +8,37 @@
     <body>
         <h2>Микрокалькулятор Б3-34/МК-52/МК-54/МК-61. Руководство по эксплуатации.</h2>
 
+        <ul>
+            <li><a href=#common>Общие сведения</a>
+            <ul>
+                <li><a href=#regs>Регистры калькулятора</a></li>
+            </ul></li>
+            
+            <li><a href=#avt_mode>Работа калькулятора в автоматическом режиме</a>
+            <ul>
+                    <li><a href=#calculations>Выполнение операций</a></li>
+                    <li><a href=#stack>Использование стековой памяти</a></li>
+            </ul></li>
+            
+            <li><a href=#prog_mode>Работа калькулятора в режиме "Программирование"</a>
+            <ul>
+                <li><a href=#steps>Этапы вычислений по программам</a></li>
+            </ul></li>
+
+            <li><a href=#example>Программа решения квадратных уравнений</a>
+            <ul>
+                <li><a href=#example_calc>Выполнение вычислений</a></li>
+            </ul></li>
+        </ul>
+
+        <a name=common></a>
         <h3>Общие сведения</h3>
         <p>
             Ввод чисел, операций и команд в микрокалькулятор осуществляется нажатием соответствующих клавиш. 
-            Многие клавиши имеют двойную и тройную символику. Цвет символов, изображенных над клавишами, 
+            Многие клавиши имеют двойную и тройную символику. Цвет символов, изображённых над клавишами, 
             соответствует цвету клавиш <span id=but_f>f</span> и <span id=but_k>k</span>. Ввод функции, 
             символ которой изображён на клавишной панели, осуществляется следующим образом: сначала нажимают 
-            клавишу <span id=but_f>f</span> или <span id=but_k>k</span>, затем клавишу, над которой изображен 
+            клавишу <span id=but_f>f</span> или <span id=but_k>k</span>, затем клавишу, над которой изображён 
             символ вводимой функции. Назначение клавиш приведено в табл. 
             <a href="#table_keys">Назначение функциональных клавиш</a> и 
             <a href="#table_prog_keys">Назначение клавиш, используемых при программировании</a>.
@@ -52,19 +76,19 @@
                 <td><span id=code>0D</span></td></tr>
 
             <tr><td><span id=but>+</span></td>
-                <td>Сложение содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td>Сложение содержимого регистра Y с содержимым регистра X и передача результата в регистр X</td>
                 <td><span id=code>10</span></td></tr>
 
             <tr><td><span id=but>-</span></td>
-                <td>Вычитание содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td>Вычитание из содержимого регистра Y содержимого регистра X и передача результата в регистр X</td>
                 <td><span id=code>11</span></td></tr>
 
             <tr><td><span id=but>&times;</span></td>
-                <td>Умножение содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td>Умножение содержимого регистра Y на содержимое регистра X и передача результата в регистр X</td>
                 <td><span id=code>12</span></td></tr>
 
             <tr><td><span id=but>&divide;</span></td>
-                <td>Деление содержимого регистра Y на содержимое регистра X и передача результата в регистр Y</td>
+                <td>Деление содержимого регистра Y на содержимое регистра X и передача результата в регистр X</td>
                 <td><span id=code>13</span></td></tr>
 
             <tr><td><span id=but><span id=missing_symb><sup>=</sup></span></span></td>
@@ -350,7 +374,7 @@
                 с номером регистра из таблицы <a href=#table_regs>Номера и коды регистров</a>.
         </i></p> 
 
-        <h4>Регистры калькулятора</h4>
+        <a name=regs></a><h4>Регистры калькулятора</h4>
 
         <p>
             Для хранения исходных данных и промежуточных результатов в микрокалькуляторе предусмотрена регистровая память,
@@ -372,15 +396,16 @@
         </div>
 
         <p>
-            Запись числа в адресуемые регистры осуществляется из регистра X после нажатия клавиши <span id=but_b>x&rarr;п</span>
+            Запись числа в адресуемые регистры осуществляется из регистра X после нажатия клавиши 
+            <span id=but_b>x&rarr;п</span>
             и одной из клавиш <span id=but>0</span>-<span id=but>9</span>, 
-            <span id=reg>a</span>, <span id=reg>b</span>, <span id=reg>c</span>, <span id=reg>d</span>, <span id=reg>e</span>,
-            совпадающих с индексом адресуемого регистра.
+            <span id=reg>a</span>, <span id=reg>b</span>, <span id=reg>c</span>, <span id=reg>d</span>, 
+            <span id=reg>e</span>, совпадающих с индексом адресуемого регистра.
             При этом число, переданное в адресуемый регистр, сохраняется в регистре X
         </p>
         <p>
-            Вызов числа адресуемого регистра в регистр X осуществляется после нажатия клавиши <span id=but_b>п&rarr;х</span> 
-            и клавиш с индексом адресуемого регистра.
+            Вызов числа адресуемого регистра в регистр X осуществляется после нажатия клавиши 
+            <span id=but_b>п&rarr;х</span> и клавиш с индексом адресуемого регистра.
         </p>
         <p>
             Кроме адресуемых регистров в микрокалькуляторе имеется стековая память, состоящая из четырёх регистров: 
@@ -391,7 +416,7 @@
             находящегося в регистре X до выполнения операции.
         </p>
 
-        <h3>Работа калькулятора в автоматическом режиме</h3>
+        <a name=avt_mode></a><h3>Работа калькулятора в автоматическом режиме</h3>
         <p>
             Вычисления на микрокалькуляторе производятся в режиме "Автоматическая работа". Этот режим автоматически 
             устанавливается после включения питания микрокалькулятора или после нажатия клавиш 
@@ -399,7 +424,7 @@
             <span id=op_f>АВТ</span>, если до этого микрокалькулятор находился в режиме "Программирование".
         </p>
 
-        <h4>Выполнение операций</h4>
+        <a name=calculations></a><h4>Выполнение операций</h4>
         <p>
              Одноместные операции выполняются с числом, находящимся в регистре X. Результат одноместной операции 
              записывается в регистр X, при этом содержимое остальных регистров не изменяется.
@@ -445,7 +470,7 @@
             При выполнении некорректной операции на индикаторе высвечивается сигнал ошибки <span id=code>EDD0D</span>
         </p>
 
-        <h3>Использование стековой памяти</h3>
+        <a name=stack></a><h4>Использование стековой памяти</h4>
         <p>
             В стековую память входят четыре регистра X, У, Z и T, которые организованы по принципу магазинной памяти, 
             когда последовательно записанная информация может быть считана только в последовательности, обратной
@@ -533,7 +558,7 @@
                 </table>
         </p>
 
-        <h3>Работа калькулятора в режиме "Программирование"</h3>
+        <a href=prog_mode></a><h3>Работа калькулятора в режиме "Программирование"</h3>
         <p>
             В режиме "Программирование" микрокалькулятор устанавливается после нажатия клавиш 
             <span id=but_f>f</span>&nbsp;<span id=op_f>ПРГ</span>.
@@ -591,7 +616,7 @@
             </ol>
         </p>
 
-        <h4>Этапы вычислений по программам</h4>
+        <a name=steps></a><h4>Этапы вычислений по программам</h4>
 
         <p>Вычисления по программам производятся в следующем по рядке:
             <ol>
@@ -681,28 +706,33 @@
         <p>После выполнения программы прочитайте результат на индикаторе.
         </p>
 
-        <h3>Программа решения квадратных уравнений</h3>
+        <a name=example></a><h3>Программа решения квадратных уравнений</h3>
 
         <p>
             Рассмотрим программу для решения квадратных уравнений вида
             <b>a</b><i>x</i><sup>2</sup> + <b>b</b><i>x</i> + <b>c</b> = 0
         </p>
         <table>
-            <tr><th>Адр.</th><th>Команда</th><th>Примечание</th></tr>
+            <tr><th>Адр.</th><th>Команда</th><th>Код</th><th>Примечание</th></tr>
             <tr><td><span id=code>00</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td><span id=code>6L</span></td>
                 <td></td></tr>
             <tr><td><span id=code>01</span></td>
                 <td><span id=but_f>f</span>&nbsp;<span id=op_f>x<sup>2</sup></span></td>
+                <td><span id=code>22</span></td>
                 <td></td></tr>
             <tr><td><span id=code>02</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>c</span></td>
+                <td><span id=code>6C</span></td>
                 <td></td></tr>
             <tr><td><span id=code>03</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td><span id=code>6-</span></td>
                 <td></td></tr>
             <tr><td><span id=code>04</span></td>
                 <td><span id=but>4</span></td>
+                <td><span id=code>04</span></td>
                 <td>
                     Состояние стековой памяти
                     <table>
@@ -715,42 +745,55 @@
                 </td></tr>
             <tr><td><span id=code>05</span></td>
                 <td><span id=but>&times;</span></td>
+                <td><span id=code>12</span></td>
                 <td></td></tr>
             <tr><td><span id=code>06</span></td>
                 <td><span id=but>&times;</span></td>
+                <td><span id=code>12</span></td>
                 <td></td></tr>
             <tr><td><span id=code>07</span></td>
                 <td><span id=but>-</span></td>
+                <td><span id=code>11</span></td>
                 <td></td></tr>
             <tr><td><span id=code>08</span></td>
                 <td><span id=but_f>f</span>&nbsp;<span id=op_f><span id=missing_symb><sup>)</sup></span></span></td>
+                <td><span id=code>21</span></td>
                 <td></td></tr>
             <tr><td><span id=code>09</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>d</span></td>
+                <td><span id=code>4D</span></td>
                 <td>Сохраняем в регистре <span id=reg>d</span> значение &radic;(<b>b</b><sup>2</sup>-4<b>ac</b>)</td></tr>
             <tr><td><span id=code>10</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td><span id=code>6L</span></td>
                 <td></td></tr>
             <tr><td><span id=code>11</span></td>
                 <td><span id=but>/-/</span></td>
+                <td><span id=code>0L</span></td>
                 <td></td></tr>
             <tr><td><span id=code>12</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>b</span></td>
+                <td><span id=code>4L</span></td>
                 <td>Сохраняем в регистре <span id=reg>b</span> значение -<b>b</b> для дальнейших вычислений</td></tr>
             <tr><td><span id=code>13</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>d</span></td>
+                <td><span id=code>6D</span></td>
                 <td></td></tr>
             <tr><td><span id=code>14</span></td>
                 <td><span id=but>+</span></td>
+                <td><span id=code>10</span></td>
                 <td></td></tr>
             <tr><td><span id=code>15</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td><span id=code>6-</span></td>
                 <td></td></tr>
             <tr><td><span id=code>16</span></td>
                 <td><span id=but>2</span></td>
+                <td><span id=code>02</span></td>
                 <td></td></tr>
             <tr><td><span id=code>17</span></td>
                 <td><span id=but>&times;</span></td>
+                <td><span id=code>12</span></td>
                 <td>
                     Состояние стековой памяти
                     <table>
@@ -761,24 +804,31 @@
                 </td></tr>
             <tr><td><span id=code>18</span></td>
                 <td><span id=but_b>X&rarr;П</span>&nbsp;<span id=reg>a</span></td>
+                <td><span id=code>4-</span></td>
                 <td>Сохраняем в регистре <span id=reg>a</span> значение 2<b>a</b> для дальнейших вычислений</td></tr>
             <tr><td><span id=code>19</span></td>
                 <td><span id=but>&divide;</span></td>
+                <td><span id=code>13</span></td>
                 <td>В регистре X первый корень <i>x</i><sub>1</sub></td></tr>
             <tr><td><span id=code>20</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>b</span></td>
+                <td><span id=code>6L</span></td>
                 <td></td></tr>
             <tr><td><span id=code>21</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>d</span></td>
+                <td><span id=code>6D</span></td>
                 <td></td></tr>
             <tr><td><span id=code>22</span></td>
                 <td><span id=but>-</span></td>
+                <td><span id=code>11</span></td>
                 <td></td></tr>
             <tr><td><span id=code>23</span></td>
                 <td><span id=but_b>П&rarr;Х</span>&nbsp;<span id=reg>a</span></td>
+                <td><span id=code>6-</span></td>
                 <td></td></tr>
             <tr><td><span id=code>24</span></td>
                 <td><span id=but>&divide;</span></td>
+                <td><span id=code>13</span></td>
                 <td>
                     Состояние стековой памяти
                     <table>
@@ -789,10 +839,11 @@
                 </td></tr>
             <tr><td><span id=code>25</span></td>
                 <td><span id=but_b>С/П</span></td>
+                <td><span id=code>50</span></td>
                 <td>Останов программы</td></tr>
         </table>
 
-        <h4>Выполнение вычислений</h4>
+        <a name=example_calc></a><h4>Выполнение вычислений</h4>
             <p>
                 Перед выполнением вычислений необходимо коэффициенты <b>a</b>, <b>b</b>, <b>c</b> занести в регистры
                 <span id=reg>a</span>, <span id=reg>b</span>, <span id=reg>c</span> соответственно. После останова в
