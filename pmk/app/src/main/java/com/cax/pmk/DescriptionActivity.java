@@ -2,8 +2,6 @@ package com.cax.pmk;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Window;
 import android.webkit.WebView;
 
 /**
@@ -13,6 +11,8 @@ import android.webkit.WebView;
 public class DescriptionActivity extends Activity {
 
     public static final String KEY_DESCRIPTION = "keyDescription";
+
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,18 @@ public class DescriptionActivity extends Activity {
             description = args.getString(KEY_DESCRIPTION);
         }
 
-        WebView description_text = (WebView)findViewById(R.id.description_content);
-        description_text.loadData(description != null ? description : getString(R.string.default_description),
+        mWebView = (WebView)findViewById(R.id.description_content);
+        mWebView.loadData(description != null ? description : getString(R.string.default_description),
                 "text/html; charset=utf-8", "UTF-8");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

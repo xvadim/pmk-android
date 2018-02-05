@@ -10,14 +10,26 @@ import android.webkit.WebView;
  */
 
 public class InstructionActivity extends Activity {
+
+    private WebView mWebView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.description);
 
-        WebView instruction_text = (WebView)findViewById(R.id.description_content);
-        instruction_text.setBackgroundColor(Color.TRANSPARENT);
-        instruction_text.loadUrl("file:///android_asset/instruction.html");
+        mWebView = (WebView)findViewById(R.id.description_content);
+        mWebView.setBackgroundColor(Color.TRANSPARENT);
+        mWebView.loadUrl("file:///android_asset/instruction.html");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
