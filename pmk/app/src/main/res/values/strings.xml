@@ -195,7 +195,7 @@
     <string name="electronica" translatable="false">Электроника</string>
     <string name="app_name">MK 61/54</string>
 
-    <string name="labelPowerOnOff" translatable="false">Вкл</string>
+    <string name="labelPowerOnOff" translatable="false">Вкл\n(menu)</string>
     <string name="TextViewRadians" translatable="false">P</string>
     <string name="TextViewDegrees" translatable="false">Г</string>
     <string name="TextViewGrads" translatable="false">ГРД</string>
