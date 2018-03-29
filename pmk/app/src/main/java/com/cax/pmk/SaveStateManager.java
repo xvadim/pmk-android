@@ -339,25 +339,7 @@ public class SaveStateManager {
                 pointIndex++;
                 StringBuffer descrFileName = new StringBuffer(pFileName);
                 descrFileName.replace(pointIndex, pFileName.length(), "html");
-
-                File file = new File(descrFileName.toString());
-                FileInputStream fileIn = null;
-                try {
-                    fileIn = new FileInputStream(file);
-                    InputStreamReader inputStreamReader = new InputStreamReader(fileIn);
-                    int size = fileIn.available();
-                    char[] buffer = new char[size];
-                    inputStreamReader.read(buffer);
-                    inputStreamReader.close();
-                    fileIn.close();
-
-                    mProgramDescription = new String(buffer);
-                } catch (IOException ex) {
-                    mProgramDescription = null;
-                }
-                finally {
-                    try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
-                }
+                mProgramDescription = descrFileName.toString();
             }
         } catch (Exception ex) {}
     }

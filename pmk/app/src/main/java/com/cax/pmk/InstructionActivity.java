@@ -11,17 +11,26 @@ import android.webkit.WebView;
 
 public class InstructionActivity extends Activity {
 
+    public static final String KEY_INSTRUCTION_FILE = "keyInstructionFile";
     private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.description);
 
+        Bundle args = getIntent().getExtras();
+
+        String instructionFile = null;
+        if (args != null) {
+            instructionFile = args.getString(KEY_INSTRUCTION_FILE);
+        }
+        if (instructionFile == null) {
+            instructionFile = "/android_asset/instruction.html";
+        }
         mWebView = (WebView)findViewById(R.id.description_content);
         mWebView.setBackgroundColor(Color.TRANSPARENT);
-        mWebView.loadUrl("file:///android_asset/instruction.html");
+        mWebView.loadUrl("file://" + instructionFile);
     }
 
     @Override

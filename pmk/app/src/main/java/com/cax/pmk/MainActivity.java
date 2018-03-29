@@ -286,7 +286,12 @@ public class MainActivity extends Activity {
                  saveStateManager.importState(emulator);
                  return true;
              case R.id.menu_description:
-                 openProgramDescription(saveStateManager.mProgramDescription);
+                 Intent descrIntent = new Intent(this, InstructionActivity.class);
+                 if (saveStateManager.mProgramDescription != null) {
+                     descrIntent.putExtra(InstructionActivity.KEY_INSTRUCTION_FILE,
+                             saveStateManager.mProgramDescription);
+                 }
+                 startActivity(descrIntent);
                  return true;
              case R.id.menu_instruction:
                  startActivity(new Intent(this, InstructionActivity.class));
