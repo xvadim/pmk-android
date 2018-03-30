@@ -223,11 +223,18 @@ public class SkinHelper {
     static void styleIndicator(boolean grayscale, int mode) {
         TextView calculatorIndicator = (TextView) mainActivity.findViewById(R.id.textView_Indicator);
 
+        int indicatorTextColor = mainActivity.getResources().getColor(grayscale
+                ? R.color.indicatorDigitsGrayscale
+                : R.color.indicatorDigits);
+
         // set indicator digits color
-        calculatorIndicator.setTextColor(mainActivity.getResources().getColor(grayscale
-                        ? R.color.indicatorDigitsGrayscale
-                        : R.color.indicatorDigits
-        ));
+        calculatorIndicator.setTextColor(indicatorTextColor);
+        TextView indicator = (TextView)mainActivity.findViewById(R.id.indicatorTurbo);
+        indicator.setTextColor(indicatorTextColor);
+        indicator = (TextView)mainActivity.findViewById(R.id.indicatorF);
+        indicator.setTextColor(indicatorTextColor);
+        indicator = (TextView)mainActivity.findViewById(R.id.indicatorK);
+        indicator.setTextColor(indicatorTextColor);
 
         // set indicator background color
         int color;
