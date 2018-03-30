@@ -74,6 +74,13 @@ public class SkinHelper {
         Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_INDICATOR_DIGITS);
         calculatorIndicator.setTypeface(tf);
 
+        TextView indicator = (TextView)mainActivity.findViewById(R.id.indicatorF);
+        indicator.setTypeface(tf);
+        indicator = (TextView)mainActivity.findViewById(R.id.indicatorTurbo);
+        indicator.setTypeface(tf);
+        indicator = (TextView)mainActivity.findViewById(R.id.indicatorK);
+        indicator.setTypeface(tf);
+
         // use manually created symbols for some labels
         tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_MISSING_SYMBOLS);
         for (int viewId : new int[] { R.id.labelSquare, R.id.labelEpowerX, R.id.label10powerX, R.id.labelXpowerY, R.id.labelDot }) {
@@ -240,11 +247,12 @@ public class SkinHelper {
 
         calculatorIndicator.setBackgroundColor(mainActivity.getResources().getColor(color));
 
-        mainActivity.findViewById(R.id.indicatorTurbo).setVisibility(mode == 0 ? View.VISIBLE :
-                                                                                 View.INVISIBLE);
+        int indicatorVisibility = mode == 0 ? View.VISIBLE : View.INVISIBLE;
+
+        mainActivity.findViewById(R.id.indicatorTurbo).setVisibility(indicatorVisibility);
     }
 
-    static void styleButtonF(boolean grayscale, boolean isPressed, boolean borderOtherButtons) {
+    static void styleButtonF(boolean grayscale, boolean borderOtherButtons) {
         View buttonF = mainActivity.findViewById(R.id.buttonF);
 
         int bgResourceId;
@@ -252,17 +260,13 @@ public class SkinHelper {
             bgResourceId = borderOtherButtons ? R.drawable.button_yellow_border_grayscale :
                                                 R.drawable.button_yellow_grayscale;
         } else {
-            if (isPressed) {
-                bgResourceId = R.drawable.button_yellow_pressed;
-            } else {
-                bgResourceId = borderOtherButtons ? R.drawable.button_yellow_border :
-                                                    R.drawable.button_yellow;
-            }
+            bgResourceId = borderOtherButtons ? R.drawable.button_yellow_border :
+                    R.drawable.button_yellow;
         }
         buttonF.setBackgroundResource(bgResourceId);
     }
 
-    static void styleButtonK(boolean grayscale, boolean isPressed, boolean borderOtherButtons) {
+    static void styleButtonK(boolean grayscale, boolean borderOtherButtons) {
         View buttonK = mainActivity.findViewById(R.id.buttonK);
 
         int bgResourceId;
@@ -270,12 +274,8 @@ public class SkinHelper {
             bgResourceId = borderOtherButtons ? R.drawable.button_blue_border_grayscale :
                     R.drawable.button_blue_grayscale;
         } else {
-            if (isPressed) {
-                bgResourceId = R.drawable.button_blue_pressed;
-            } else {
-                bgResourceId = borderOtherButtons ? R.drawable.button_blue_border :
-                                                    R.drawable.button_blue;
-            }
+            bgResourceId = borderOtherButtons ? R.drawable.button_blue_border :
+                    R.drawable.button_blue;
         }
         buttonK.setBackgroundResource(bgResourceId);
     }
@@ -337,10 +337,10 @@ public class SkinHelper {
                     );
 
                 } else if (butId == R.id.buttonF) {
-                    styleButtonF(grayscale, false, borderOtherButtons);
+                    styleButtonF(grayscale, borderOtherButtons);
 
                 } else if (butId == R.id.buttonK) {
-                    styleButtonK(grayscale, false, borderOtherButtons);
+                    styleButtonK(grayscale, borderOtherButtons);
 
                 } else if (butId == R.id.buttonClear) {
                         b.setBackgroundResource(borderOtherButtons

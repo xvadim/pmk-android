@@ -60,7 +60,9 @@ public class MainActivity extends Activity {
     private boolean grayscale  = false;
     private boolean borderOtherButtons = true;
     private boolean buttonFPressed = false;
+    private TextView buttonFIndicator;
     private boolean buttonKPressed = false;
+    private TextView buttonKIndicator;
 
     private static final int sPowerOFF = 0;
     private static final int sPowerON = 1;
@@ -136,6 +138,9 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+
+        buttonFIndicator = (TextView)findViewById(R.id.indicatorF);
+        buttonKIndicator = (TextView)findViewById(R.id.indicatorK);
 
         setPowerOn(sPowerOFF);
     }
@@ -408,21 +413,21 @@ public class MainActivity extends Activity {
         int keycode = Integer.parseInt((String)view.getTag());
         if (keycode == 39) {    //button F
             buttonFPressed = true;
-            SkinHelper.styleButtonF(grayscale, true, borderOtherButtons);
+            buttonFIndicator.setVisibility(View.VISIBLE);
         } else {
             if (buttonFPressed) {
                 buttonFPressed = false;
-                SkinHelper.styleButtonF(grayscale, false, borderOtherButtons);
+                buttonFIndicator.setVisibility(View.INVISIBLE);
             }
         }
 
         if (keycode == 38) {    //button K
             buttonKPressed = true;
-            SkinHelper.styleButtonK(grayscale, true, borderOtherButtons);
+            buttonKIndicator.setVisibility(View.VISIBLE);
         } else {
             if (buttonKPressed) {
                 buttonKPressed = false;
-                SkinHelper.styleButtonK(grayscale, false, borderOtherButtons);
+                buttonKIndicator.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -558,8 +563,10 @@ public class MainActivity extends Activity {
             saveStateManager.deleteSlot(-1);
 
             setIndicatorColor(-1);
-
         }
+
+        findViewById(R.id.indicatorF).setVisibility(View.INVISIBLE);
+        findViewById(R.id.indicatorK).setVisibility(View.INVISIBLE);
     }
 
     private void setPowerOn(int mode) {
