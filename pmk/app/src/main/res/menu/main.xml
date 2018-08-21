@@ -1,13 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:title="@string/menu_about"/>
-    <item
-        android:id="@+id/menu_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/menu_settings"/>
+
 
     <item
         android:id="@+id/menu_swap_model"
@@ -35,9 +28,17 @@
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/menu_save"/>
     <item
+        android:id="@+id/menu_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_settings"/>
+    <item
         android:id="@+id/menu_instruction"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/menu_instruction"/>
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/menu_about"/>
     <item
         android:id="@+id/menu_donate"
         android:title="@string/menu_donate"/>

@@ -31,12 +31,14 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+                          implements PopupMenu.OnMenuItemClickListener{
 
     private final static int BUTTON_SOUNDS_NUMBER = 5;
     private static final String SOUND_BUTTON_CLICK_TEMPLATE = "sounds/button_click%d.ogg";
@@ -127,7 +129,11 @@ public class MainActivity extends Activity {
         findViewById(R.id.TextViewPowerOnOff).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openOptionsMenu();
+                PopupMenu popup = new PopupMenu(MainActivity.this, v);
+                popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
+                onPrepareOptionsMenu(popup.getMenu());
+                popup.setOnMenuItemClickListener(MainActivity.this);
+                popup.show();
             }
         });
 
@@ -307,6 +313,12 @@ public class MainActivity extends Activity {
              default:
                  return super.onOptionsItemSelected(item);
             }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        onOptionsItemSelected(item);
+        return true;
     }
     
     // ----------------------- Setting controls state --------------------------------
