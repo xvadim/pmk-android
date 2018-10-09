@@ -5,9 +5,6 @@
 
     <!--  min is 4  to support Android 1.6 -->
     <!--  max is 10 to ensure soft menu button will be shown on modern versions of Android -->
-    <uses-sdk
-        android:minSdkVersion="4"
-        android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
