@@ -7,12 +7,13 @@ import java.util.List;
 //import com.cax.pmk.R;
 import com.cax.pmk.widget.AutoScaleTextView;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.net.Uri;
-import android.net.nsd.NsdManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -22,7 +23,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,7 +38,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
-                          implements PopupMenu.OnMenuItemClickListener{
+                          implements PopupMenu.OnMenuItemClickListener
+{
+
+    private static int PENDING_PERMISSION_REQUEST = -1;
+    private static final int PERMISSION_REQUEST_READ_EXTERNAL = 0;
+    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL = 1;
 
     private final static int BUTTON_SOUNDS_NUMBER = 5;
     private static final String SOUND_BUTTON_CLICK_TEMPLATE = "sounds/button_click%d.ogg";
@@ -240,6 +245,15 @@ public class MainActivity extends Activity
         if (emulator == null) {
             saveStateManager.loadState(emulator, -1); // load persistence emulation state
         }
+
+        //check if we return from permission request
+        if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_WRITE_EXTERNAL) {
+            saveStateManager.exportState(emulator);
+        } else if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_READ_EXTERNAL) {
+            saveStateManager.importState(emulator);
+        }
+
+        PENDING_PERMISSION_REQUEST = -1;
     }
     
     // ----------------------- Menu hooks --------------------------------
@@ -291,10 +305,10 @@ public class MainActivity extends Activity
                 saveStateManager.chooseAndUseSaveSlot(emulator, false);
                 return true;
              case R.id.menu_export:
-                 saveStateManager.exportState(emulator);
+                 exportState();
                  return true;
              case R.id.menu_import:
-                 saveStateManager.importState(emulator);
+                 importState();
                  return true;
              case R.id.menu_description:
                  Intent descrIntent = new Intent(this, InstructionActivity.class);
@@ -319,6 +333,15 @@ public class MainActivity extends Activity
     public boolean onMenuItemClick(MenuItem item) {
         onOptionsItemSelected(item);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //save the current request, as real export/import will be performed in onREsume
+            PENDING_PERMISSION_REQUEST = requestCode;
+        }
     }
     
     // ----------------------- Setting controls state --------------------------------
@@ -601,5 +624,49 @@ public class MainActivity extends Activity
             descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, pProgramDescription);
         }
         startActivity(descrIntent);
+    }
+
+    private void exportState() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            saveStateManager.exportState(emulator);
+            return;
+        } else {
+
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                saveStateManager.exportState(emulator);
+                return;
+            } else {
+                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        PERMISSION_REQUEST_WRITE_EXTERNAL);
+            }
+        }
+    }
+
+    private void importState() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            saveStateManager.importState(emulator);
+            return;
+        } else {
+
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                saveStateManager.importState(emulator);
+                return;
+            } else {
+                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        PERMISSION_REQUEST_READ_EXTERNAL);
+            }
+        }
+    }
+
+    @TargetApi(23)
+    private void requestPermission(String aPermission, int aRequestCode) {
+        if (shouldShowRequestPermissionRationale(aPermission)) {
+            //TODO: show additional rationale
+            requestPermissions(new String[]{aPermission}, aRequestCode);
+        } else {
+            requestPermissions(new String[]{aPermission}, aRequestCode);
+        }
     }
 }
