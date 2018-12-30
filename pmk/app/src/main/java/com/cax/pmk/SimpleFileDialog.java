@@ -78,9 +78,8 @@ public class SimpleFileDialog
 	//////////////////////////////////////////////////////
 	// Callback interface for selected directory
 	//////////////////////////////////////////////////////
-	public interface SimpleFileDialogListener 
-	{
-		public void onChosenDir(String chosenDir);
+	public interface SimpleFileDialogListener  {
+		void onChosenDir(String chosenDir);
 	}
 
 	public SimpleFileDialog(Context context, String file_select_type, SimpleFileDialogListener SimpleFileDialogListener)
@@ -235,15 +234,15 @@ public class SimpleFileDialog
                 if (!fileName.equals("..") && fileName.startsWith(".")) {
                     continue;   //skip hidden files
                 }
-				if ( file.isDirectory())
-				{
+				if ( file.isDirectory()) {
 					// Add "/" to directory names to identify them in the list
 					dirs.add( fileName + "/" );
 				}
-				else if (Select_type == FileSave || Select_type == FileOpen)
-				{
-					// Add file names to the list if we are doing a file save or file open operation
-					dirs.add( fileName );
+				else if (Select_type == FileSave || Select_type == FileOpen) {
+                    if (fileName.endsWith(".pmk")) {
+                        // Add file names to the list if we are doing a file save or file open operation
+                        dirs.add(fileName);
+                    }
 				}
 			}
 		}
