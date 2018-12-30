@@ -71,6 +71,9 @@
     <string name="settings_vibrate_summary">Тактильний зворотні зв\'язок для клавіш та перемикачів</string>
     <string name="settings_vibrate_title">Вібрувати</string>
 
+    <string name="settings_category_data_storage">Зберігання програм</string>
+    <string name="settings_data_storage_title">Каталог програм</string>
+    <string name="settings_data_storage_summary">Каталог для зберігання програм</string>
 
     <string name="msg_about">
         <![CDATA[

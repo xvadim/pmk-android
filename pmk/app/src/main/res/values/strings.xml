@@ -67,6 +67,10 @@
     <string name="settings_button_sound_title">Sound type</string>
     <string name="settings_button_sound_summary">Select buttons sound from the list</string>
 
+    <string name="settings_category_data_storage">Data storage</string>
+    <string name="settings_data_storage_title">Programs directory</string>
+    <string name="settings_data_storage_summary">Directory for storing programs</string>
+
     <string name="settings_category_buttons">Buttons</string>
     <string name="settings_on_button_touch_title">Pressed on touch</string>
     <string name="settings_on_button_touch_summary">Buttons react when touched and not when released</string>

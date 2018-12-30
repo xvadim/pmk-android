@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -17,7 +16,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -208,15 +206,7 @@ public class SaveStateManager {
                     }
                 });
 
-        String programsDir = PreferenceManager.getDefaultSharedPreferences(mainActivity)
-                                              .getString(PreferencesActivity.PROGRAMS_DIR_KEY,
-                                                         PreferencesActivity.DEFAULT_DUMMY_STRING);
-        FileOpenDialog.Default_File_Name = "dump.pmk";
-        if (programsDir == null) {
-            FileOpenDialog.chooseFile_or_Dir();
-        } else {
-            FileOpenDialog.chooseFile_or_Dir(programsDir);
-        }
+        setupDataStorage(FileOpenDialog);
 
         return true;
     }
@@ -283,17 +273,27 @@ public class SaveStateManager {
                     }
                 });
 
-        String programsDir = PreferenceManager.getDefaultSharedPreferences(mainActivity)
-                .getString(PreferencesActivity.PROGRAMS_DIR_KEY,
-                        PreferencesActivity.DEFAULT_DUMMY_STRING);
+        setupDataStorage(FileOpenDialog);
+
+        return true;
+    }
+
+    private void setupDataStorage(SimpleFileDialog FileOpenDialog) {
+        String programsDir = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        String dataStorage = prefs.getString(PreferencesActivity.PREFERENCE_DATA_STORAGE,
+                PreferencesActivity.PREFERENCE_DATA_STORAGE_DEF_VALUE);
+
+        if (dataStorage.equals(PreferencesActivity.PREFERENCE_DATA_STORAGE_DEF_VALUE)) {
+            programsDir = prefs.getString(PreferencesActivity.PROGRAMS_DIR_KEY,
+                    PreferencesActivity.DEFAULT_DUMMY_STRING);
+        }
         FileOpenDialog.Default_File_Name = "dump.pmk";
         if (programsDir == null) {
             FileOpenDialog.chooseFile_or_Dir();
         } else {
             FileOpenDialog.chooseFile_or_Dir(programsDir);
         }
-
-        return true;
     }
 
     private boolean loadStateFromFile(EmulatorInterface emulator, FileInputStream fileIn) {

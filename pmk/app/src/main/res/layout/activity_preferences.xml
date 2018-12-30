@@ -1,4 +1,7 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
 
     <!-- ================ -->
     <!-- Screen settings -->
@@ -171,6 +174,20 @@
                 android:layout="@layout/preferences_layout"
                 android:summary="@string/settings_button_sound_summary"
                 android:title="@string/settings_button_sound_title" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:title="@string/settings_category_data_storage ">
+            <ListPreference
+                android:key="pref_data_storage"
+                android:defaultValue="2"
+                android:layout="@layout/preferences_layout"
+                android:entries="@array/dataStorageVariants"
+                android:entryValues="@array/dataStorageVariantsValues"
+                android:summary="@string/settings_data_storage_summary"
+                android:title="@string/settings_data_storage_title"
+                />
+
         </PreferenceCategory>
     </PreferenceScreen>
 

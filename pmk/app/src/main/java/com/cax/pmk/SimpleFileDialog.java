@@ -37,8 +37,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 //import android.content.DialogInterface.OnKeyListener;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Gravity;
 //import android.view.KeyEvent;
 import android.view.View;
@@ -50,6 +53,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class SimpleFileDialog 
 {
@@ -86,7 +91,16 @@ public class SimpleFileDialog
 		else Select_type = FileOpen;
 		
 		m_context = context;
-		m_sdcardDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String dataStorage = prefs.getString(PreferencesActivity.PREFERENCE_DATA_STORAGE,
+                PreferencesActivity.PREFERENCE_DATA_STORAGE_DEF_VALUE);
+
+		if (dataStorage.equals("1")) {
+            m_sdcardDirectory = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getAbsolutePath();
+        } else {
+            m_sdcardDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
+        }
 		m_SimpleFileDialogListener = SimpleFileDialogListener;
 
 		try

@@ -16,4 +16,10 @@
         <item name="5">Звук клавіши 5</item>
     </string-array>
 
+    <string-array name="dataStorageVariants">
+        <item>Зовнішнє сховище </item>
+        <item>Папка завантажень </item>
+        <item>Останнє використане місце</item>
+    </string-array>
+
 </resources>

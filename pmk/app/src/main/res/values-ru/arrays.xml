@@ -16,4 +16,10 @@
         <item name="5">Звук клавиши 5</item>
     </string-array>
 
+    <string-array name="dataStorageVariants">
+        <item>Внешнее хранилище </item>
+        <item>Папка загрузкок</item>
+        <item>Последняя использовавшаяся папка</item>
+    </string-array>
+
 </resources>

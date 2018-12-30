@@ -22,6 +22,10 @@ public class PreferencesActivity extends PreferenceActivity {
 	static final String PREFERENCE_SOUND				= "pref_sound";
 	static final String PREFERENCE_BUTTON_SOUND			= "pref_button_sound";
 	static final String PREFERENCE_ON_BUTTON_TOUCH		= "pref_on_button_touch";
+
+	static final String PREFERENCE_DATA_STORAGE         = "pref_data_storage";
+	//by default use the last dir
+    static final String PREFERENCE_DATA_STORAGE_DEF_VALUE = "2";
 	
 	// internal settings
 	static final String ANGLE_MODE_PREFERENCE_KEY		= "angleMode";

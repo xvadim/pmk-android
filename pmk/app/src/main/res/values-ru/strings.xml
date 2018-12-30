@@ -66,6 +66,10 @@
     <string name="settings_on_button_touch_title">Нажатие по касанию</string>
     <string name="settings_on_button_touch_summary">Срабатывание клавиш происходит в момент касания, а не после отпускания</string>
 
+    <string name="settings_category_data_storage">Хранилище программ</string>
+    <string name="settings_data_storage_title">Каталог программ</string>
+    <string name="settings_data_storage_summary">Каталог для хранения программ</string>
+
 <!-- Dialogs buttons labels -->		
     <string name="label_save">Сохранить</string>
     <string name="label_load">Загрузить</string>
