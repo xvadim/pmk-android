@@ -575,7 +575,9 @@ public class MainActivity extends Activity
                                                       PreferencesActivity.DEFAULT_DUMMY_STRING)),
                 sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_BLACK_BUTTONS,
                                       PreferencesActivity.DEFAULT_DUMMY_BOOLEAN),
-                borderOtherButtons);
+                borderOtherButtons,
+                mkModel == 1 ||
+                        sharedPref.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54, false));
     }
         
     private void switchOnCalculator(boolean enable) {

@@ -71,6 +71,9 @@
     <string name="settings_data_storage_title">Programs directory</string>
     <string name="settings_data_storage_summary">Directory for storing programs</string>
 
+    <string name="settings_category_other">Other</string>
+    <string name="settings_other_mem_buttons_34">ИП and П buttons for МК-61</string>
+
     <string name="settings_category_buttons">Buttons</string>
     <string name="settings_on_button_touch_title">Pressed on touch</string>
     <string name="settings_on_button_touch_summary">Buttons react when touched and not when released</string>

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,15 +134,10 @@ public class SkinHelper {
             Button clearButton = (Button)mainActivity.findViewById(R.id.buttonClear);
             clearButton.setText("Cx");
             Typeface tf = clearButton.getTypeface();
-            Button b = (Button) mainActivity.findViewById(R.id.buttonRegisterToX);
-            b.setText("ИП");
-            b.setTypeface(tf);
 
-            b = (Button)mainActivity.findViewById(R.id.buttonXToRegister);
-            b.setText("П");
-            b.setTypeface(tf);
+            setMemoryButtonsSkin(true);
 
-            b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
+            Button b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText("XY");
             b.setTypeface(tf);
         } else { // 0 for MK-61
@@ -164,20 +161,42 @@ public class SkinHelper {
             ((TextView) mainActivity.findViewById(R.id.labelNop54)).setText("");
             ((Button)mainActivity.findViewById(R.id.buttonClear)).setText("CX");
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+            boolean isMemButtons34 = prefs.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54,
+                    false);
+
             // use manually created symbols for some buttons
             Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_MISSING_SYMBOLS);
-            Button b = (Button) mainActivity.findViewById(R.id.buttonRegisterToX);
-            b.setText(mainActivity.getString(R.string.buttonRegisterToX));
-            b.setTypeface(tf, Typeface.NORMAL);
+            setMemoryButtonsSkin(isMemButtons34);
 
-            b = (Button)mainActivity.findViewById(R.id.buttonXToRegister);
-            b.setText(mainActivity.getString(R.string.buttonXToRegister));
-            b.setTypeface(tf, Typeface.NORMAL);
-
-            b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
+            Button b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText(mainActivity.getString(R.string.buttonExchangeXY));
             b.setTypeface(tf, Typeface.NORMAL);
         }
+    }
+
+    static void setMemoryButtonsSkin(boolean isMK54) {
+         if (isMK54) {
+             Button clearButton = mainActivity.findViewById(R.id.buttonClear);
+             Typeface tf = clearButton.getTypeface();
+             Button b = mainActivity.findViewById(R.id.buttonRegisterToX);
+             b.setText("ИП");
+             b.setTypeface(tf);
+
+             b = mainActivity.findViewById(R.id.buttonXToRegister);
+             b.setText("П");
+             b.setTypeface(tf);
+         } else {
+             Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_MISSING_SYMBOLS);
+             // use manually created symbols for some buttons
+             Button b = mainActivity.findViewById(R.id.buttonRegisterToX);
+             b.setText(mainActivity.getString(R.string.buttonRegisterToX));
+             b.setTypeface(tf, Typeface.NORMAL);
+
+             b = mainActivity.findViewById(R.id.buttonXToRegister);
+             b.setText(mainActivity.getString(R.string.buttonXToRegister));
+             b.setTypeface(tf, Typeface.NORMAL);
+         }
     }
 
     static List<View> getAllChildrenBFS(View v) {
@@ -199,7 +218,8 @@ public class SkinHelper {
 
     static void style(boolean grayscale, int indicatorMode,
                 float prefButtonTextSize, float prefLabelTextSize,
-                boolean borderBlackButtons, boolean borderOtherButtons) {
+                boolean borderBlackButtons, boolean borderOtherButtons,
+                      boolean isMK54MemoryButtons) {
         // set background
         styleScreen(grayscale);
 
@@ -213,6 +233,8 @@ public class SkinHelper {
         
         // style labels above buttons
         SkinHelper.styleLabels(grayscale);
+
+        SkinHelper.setMemoryButtonsSkin(isMK54MemoryButtons);
     }
 
     /**

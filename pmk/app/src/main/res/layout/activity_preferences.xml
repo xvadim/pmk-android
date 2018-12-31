@@ -110,6 +110,18 @@
                 android:summary="@string/settings_scaling_labels_summary"
                 android:title="@string/settings_scaling_labels" />
         </PreferenceCategory>
+
+        <PreferenceCategory
+            android:title="@string/settings_category_other"
+            android:key="prefs_other"
+            >
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_mem_buttons_54"
+                android:layout="@layout/preferences_layout"
+                android:title="@string/settings_other_mem_buttons_34" />
+
+        </PreferenceCategory>
     </PreferenceScreen>
 
     <!-- ================== -->

@@ -62,6 +62,9 @@
     <string name="settings_button_sound_title">Тип звука</string>
     <string name="settings_button_sound_summary">Выбрать звук клавиш из списка</string>
 
+    <string name = "settings_category_other"> Всякое </string>
+    <string name = "settings_other_mem_buttons_34">Кнопки ИП и П для МК-61 </string>
+
     <string name="settings_category_buttons">Клавиши</string>
     <string name="settings_on_button_touch_title">Нажатие по касанию</string>
     <string name="settings_on_button_touch_summary">Срабатывание клавиш происходит в момент касания, а не после отпускания</string>
