@@ -637,10 +637,6 @@ public class MainActivity extends Activity
 
     private void exportState() {
 
-        String path1 = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String path2 = getExternalFilesDir(null).getAbsolutePath();
-        String path3 = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getAbsolutePath();
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.exportState(emulator);
             return;
