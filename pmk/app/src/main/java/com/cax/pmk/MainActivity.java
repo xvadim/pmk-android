@@ -15,8 +15,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.UserHandle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
@@ -25,7 +23,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -39,10 +36,6 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static android.widget.Toast.LENGTH_LONG;
 
 public class MainActivity extends Activity
                           implements PopupMenu.OnMenuItemClickListener
