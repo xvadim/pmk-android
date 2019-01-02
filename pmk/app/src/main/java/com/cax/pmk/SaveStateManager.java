@@ -193,14 +193,21 @@ public class SaveStateManager {
 
                         FileOutputStream fileOut = null;
                         try {
+                            emulator.setSaveStateName(chosenFileName);
                             fileOut = new FileOutputStream(file);
                             if (!saveStateStoppingEmulatorToFile(emulator, fileOut)) {
+                                showErrorMessage(R.string.export_common_error);
+                            }
+
+                            //keep going
+                            mainActivity.setEmulator(null);
+                            FileInputStream fileIn = new FileInputStream(file);
+                            if (!loadStateFromFile(null, fileIn)) {
                                 showErrorMessage(R.string.export_common_error);
                             }
                         } catch (IOException e) {
                             showErrorMessage(R.string.export_common_error);
                         } finally {
-                            mainActivity.setEmulator(null);
                             try { if (fileOut != null) fileOut.close(); } catch(IOException i) {}
                         }
                     }
