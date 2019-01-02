@@ -350,6 +350,7 @@ public class SimpleFileDialog
 		if (Select_type == FileOpen || Select_type == FileSave)
 		{
 			input_text = new EditText(m_context);
+			input_text.setSingleLine();
 			input_text.setText(Default_File_Name);
             if (Select_type == FileOpen) {
                 input_text.setEnabled(false);
