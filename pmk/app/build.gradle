@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.cax.pmk.ext"
-        minSdkVersion 11
+        minSdkVersion 10
         targetSdkVersion 26
         versionCode 289
         versionName "2.8.9"
