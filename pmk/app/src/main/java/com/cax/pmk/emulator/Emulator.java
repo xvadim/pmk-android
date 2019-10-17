@@ -94,6 +94,18 @@ public class Emulator extends Thread implements EmulatorInterface
 		return saveStateName;
 	}
 
+	public String indicatorString() {
+		StringBuffer indBuf = new StringBuffer(24);
+		indBuf.setLength(0);
+		for (int ix = 0; ix < 12; ix++) {
+			indBuf.append(show_symbols[indicator[ix]]);
+			if (ind_comma[ix]) {
+				indBuf.append(".");
+			}
+		}
+		return indBuf.toString();
+	}
+
 	public void keypad(int keycode) {
 		IK1302.keyb_x = (keycode % 10) + 2;
 		keycode /= 10;

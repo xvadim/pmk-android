@@ -190,5 +190,6 @@
     </string>
 
     <string name="app_name">MK 61/54</string>
+    <string name="menu_copy_x">Копировать рег. X</string>
 
 </resources>

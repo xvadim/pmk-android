@@ -10,6 +10,7 @@ public interface EmulatorInterface extends Runnable, java.io.Externalizable
     public int  getMkModel();
 	public void setSaveStateName(String name);
     public String getSaveStateName();
+    public String indicatorString();
     public void keypad(int keycode);
     public void initTransient(MainActivity mainActivity);
     public void stopEmulator(boolean forced);

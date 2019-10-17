@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "com.cax.pmk.ext"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 28
-        versionCode 289
-        versionName "2.8.9"
+        versionCode 290
+        versionName "2.9.0"
 
         lintOptions {
             checkReleaseBuilds false

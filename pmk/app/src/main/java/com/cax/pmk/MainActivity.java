@@ -9,6 +9,9 @@ import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -150,8 +153,8 @@ public class MainActivity extends Activity
             }
         });
 
-        buttonFIndicator = (TextView)findViewById(R.id.indicatorF);
-        buttonKIndicator = (TextView)findViewById(R.id.indicatorK);
+        buttonFIndicator = findViewById(R.id.indicatorF);
+        buttonKIndicator = findViewById(R.id.indicatorK);
 
         setPowerOn(sPowerOFF);
     }
@@ -307,6 +310,9 @@ public class MainActivity extends Activity
              case R.id.menu_export:
                  exportState();
                  return true;
+             case R.id.menu_copy_c:
+                 copyToClipboard();
+                 return true;
              case R.id.menu_import:
                  importState();
                  return true;
@@ -374,7 +380,7 @@ public class MainActivity extends Activity
     public void displayIndicator(final String text) {
         runOnUiThread(new Runnable() {
            public void run() {
-               TextView calculatorIndicator = (TextView) findViewById(R.id.textView_Indicator);
+               TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
                if (calculatorIndicator != null)
                    calculatorIndicator.setText(text);
            }
@@ -530,7 +536,7 @@ public class MainActivity extends Activity
         borderOtherButtons = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_OTHER_BUTTONS,
                                           PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
 
-        TextView calculatorIndicator = (TextView) findViewById(R.id.textView_Indicator);
+        TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
         calculatorIndicator.setKeepScreenOn(
                 sharedPref.getBoolean(PreferencesActivity.PREFERENCE_SCREEN_ALWAYS_ON,
                                       PreferencesActivity.DEFAULT_DUMMY_BOOLEAN));
@@ -544,15 +550,15 @@ public class MainActivity extends Activity
         boolean sliderOnOff = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_SLIDER_ON_OFF, 
                                                     PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
         
-        SeekBar powerOnOffSlider 	= (SeekBar) findViewById(R.id.powerOnOffSlider);
+        SeekBar powerOnOffSlider 	= findViewById(R.id.powerOnOffSlider);
         if (powerOnOffSlider   != null) powerOnOffSlider  .setVisibility(sliderOnOff ? View.VISIBLE : View.GONE);
-        CheckBox powerOnOffCheckBox	= (CheckBox)findViewById(R.id.powerOnOffCheckBox);
+        CheckBox powerOnOffCheckBox	= findViewById(R.id.powerOnOffCheckBox);
         if (powerOnOffCheckBox != null) powerOnOffCheckBox.setVisibility(sliderOnOff ? View.GONE    : View.VISIBLE);
 
         boolean sliderAngle = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_SLIDER_ANGLE, 
                                                     PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
         
-        SeekBar angleModeSlider	= (SeekBar) findViewById(R.id.angleModeSlider);
+        SeekBar angleModeSlider	= findViewById(R.id.angleModeSlider);
         angleModeSlider.setVisibility(sliderAngle ? View.VISIBLE : View.GONE);
         int visibility = sliderAngle ? View.GONE : View.VISIBLE;
         findViewById(R.id.radioRadians).setVisibility(visibility);
@@ -590,7 +596,7 @@ public class MainActivity extends Activity
                 emulator = null;
             }
 
-            TextView calculatorIndicator = (TextView) findViewById(R.id.textView_Indicator);
+            TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
             calculatorIndicator.setText(EMPTY_INDICATOR);
             
             // just in case...
@@ -649,18 +655,33 @@ public class MainActivity extends Activity
     private void importState() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.importState(emulator);
-            return;
         } else {
 
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED) {
                 saveStateManager.importState(emulator);
-                return;
             } else {
                 requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                         PERMISSION_REQUEST_READ_EXTERNAL);
             }
         }
+    }
+
+    private void copyToClipboard() {
+        String indStr = emulator.indicatorString();
+        String valueX = indStr.substring(0, 10).trim();
+        int lastIdx = valueX.length() - 1;
+        if (valueX.charAt(lastIdx) == '.') {
+            //remove trailing coma
+            valueX = valueX.substring(0, lastIdx);
+        }
+        if (indStr.charAt(11) != ' ') {
+            //add exponent if it needed
+            valueX = valueX + "e" + indStr.substring(10);
+        }
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("MK-54/61 Emulator", valueX);
+        clipboard.setPrimaryClip(clip);
     }
 
     @TargetApi(23)
