@@ -159,10 +159,11 @@
                 <p>
                 Описание программы хранится в <b><i>html</i></b>-файле с таким же именем, как и у файла с программой.
                 </p>
+                <p><a href="https://xvadim.github.io/xbasoft/pmk/program_package.html">Описание</a> файла с описанием программы.</p>
 
                 <p>
                 Вы можете скачать несколько МК-программ и их описаний из этого
-                <a href="https://xvadim.github.io/xbasoft//pmk/pmk.html#programs">репозитария</a>.
+                <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html#programs">репозитария</a>.
                 </p>
             </body>
         </html>

@@ -26,7 +26,7 @@ public class DescriptionActivity extends Activity {
             description = args.getString(KEY_DESCRIPTION);
         }
 
-        mWebView = (WebView)findViewById(R.id.description_content);
+        mWebView = findViewById(R.id.description_content);
         mWebView.loadData(description != null ? description : getString(R.string.default_description),
                 "text/html; charset=utf-8", "UTF-8");
 

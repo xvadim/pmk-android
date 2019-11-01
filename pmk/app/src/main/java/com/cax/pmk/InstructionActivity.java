@@ -28,7 +28,7 @@ public class InstructionActivity extends Activity {
         if (instructionFile == null) {
             instructionFile = "/android_asset/instruction.html";
         }
-        mWebView = (WebView)findViewById(R.id.description_content);
+        mWebView = findViewById(R.id.description_content);
         mWebView.setBackgroundColor(Color.TRANSPARENT);
         mWebView.loadUrl("file://" + instructionFile);
     }

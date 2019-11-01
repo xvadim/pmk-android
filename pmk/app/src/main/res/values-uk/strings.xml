@@ -139,12 +139,14 @@
                 </p>
 
                 <p>
-                Опис програми зберігається в <b><i>html</i></b>-файлі з тим же ім\'ям, що й у фала з програмою.
+                Опис програми зберігається в <b><i>html</i></b>-файлі з тим же ім\'ям, що й у файла з програмою.
                 </p>
+                <p><a href="https://xvadim.github.io/xbasoft/pmk/program_package.html">Опис</a> файлу з описом програми.</p>
+
 
                 <p>
                 Декілька МК-програм та їх описів можна скачати з цього
-                <a href="https://xvadim.github.io/xbasoft//pmk/pmk.html#programs">репозитарію</a>.
+                <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html#programs">репозитарію</a>.
                 </p>
             </body>
         </html>

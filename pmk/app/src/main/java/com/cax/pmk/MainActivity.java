@@ -317,12 +317,14 @@ public class MainActivity extends Activity
                  importState();
                  return true;
              case R.id.menu_description:
-                 Intent descrIntent = new Intent(this, InstructionActivity.class);
-                 if (saveStateManager.mProgramDescription != null) {
+                 if (saveStateManager.mProgramDescription == null) {
+                     openProgramDescription(null);
+                 } else {
+                     Intent descrIntent = new Intent(this, InstructionActivity.class);
                      descrIntent.putExtra(InstructionActivity.KEY_INSTRUCTION_FILE,
                              saveStateManager.mProgramDescription);
+                     startActivity(descrIntent);
                  }
-                 startActivity(descrIntent);
                  return true;
              case R.id.menu_instruction:
                  startActivity(new Intent(this, InstructionActivity.class));
