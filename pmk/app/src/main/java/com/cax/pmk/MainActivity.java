@@ -265,6 +265,7 @@ public class MainActivity extends Activity
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
         MenuItem menu_descr = menu.findItem(R.id.menu_description);
+        MenuItem menu_copy_x = menu.findItem(R.id.menu_copy_x);
 
         if(poweredOn == sPowerON)
         {           
@@ -272,6 +273,7 @@ public class MainActivity extends Activity
             menu_save.setVisible(true);
             menu_export.setVisible(true);
             menu_descr.setVisible(true);
+            menu_copy_x.setVisible(true);
         }
         else
         {
@@ -279,6 +281,7 @@ public class MainActivity extends Activity
             menu_save.setVisible(false);
             menu_export.setVisible(false);
             menu_descr.setVisible(false);
+            menu_copy_x.setVisible(false);
         }
         return true;
     }
@@ -310,7 +313,7 @@ public class MainActivity extends Activity
              case R.id.menu_export:
                  exportState();
                  return true;
-             case R.id.menu_copy_c:
+             case R.id.menu_copy_x:
                  copyToClipboard();
                  return true;
              case R.id.menu_import:

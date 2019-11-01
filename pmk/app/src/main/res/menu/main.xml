@@ -28,7 +28,7 @@
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/menu_save"/>
     <item
-        android:id="@+id/menu_copy_c"
+        android:id="@+id/menu_copy_x"
         android:icon="@android:drawable/ic_menu_share"
         android:title="@string/menu_copy_x"/>
 
