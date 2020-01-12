@@ -20,6 +20,9 @@
     <dimen name="slider_width_on_off">65dp</dimen>
     <dimen name="slider_thumb_width_on_off">50dp</dimen>
     <dimen name="button_font_size_regular">25sp</dimen>
+    <dimen name="button_font_size_info_panel">22sp</dimen>
+    <dimen name="button_info_panel_min_width">56dp</dimen>
+    <dimen name="button_info_panel_min_height">44dp</dimen>
     <dimen name="button_radius">4dp</dimen>
     <dimen name="button_white_border">2px</dimen>
     <dimen name="button_black_border">4px</dimen>

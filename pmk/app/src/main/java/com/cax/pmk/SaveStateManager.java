@@ -340,6 +340,7 @@ public class SaveStateManager {
     }
 
     private void loadProgramDescription(String pFileName) {
+        mProgramDescription = null;
         try {
             int pointIndex = pFileName.lastIndexOf('.');
             if (pointIndex != -1) {

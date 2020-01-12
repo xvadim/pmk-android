@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -26,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -74,6 +76,18 @@ public class MainActivity extends Activity
     private boolean buttonKPressed = false;
     private TextView buttonKIndicator;
 
+    private GestureDetector swipeDetector;
+
+    class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            if(event2.getX() < event1.getX()){
+                MainActivity.this.openInfoActivity();
+            }
+            return true;
+        }
+    }
+
     private static final int sPowerOFF = 0;
     private static final int sPowerON = 1;
     private int poweredOn = sPowerOFF;
@@ -82,7 +96,7 @@ public class MainActivity extends Activity
     private boolean makeSounds = false;
     private int buttonSoundType = 0;
     private SoundPool soundPool = null;
-    private int buttonSoundId[] = new int[BUTTON_SOUNDS_NUMBER];
+    private int[] buttonSoundId = new int[BUTTON_SOUNDS_NUMBER];
 
     private SaveStateManager saveStateManager = null;
 
@@ -100,7 +114,7 @@ public class MainActivity extends Activity
         }
 
         // let AutoScaleTextView do the work - set font size and fix layout
-        TextView calculatorIndicator = (TextView) findViewById(R.id.textView_Indicator);
+        TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
         calculatorIndicator.setText(EMPTY_INDICATOR);
 
         // preferences activation
@@ -109,14 +123,14 @@ public class MainActivity extends Activity
         setIndicatorColor(-1);
 
         // set listeners for slider movement
-        SeekBar angleModeSlider	= (SeekBar) findViewById(R.id.angleModeSlider);
+        SeekBar angleModeSlider	= findViewById(R.id.angleModeSlider);
         angleModeSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { if (fromUser) onAngleMode(progress); }
         });
         
-        SeekBar powerOnOffSlider = (SeekBar) findViewById(R.id.powerOnOffSlider);
+        SeekBar powerOnOffSlider = findViewById(R.id.powerOnOffSlider);
         if (powerOnOffSlider != null) powerOnOffSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {} 
@@ -199,7 +213,8 @@ public class MainActivity extends Activity
         speedMode = sharedPref.getInt(PreferencesActivity.SPEED_MODE_PREFERENCE_KEY, PreferencesActivity.DEFAULT_SPEED_MODE);
         setAngleModeControl(sharedPref.getInt(PreferencesActivity.ANGLE_MODE_PREFERENCE_KEY, PreferencesActivity.DEFAULT_ANGLE_MODE));
         setMkModel(sharedPref.getInt(PreferencesActivity.MK_MODEL_PREFERENCE_KEY, PreferencesActivity.DEFAULT_MK_MODEL), false);
-        
+
+        swipeDetector = new GestureDetector(this, new SwipeGestureListener());
     }
         
     @Override
@@ -258,13 +273,18 @@ public class MainActivity extends Activity
 
         PENDING_PERMISSION_REQUEST = -1;
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        swipeDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
     
     // ----------------------- Menu hooks --------------------------------
     public boolean onPrepareOptionsMenu(Menu menu)  {
         MenuItem menu_save = menu.findItem(R.id.menu_save);
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
-        MenuItem menu_descr = menu.findItem(R.id.menu_description);
         MenuItem menu_copy_x = menu.findItem(R.id.menu_copy_x);
 
         if(poweredOn == sPowerON)
@@ -272,7 +292,6 @@ public class MainActivity extends Activity
             menu_swap.setVisible(false);
             menu_save.setVisible(true);
             menu_export.setVisible(true);
-            menu_descr.setVisible(true);
             menu_copy_x.setVisible(true);
         }
         else
@@ -280,7 +299,6 @@ public class MainActivity extends Activity
             menu_swap.setVisible(true);
             menu_save.setVisible(false);
             menu_export.setVisible(false);
-            menu_descr.setVisible(false);
             menu_copy_x.setVisible(false);
         }
         return true;
@@ -296,7 +314,7 @@ public class MainActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
          switch (item.getItemId()) {
              case R.id.menu_about:
-                openAbout();
+                openProgsRepository();
                 return true;
              case R.id.menu_settings:
                 MenuHelper.goSettingsScreen();
@@ -319,18 +337,8 @@ public class MainActivity extends Activity
              case R.id.menu_import:
                  importState();
                  return true;
-             case R.id.menu_description:
-                 if (saveStateManager.mProgramDescription == null) {
-                     openProgramDescription(null);
-                 } else {
-                     Intent descrIntent = new Intent(this, InstructionActivity.class);
-                     descrIntent.putExtra(InstructionActivity.KEY_INSTRUCTION_FILE,
-                             saveStateManager.mProgramDescription);
-                     startActivity(descrIntent);
-                 }
-                 return true;
              case R.id.menu_instruction:
-                 startActivity(new Intent(this, InstructionActivity.class));
+                 openInfoActivity();
                  return true;
              case R.id.menu_donate:
                  openProgramDescription(getString(R.string.msg_donate));
@@ -358,7 +366,7 @@ public class MainActivity extends Activity
     // ----------------------- Setting controls state --------------------------------
     void setAngleModeControl(int mode) {
         angleMode = mode;
-        SeekBar angleModeSlider	= (SeekBar) findViewById(R.id.angleModeSlider);
+        SeekBar angleModeSlider	= findViewById(R.id.angleModeSlider);
         angleModeSlider.setProgress(angleMode);
 
         ((RadioButton) findViewById(R.id.radioRadians)).setChecked(angleMode == 0);
@@ -368,9 +376,9 @@ public class MainActivity extends Activity
     
     void setPowerOnOffControl(int mode) {
         setPowerOn(mode);
-        SeekBar powerOnOffSlider 	= (SeekBar) findViewById(R.id.powerOnOffSlider);
+        SeekBar powerOnOffSlider 	= findViewById(R.id.powerOnOffSlider);
         if (powerOnOffSlider   != null && powerOnOffSlider.getProgress() != mode) powerOnOffSlider.setProgress(mode);
-        CheckBox powerOnOffCheckBox	= (CheckBox)findViewById(R.id.powerOnOffCheckBox);
+        CheckBox powerOnOffCheckBox	= findViewById(R.id.powerOnOffCheckBox);
         if (powerOnOffCheckBox != null && (powerOnOffCheckBox.isChecked() ? 1:0) != mode) powerOnOffCheckBox.setChecked(mode==1);
     }
 
@@ -622,13 +630,13 @@ public class MainActivity extends Activity
         findViewById(R.id.TextViewTableCellCalculatorName).setLongClickable(poweredOn == sPowerOFF);
     }
 
-    private void openAbout() {
-        String versionName = "1.0";
+    private void openProgsRepository() {
         try {
-            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://xvadim.github.io/xbasoft/pmk/pmk.html"));
+            startActivity(browserIntent);
+        } catch (Exception ignored) {
         }
-        openProgramDescription(MessageFormat.format(getString(R.string.msg_about), versionName));
     }
 
     private void openProgramDescription(String pProgramDescription) {
@@ -637,6 +645,17 @@ public class MainActivity extends Activity
             descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, pProgramDescription);
         }
         startActivity(descrIntent);
+    }
+
+    private void openInfoActivity() {
+        Intent infoIntent = new Intent(this, InfoActivity.class);
+        if (poweredOn == sPowerON) {
+            infoIntent.putExtra(InfoActivity.KEY_DESCRIPTION_FILE,
+                    saveStateManager.mProgramDescription);
+        }
+        startActivity(infoIntent);
+
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
     private void exportState() {

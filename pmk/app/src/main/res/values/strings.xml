@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="on_off_label_weight">1</string>
+    <string name="on_off_label_weight" translatable="false">1</string>
 
-<!-- Messages for i18n -->
+    <!-- Messages for i18n -->
     <string name="locale">en</string>
 
-<!-- Menu buttons -->
-    <string name="menu_about">About</string>
+    <!-- Menu buttons -->
+    <string name="menu_about">Repository</string>
     <string name="menu_load">Load</string>
     <string name="menu_save">Save</string>
     <string name="menu_copy_x">Copy reg X</string>
@@ -16,9 +16,9 @@
     <string name="menu_import">Import</string>
     <string name="menu_description">Description</string>
     <string name="menu_donate">Donate</string>
-    <string name="menu_instruction">Instruction</string>
+    <string name="menu_instruction">Information</string>
 
-<!-- Screen settings screen -->	
+    <!-- Screen settings screen -->
     <string name="settings_screen">Screen settings</string>
     <string name="settings_screen_summary">Global screen settings</string>
 
@@ -30,7 +30,7 @@
     <string name="settings_grayscale_title">Grayscale</string>
     <string name="settings_grayscale_summary">Black-and-white mode for better contrast on e-ink screens</string>
 
-<!-- Appearance settings screen -->	
+    <!-- Appearance settings screen -->
     <string name="settings_ui_visual">Appearance settings</string>
     <string name="settings_ui_visual_summary">Visual appearance of switches, buttons etc.</string>
 
@@ -52,7 +52,7 @@
     <string name="settings_scaling_labels">Text above buttons</string>
     <string name="settings_scaling_labels_summary">Set size of text above/under buttons</string>
 
-<!-- Behavior settings screen -->
+    <!-- Behavior settings screen -->
     <string name="settings_ui_behavior">Behavior settings</string>
     <string name="settings_ui_behavior_summary">User interface behavior settings</string>
 
@@ -79,17 +79,17 @@
     <string name="settings_on_button_touch_title">Pressed on touch</string>
     <string name="settings_on_button_touch_summary">Buttons react when touched and not when released</string>
 
-<!-- Dialogs buttons labels -->
+    <!-- Dialogs buttons labels -->
     <string name="label_save">Save</string>
     <string name="label_load">Load</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_close">Close</string>
 
-<!-- FileBrowser labels -->
+    <!-- FileBrowser labels -->
     <string name="label_new_directory">New Folder</string>
     <string name="label_new_directory_name">New Folder Name</string>
 
-<!-- Messages -->	
+    <!-- Messages -->
     <string name="savestate_name_slot">Slot</string>
     <string name="savestate_name_empty">(empty)</string>
     <string name="savestate_name_noname">(no name)</string>
@@ -145,7 +145,7 @@
         </p>
 
         <p align="center">
-        <font size=-2>Support project
+        <font size=-1>Support project
         <ul>
             <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
             <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
@@ -199,7 +199,9 @@
         ]]>
     </string>
 
-<!-- end of i18n messages -->
+    <string name="info_panel_description_file">file:///android_asset/info_panel_descr.html</string>
+
+    <!-- end of i18n messages -->
 
     <string name="electronica" translatable="false">Электроника</string>
     <string name="app_name">MK 61/54</string>

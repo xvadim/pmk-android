@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cax.pmk"
-    >
-
-    <!--  min is 4  to support Android 1.6 -->
-    <!--  max is 10 to ensure soft menu button will be shown on modern versions of Android -->
-
+    package="com.cax.pmk">
+    <!-- min is 4  to support Android 1.6 -->
+    <!-- max is 10 to ensure soft menu button will be shown on modern versions of Android -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!-- Some Chromebooks don't support touch. Although not essential,
-         it's a good idea to explicitly include this declaration. -->
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <!--
+ Some Chromebooks don't support touch. Although not essential,
+         it's a good idea to explicitly include this declaration.
+    -->
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.cax.pmk.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.FullScreen" >
+            android:theme="@style/Theme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,6 +43,10 @@
         <activity
             android:name=".InstructionActivity"
             android:theme="@style/Theme.FullScreen" />
+        <activity
+            android:name=".InfoActivity"
+            android:theme="@style/Theme.NoTitle"
+            />
     </application>
 
 </manifest>

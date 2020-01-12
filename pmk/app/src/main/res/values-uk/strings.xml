@@ -13,7 +13,7 @@
     <string name="label_new_directory_name">Ім\'я нового каталогу</string>
     <string name="label_save">Зберегти</string>
     <string name="locale">uk</string>
-    <string name="menu_about">Про програму</string>
+    <string name="menu_about">Репозиторій</string>
     <string name="menu_export">Експорт</string>
     <string name="menu_import">Імпорт</string>
     <string name="menu_description">Опис</string>
@@ -21,7 +21,7 @@
     <string name="menu_save">Зберегти</string>
     <string name="menu_settings">Налаштування</string>
     <string name="menu_donate">Підтримати розробку</string>
-    <string name="menu_instruction">Інструкція</string>
+    <string name="menu_instruction">Інформація</string>
     <string name="msg_choose_name">Введіть назву для збереження</string>
     <string name="msg_choose_slot">Виберіть слот для</string>
     <string name="msg_load">завантаження</string>
@@ -116,7 +116,7 @@
         </p>
 
         <p align="center">
-        <font size=-2>Підтримати проект:
+        <font size=-1>Підтримати проект:
         <ul>
             <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
             <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
@@ -173,4 +173,5 @@
         ]]>
     </string>
     <string name="menu_copy_x">Копіювати рег. X</string>
+    <string name="info_panel_description_file">file:///android_asset/info_panel_descr_uk.html</string>
 </resources>

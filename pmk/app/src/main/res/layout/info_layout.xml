@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/commonBackground"
+    tools:context="com.cax.pmk.InfoActivity"
+    >
+
+    <WebView
+        android:id="@+id/info_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+
+        <!-- the Regs dump button -->
+        <Button
+            android:id="@+id/butRegs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_black_border"
+            android:textColor="@color/buttonTextWhite"
+            android:textColorHint="@color/buttonTextWhite"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="ИП"
+            android:onClick="onClick"
+            />
+        <!-- the Program description dump button -->
+        <Button
+            android:id="@+id/butDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_other"
+            android:textColor="@color/buttonTextBlack"
+            android:textColorHint="@color/buttonTextBlack"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="D"
+            android:onClick="onClick"
+            />
+
+        <!-- the MK-61 Instruction description dump button -->
+        <Button
+            android:id="@+id/butInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_other"
+            android:textColor="@color/buttonTextBlack"
+            android:textColorHint="@color/buttonTextBlack"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="I"
+            android:onClick="onClick"
+            />
+
+        <!-- the About text dump button -->
+        <Button
+            android:id="@+id/butAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_other"
+            android:textColor="@color/buttonTextBlack"
+            android:textColorHint="@color/buttonTextBlack"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="(c)"
+            android:onClick="onClick"
+            />
+
+        <!-- the Donate text dump button -->
+        <Button
+            android:id="@+id/butDonate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_other"
+            android:textColor="@color/buttonTextBlack"
+            android:textColorHint="@color/buttonTextBlack"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="$"
+            android:onClick="onClick"
+            />
+
+        <!-- the Exit button -->
+        <Button
+            android:id="@+id/butExit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_red"
+            android:text="Cx"
+            android:textColor="@color/buttonTextWhite"
+            android:textColorHint="@color/buttonTextWhite"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:onClick="onClick"
+            />
+    </LinearLayout>
+
+</LinearLayout>
