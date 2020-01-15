@@ -174,4 +174,14 @@
     </string>
     <string name="menu_copy_x">Копіювати рег. X</string>
     <string name="info_panel_description_file">file:///android_asset/info_panel_descr_uk.html</string>
+
+    <string name="info_panel_emulator_turned_off">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Емулятор вимкнено<h2>
+               </body>
+        </html>
+        ]]>
+    </string>
 </resources>

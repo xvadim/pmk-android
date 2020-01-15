@@ -1,13 +1,18 @@
 package com.cax.pmk.emulator;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import com.cax.pmk.*;
 
 public class Emulator extends Thread implements EmulatorInterface
 {
 	enum RunningState {
 		RUNNING, STOPPED, STOPPING_NORMAL, STOPPING_FORCED
-	};
+	}
+
 	public Emulator() {}
 
 	public void initTransient(MainActivity mainActivity) {
@@ -154,8 +159,9 @@ public class Emulator extends Thread implements EmulatorInterface
 		}
 		
 		if (IR2_1.microtick == 84) {
-			syncCounter = (syncCounter + 1) % (mk_model == 0 ? 5 : 7); 
+			syncCounter = (syncCounter + 1) % (mk_model == 0 ? 5 : 7);
 			if (IK1302.redraw_indic && syncCounter == (mk_model == 0 ? 4 : 6)) {
+				regsDump();
 				return true;
 			}
 		}
@@ -204,11 +210,13 @@ public class Emulator extends Thread implements EmulatorInterface
 	
 	Memory IR2_1 = new Memory();
 	Memory IR2_2 = new Memory();
-	
+
 	private String saveStateName="";
 
 	private int angle_mode = 10; // R=10, GRD=11, G=12
 	private int speed_mode = 0;  // 0=fast, 1=real speed
+    private static final int modelMK61 = 0;
+	private static final int modelMK54 = 1;
 	private int mk_model   = 0;  // 0=MK-61, 1=MK-54
 	
 	private transient int syncCounter = 0;
@@ -259,5 +267,131 @@ public class Emulator extends Thread implements EmulatorInterface
    		objOut.writeObject(IR2_2);
    		objOut.writeInt(angle_mode);
    		objOut.writeInt(speed_mode | (mk_model << 8));
+	}
+
+
+	@Override
+	public ArrayList<String> regsDumpBuffer() {
+		synchronized (this) {
+			return new ArrayList<>(Arrays.asList(regsBuffer));
+		}
+	}
+
+	//5 stack regs & 14/15 regs
+	private String[] regsBuffer = new String[5 + 15];
+
+	private static final int[] memAddrsSwaps61 = {10, 11, 6, 7, 2, 3, 4, 5, 0, 1, 14, 13, 12, 8, 9};
+	//view-source:https://pmk.arbinada.com/mk61emuweb.html
+	//swaps for mk54 looks different ??
+//	private static final int[] memAddrsSwaps54 = {3, 4, 5, 0, 1, 13, 12, 8, 9, 10, 11, 6, 7, 2};
+	private static final int[] memAddrsSwaps54 = {11, 6, 7, 2, 3, 4, 5, 0, 1, 13, 12, 8, 9, 10};
+	private static final int[][] memAddrsPages = {
+			{1, 41}, {1, 83}, {1, 125}, {1, 167}, {1, 209}, {1, 251}, {2, 41}, {2, 83}, {2, 125}, {2, 167}, {2, 209}, {2, 251}, {3, 41}, {4, 41}, {5, 41}
+	};
+
+	private static final int[] stackAddrsSwaps61 = {14, 13, 12, 8, 9};
+	//view-source:https://pmk.arbinada.com/mk61emuweb.html
+	//swaps for mk54 looks different ??
+//	private static final int[] stackAddrsSwaps54 = {10, 11, 6, 7, 2};
+	private static final int[] stackAddrsSwaps54 = {13, 12, 8, 9, 10};
+	private static final int[][] stackAddrs = {
+			{1, 34}, {1, 76}, {1, 118}, {1, 160}, {1, 202}, {1, 244}, {2, 34}, {2, 76}, {2, 118}, {2, 160}, {2, 202}, {2, 244}, {3, 34}, {4, 34}, {5, 34}
+	};
+
+	private void regsDump() {
+		int i;
+		int regsCount;
+		int[] memAddrsSwaps;
+		int[] stackAddrsSwaps;
+
+		if (mk_model == modelMK61) {
+			regsCount = 15;
+			memAddrsSwaps = memAddrsSwaps61;
+			stackAddrsSwaps = stackAddrsSwaps61;
+		} else {
+			regsCount = 14;
+			memAddrsSwaps = memAddrsSwaps54;
+			stackAddrsSwaps = stackAddrsSwaps54;
+			regsBuffer[regsBuffer.length - 1] = "";	//the e reg is absent on the MK54
+		}
+
+		for(i = 0; i < 5; i++) {
+			int chipNum = stackAddrs[stackAddrsSwaps[i]][0];
+			int addr = stackAddrs[stackAddrsSwaps[i]][1];
+			regsBuffer[i] = readValue(chipNum, addr);
+		}
+
+		for(int j = 0; j < regsCount; j++, i++) {
+			int chipNum = memAddrsPages[memAddrsSwaps[j]][0];
+			int addr = memAddrsPages[memAddrsSwaps[j]][1] - 8;
+			regsBuffer[i] = readValue(chipNum, addr);
+		}
+
+	}
+
+	private String readValue(int chipNum, int address) {
+
+		int[] memory;
+
+		switch (chipNum) {
+			case 1:
+				memory = IR2_1.M;
+				break;
+			case 2:
+				memory = IR2_2.M;
+				break;
+			case 3:
+				memory = IK1302.M;
+				break;
+			case 4:
+				memory = IK1303.M;
+				break;
+			case 5:
+			default:
+				memory = IK1306.M;
+				break;
+		}
+
+		int exp = memory[address - 3] * 10 + memory[address - 6];
+		if (memory[address] == 9) {
+			exp = - (100 - exp);
+		}
+		int idx = 0;
+		while(memory[address - 33 + idx * 3] == 0) {
+			if (exp == 7 - idx || idx == 7) {
+				break;
+			}
+			idx++;
+		}
+
+		ArrayList<Integer> digits = new ArrayList<>();
+		while (idx < 8) {
+			digits.add(memory[address - 33 + idx*3]);
+			idx++;
+		}
+		Collections.reverse(digits);
+
+		StringBuilder mantissa = new StringBuilder(memory[address - 9] == 9 ? "-" : " ");
+		boolean comma = false;
+		for(int i = 0; i < digits.size(); i++) {
+			mantissa.append(show_symbols[digits.get(i)]);
+			if (((i == 0) && ((exp < 0) || (exp > 7))) || (i == exp)) {
+				mantissa.append(".");
+				comma = true;
+			}
+		}
+
+		if (!comma) {
+			mantissa.append(".");
+		}
+
+		if (exp < 0 || exp > 7) {
+			int size = (exp < 0 ? 10 : 11) - mantissa.length();
+			for(int i = 0; i < size; i++) {
+				mantissa.append(" ");
+			}
+			mantissa.append(exp);
+		}
+		return mantissa.toString();
 	}
 }

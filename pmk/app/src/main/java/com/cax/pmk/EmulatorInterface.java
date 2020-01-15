@@ -1,19 +1,22 @@
 package com.cax.pmk;
 
-public interface EmulatorInterface extends Runnable, java.io.Externalizable 
+import java.util.ArrayList;
+
+public interface EmulatorInterface extends Runnable, java.io.Externalizable
 {
-	public void setAngleMode(int mode);
-    public int  getAngleMode();
-	public void setSpeedMode(int mode);
-    public int  getSpeedMode();
-	public void setMkModel(int mkModel);
-    public int  getMkModel();
-	public void setSaveStateName(String name);
-    public String getSaveStateName();
-    public String indicatorString();
-    public void keypad(int keycode);
-    public void initTransient(MainActivity mainActivity);
-    public void stopEmulator(boolean forced);
-    public void run();
-	public void start();
+	void setAngleMode(int mode);
+    int  getAngleMode();
+	void setSpeedMode(int mode);
+    int  getSpeedMode();
+	void setMkModel(int mkModel);
+    int  getMkModel();
+	void setSaveStateName(String name);
+    String getSaveStateName();
+    String indicatorString();
+    ArrayList<String> regsDumpBuffer();
+    void keypad(int keycode);
+    void initTransient(MainActivity mainActivity);
+    void stopEmulator(boolean forced);
+    void run();
+	void start();
 }

@@ -200,6 +200,46 @@
     </string>
 
     <string name="info_panel_description_file">file:///android_asset/info_panel_descr.html</string>
+    <string name="info_panel_emulator_turned_off">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">The emulator is turned off<h2>
+               </body>
+        </html>
+        ]]>
+    </string>
+
+    <string name="info_regs_dump_header" translatable="false">
+       <![CDATA[
+        <html>
+            <meta charset="utf-8" />
+            <style>
+                @font-face {
+                        font-family: code;
+                        src: url("fonts/digital-7-mod.ttf");
+                }
+                #code {
+                        background-color:#103810;
+                        color:#77FF77;
+
+                        font-family: code;
+                        font-size:1.5em;
+                        font-weight:bold;
+                        padding: 2px 2px 8px 2px;
+                        white-space: pre;
+                    }
+            </style>
+            <body>
+            <div align="center>
+            <table>
+            %s
+            </table>
+            </div>
+            </body>
+        </html>
+        ]]>
+    </string>
 
     <!-- end of i18n messages -->
 

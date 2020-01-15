@@ -1,10 +1,9 @@
 package com.cax.pmk;
 
 import java.io.IOException;
-import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-//import com.cax.pmk.R;
 import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.Manifest;
@@ -27,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -648,10 +648,15 @@ public class MainActivity extends Activity
     }
 
     private void openInfoActivity() {
+
         Intent infoIntent = new Intent(this, InfoActivity.class);
         if (poweredOn == sPowerON) {
-            infoIntent.putExtra(InfoActivity.KEY_DESCRIPTION_FILE,
-                    saveStateManager.mProgramDescription);
+            ArrayList<String> regs = emulator.regsDumpBuffer();
+            Log.d("GAME1", "REGS " + regs);
+
+            infoIntent.putExtra(InfoActivity.KEY_DESCRIPTION_FILE, saveStateManager.mProgramDescription);
+            infoIntent.putExtra(InfoActivity.KEY_REGS_DUMP, regs);
+
         }
         startActivity(infoIntent);
 

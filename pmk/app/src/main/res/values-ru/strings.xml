@@ -196,4 +196,13 @@
 
     <string name="info_panel_description_file">file:///android_asset/info_panel_descr_ru.html</string>
 
+    <string name="info_panel_emulator_turned_off">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Эмулятор выключен<h2>
+               </body>
+        </html>
+        ]]>
+    </string>
 </resources>

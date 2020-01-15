@@ -1,5 +1,7 @@
 package com.cax.pmk.emulator;
 
+import android.util.Log;
+
 import java.io.*;
 
 public class Memory implements Externalizable
@@ -21,7 +23,7 @@ public class Memory implements Externalizable
 	public int out=0;
 	public int microtick=0;
 
-	private int[] M = new int[MEM_SIZE];
+	public int[] M = new int[MEM_SIZE];
 
 	private static final int MEM_SIZE = 252;
 
