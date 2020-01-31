@@ -117,7 +117,8 @@
         <p>
         Usage hints:
         <ul>
-        <li>Tap the \"Вкл\" label to open menu</li>
+        <li> to open the Info panel use menu or swipe from left to right</li>
+        <li> Tap the \"Вкл\" label to open menu</li>
         <li> ouch indicator to toggle emulation speed slow/fast</li>
         <li> Long-touch indicator to hide/show switches</li>
         <li> ou can import programms from external files via the \"Import\" menu</li>
