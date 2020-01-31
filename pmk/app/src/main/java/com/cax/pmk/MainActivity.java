@@ -650,7 +650,7 @@ public class MainActivity extends Activity
     private void openInfoActivity() {
 
         Intent infoIntent = new Intent(this, InfoActivity.class);
-        if (poweredOn == sPowerON) {
+        if (poweredOn == sPowerON && emulator != null) {
             ArrayList<String> regs = emulator.regsDumpBuffer();
             Log.d("GAME1", "REGS " + regs);
 
