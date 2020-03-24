@@ -167,6 +167,13 @@ public class MainActivity extends Activity
             }
         });
 
+        findViewById(R.id.butInfo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openInfoActivity();
+            }
+        });
+
         buttonFIndicator = findViewById(R.id.indicatorF);
         buttonKIndicator = findViewById(R.id.indicatorK);
 
@@ -652,7 +659,6 @@ public class MainActivity extends Activity
         Intent infoIntent = new Intent(this, InfoActivity.class);
         if (poweredOn == sPowerON && emulator != null) {
             ArrayList<String> regs = emulator.regsDumpBuffer();
-            Log.d("GAME1", "REGS " + regs);
 
             infoIntent.putExtra(InfoActivity.KEY_DESCRIPTION_FILE, saveStateManager.mProgramDescription);
             infoIntent.putExtra(InfoActivity.KEY_REGS_DUMP, regs);

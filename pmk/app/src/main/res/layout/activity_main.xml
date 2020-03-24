@@ -110,14 +110,40 @@
                 android:layout_span="3"
                 android:layout_weight="5"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/electronica" />
+                android:text="@string/electronica"
+                />
 
-            <TextView
-                android:id="@+id/TextViewGrads"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="ⓘ"
+                    android:visibility="invisible"
+                    />
+            <TextView
+                android:id="@+id/TextViewGrads"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:minWidth="120dp"
                 android:text="@string/TextViewGrads" />
+
+                <TextView
+                    android:id="@+id/butInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="ⓘ"
+                    />
+            </LinearLayout>
         </TableRow>
 
         <TableRow
