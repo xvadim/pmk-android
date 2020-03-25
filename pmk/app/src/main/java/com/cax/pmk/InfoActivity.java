@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -40,6 +41,7 @@ public class InfoActivity extends Activity {
 
         mWebView = findViewById(R.id.info_view);
         mWebView.setBackgroundColor(Color.parseColor("#BBBBBB"));
+        mWebView.setWebViewClient(new WebViewClient());
 
         Bundle args = getIntent().getExtras();
         String descrFile;
