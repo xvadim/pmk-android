@@ -77,6 +77,7 @@
 
     <string name = "settings_category_other"> Інше </string>
     <string name = "settings_other_mem_buttons_34"> Кнопки ИП та П для МК-61 </string>
+    <string name="settings_other_y_indicator">Показувати Y-індикатор</string>
 
     <string name="msg_about">
         <![CDATA[

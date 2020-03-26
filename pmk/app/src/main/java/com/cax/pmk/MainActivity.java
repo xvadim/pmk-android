@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +35,7 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -45,6 +45,9 @@ import android.widget.TextView;
 public class MainActivity extends Activity
                           implements PopupMenu.OnMenuItemClickListener
 {
+
+    public static int REGISTER_X = 0;
+    public static int REGISTER_Y = 1;
 
     private static int PENDING_PERMISSION_REQUEST = -1;
     private static final int PERMISSION_REQUEST_READ_EXTERNAL = 0;
@@ -75,6 +78,8 @@ public class MainActivity extends Activity
     private TextView buttonFIndicator;
     private boolean buttonKPressed = false;
     private TextView buttonKIndicator;
+    private LinearLayout mYIndicator;
+    public boolean isYIndicatorVisible = false;
 
     private GestureDetector swipeDetector;
 
@@ -116,6 +121,10 @@ public class MainActivity extends Activity
         // let AutoScaleTextView do the work - set font size and fix layout
         TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
         calculatorIndicator.setText(EMPTY_INDICATOR);
+        calculatorIndicator = findViewById(R.id.textView_IndicatorY);
+        calculatorIndicator.setText(EMPTY_INDICATOR);
+
+        mYIndicator = findViewById(R.id.linearLayout_IndicatorY);
 
         // preferences activation
         activateSettings();
@@ -397,12 +406,12 @@ public class MainActivity extends Activity
 
     // ----------------------- UI update calls, also from other thread --------------------------------
     // Show string on calculator's indicator
-    public void displayIndicator(final String text) {
+    public void displayIndicator(final int registerNum, final String text) {
         runOnUiThread(new Runnable() {
            public void run() {
-               TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
-               if (calculatorIndicator != null)
-                   calculatorIndicator.setText(text);
+               TextView calculatorIndicator = findViewById(registerNum == REGISTER_X ?
+                       R.id.textView_Indicator : R.id.textView_IndicatorY);
+               calculatorIndicator.setText(text);
            }
         });
     }
@@ -597,6 +606,10 @@ public class MainActivity extends Activity
                 borderOtherButtons,
                 mkModel == 1 ||
                         sharedPref.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54, false));
+
+        isYIndicatorVisible = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_Y_INDICATOR,
+                PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
+        mYIndicator.setVisibility(isYIndicatorVisible ? View.VISIBLE : View.GONE);
     }
         
     private void switchOnCalculator(boolean enable) {
@@ -617,6 +630,8 @@ public class MainActivity extends Activity
             }
 
             TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
+            calculatorIndicator.setText(EMPTY_INDICATOR);
+            calculatorIndicator = findViewById(R.id.textView_IndicatorY);
             calculatorIndicator.setText(EMPTY_INDICATOR);
             
             // just in case...

@@ -64,6 +64,7 @@
 
     <string name = "settings_category_other"> Всякое </string>
     <string name = "settings_other_mem_buttons_34">Кнопки ИП и П для МК-61 </string>
+    <string name="settings_other_y_indicator">Показывать Y-индикатор</string>
 
     <string name="settings_category_buttons">Клавиши</string>
     <string name="settings_on_button_touch_title">Нажатие по касанию</string>

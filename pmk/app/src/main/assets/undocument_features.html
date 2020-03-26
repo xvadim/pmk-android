@@ -1,0 +1,4118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0">
+<title>Недокументированные возможности программируемого микрокалькулятора МК-61</title>
+<style>
+
+.but {
+    background-color:#CCCCCC;
+    color:black;
+
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 0px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+
+    width:12px;
+    white-space: nowrap;
+}
+
+.but_f {
+    background-color:#F5E345;
+    color:black;
+
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 0px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+
+    width:12px;
+    white-space: nowrap;
+}
+
+.but_k {
+    background-color:LightSkyBlue;
+    color:white;
+
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 12px 0px 12px;
+
+    border:thin solid black;
+    border-radius:3px;
+
+    width:12px;
+    white-space: nowrap;
+}
+
+.but_cx {
+    background-color:#F00505;
+    color:white;
+
+    font-weight:bold;
+    font-family:monospace;
+
+    padding: 1px 8px 1px 8px;
+
+    border:thin solid black;
+    border-radius:3px;
+
+    width:12px;
+    white-space: nowrap;
+}
+
+.but_b {
+    background-color:black;
+    color:white;
+
+    font-weight:bold;
+    font-family:monospace;
+
+    padding:1px 8px 0px 8px;
+
+    border:thin solid Gray;
+    border-radius:3px;
+    width:12px;
+    white-space: nowrap;
+}
+
+.code  {
+    background-color:#103810;
+    color:#77FF77;
+
+    font-family: monospace;
+    font-weight:bold;
+    padding:1px 2px 1px 2px;
+    white-space: nowrap;
+}
+
+.reg {
+    color:white;
+    background-color:black;
+    font-weight:bold;
+}
+
+.op_f {
+    color:yellow;
+    background-color:black;
+}
+
+.op_k {
+    color:blue;
+    background-color:#EEEEEE;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+.trcenter td, th {
+  text-align: center;
+}
+
+.tdcenter {
+  text-align: center;
+}
+
+.trblack td {
+  background: #EEEEEE;
+}
+
+.trblack_black td {
+  background: #BBBBBB;
+}
+
+.align_right {
+  text-align: right;
+}
+
+</style>
+</head>
+
+<body>
+  <h3>Недокументированные возможности программируемого микрокалькулятора МК-61</h3>
+
+  <nav>
+    <h4>Оглавление</h4>
+    <ul>
+      <li><a href="#div_preface">Предисловие</a></li>
+      <li>
+        <a href="#div_addr_space">Программное адресное пространство</a>
+        <ul><li><a href="#div_addr_space_using">Практическое применение</a></li></ul>
+      </li>
+      <li>
+        <a href="#div_indirect_addr">Косвенная адресация</a>
+        <ul>
+          <li><a href="#div_indirect_addr_gt1">
+            Число больше или равно единицы
+          </a></li>
+          <li><a href="#div_indirect_addr_lt1">
+            Число положительное, но меньше единицы
+          </a></li>
+          <li><a href="#div_indirect_addr_negative">
+            Число отрицательное
+          </a></li>
+          <li><a href="#div_indirect_addr_R0">
+            Регистры R0&hellip;R3
+          </a></li>
+          <li><a href="#div_indirect_addr_R4">
+            Регистры R4&hellip;R6
+          </a></li>
+          <li><a href="#div_indirect_addr_FL0">
+            Команды FL0&hellip;FL3
+          </a></li>
+          <li><a href="#div_indirect_addr_mantissa">
+            Мантисса содержит шестнадцатеричные цифры
+          </a></li>
+          <li><a href="#div_indirect_addr_exponent">
+            Порядок содержит шестнадцатеричные цифры
+          </a></li>
+          <li><a href="#div_indirect_addr_reg">
+            Значение - номер регистра, а не адрес
+          </a></li>
+          <li><a href="#div_indirect_addr_using">
+            Практическое использование
+          </a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#div_x2">Таинственный регистр X2</a>
+        <ul>
+          <li><a href="#div_x2_affect">
+            X2-влияющие команды
+          </a></li>
+          <li><a href="#div_x2_point">
+            Команда <span class="but">.</span> (код 0A)
+          </a></li>
+          <li>
+            <a href="#div_x2_exp">Команда <span class="but">ВП</span> (код 0C)</a>
+            <ul>
+              <li><a href="#div_x2_exp_SR">
+                Восстановление X2 с отбрасыванием первой цифры
+              </a></li>
+              <li><a href="#div_x2_exp_combine">
+                Восстановление X2 с заменой первой цифры на цифру из числа в X
+              </a></li>
+              <li><a href="#div_x2_exp_goto">
+                <span class="but">ВП</span> сразу после косвенного перехода
+              </a></li>
+              <li><a href="#div_x2_exp_plus">
+                Использование <span class="but">ВП</span> как сложение
+              </a></li>
+              <li><a href="#div_x2_exp_down">
+                Команда <span class="but">.</span> перед 
+                <span class="but">ВП</span> "сдвигает" захват X
+              </a></li>
+            </ul>
+          </li>
+          <li><a href="#div_x2_final">Итог</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#div_hex">Шестнадцатеричная арифметика</a>
+        <ul>
+          <li><a href="#div_hex_h_plus_y">
+            Операция H <span class="but">+</span> Y
+          </a></li>
+          <li><a href="#div_hex_x_plus_h">
+            Операция X <span class="but">+</span> H
+          </a></li>
+          <li><a href="#div_hex_y_minus_h">
+            Операция Y <span class="but">-</span> H
+          </a></li>
+          <li><a href="#div_hex_h_minus_x">
+            Операция H <span class="but">-</span> X
+          </a></li>
+          <li><a href="#div_hex_h_mult_y">
+            Операция H <span class="but">&times;</span> Y
+          </a></li>
+          <li><a href="#div_hex_x_mult_h">
+            Операция X <span class="but">&times;</span> H
+          </a></li>
+          <li><a href="#div_hex_h_div_x">
+            Операция H <span class="but">&divide;</span> X
+          </a></li>
+          <li><a href="#div_hex_y_div_h">
+            Операция Y <span class="but">&divide;</span> H
+          </a></li>
+          <li><a href="#div_hex_func">
+            Результат функций над шестнадцатеричными числами
+          </a></li>
+          <li><a href="#div_hex_using">
+            Практическое применение
+          </a></li>
+        </ul>
+      </li>
+      <li><a href="#div_tricks">Трюки по оптимизации</a></li>
+      <li><a href="#div_command">Приложение. Все команды</a></li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  <div id="div_preface">
+    <h3>Предисловие</h3>
+    <p>
+      Предполагается, что читатель знаком с работой на программируемом
+      микрокалькуляторе МК-61 (далее просто ПМК), т.е.
+      с <i>документированными</i> возможностями.
+    </p>
+    <p>
+      <b>Целью</b> использования недокументированных возможностей чаще всего
+      является сокращение длины программы (самый "узкий" ресурс),
+      реже - высвобождение дополнительных регистров памяти.
+      <br>
+      Большинство таких возможностей реализуется или используется только в
+      контексте программного режима.
+      <br>
+      Иногда такие возможности используются для получения видео изображения,
+      которое невозможно создать обычным способом.
+      <br>
+      Также знание недокументированных возможностей поможет понять, почему
+      иногда программа ведет себя не совсем так, или совсем не так, как ожидалось.
+    </p>
+    <p>
+      В данной документе не рассматривается получение и исследование
+      сверхчисел (число, порядок которого лежит вне диапазона -99..99)
+      и пустышек (число, начинающееся с цифры F), которые исторически
+      называется <a href="https://ru.wikipedia.org/wiki/Еггогология">Еггогологией</a>.
+      Но из указанной Еггогологии взяты термины ЕГГ0Га и 3Г0ГГа, и кое-где
+      используются для получения нестандартных чисел или результатов.
+    </p>
+    <p>
+      Далее для обозначения старших шестнадцатеричных цифр используется
+      стандартное обозначение <b>ABCDEF</b>, при этом в примерах отображения
+      используются вид цифр ПМК.
+      <br>
+      Например, число <b>8.FEDBCA9</b> (как инверсия числа 8.0123456), будет
+      выглядеть как <span class="code">&nbsp;8.&nbsp;EГCL&middot;9&nbsp;&nbsp;&nbsp;</span>.
+      <br>
+      Следует понимать, что в ПМК шестнадцатеричные только цифры, но не числа,
+      то есть ПМК по-прежнему считает каждый разряд как десятичный.
+      Т.е. число <u>FF</u>, которое в обычном случае равно 255,
+      будет интерпретироваться как F &times; 10 + F, т.е. 150 + 15 = 165.
+    </p>
+    <p>
+      Дробные числа или числа с большим порядком обычно записываются в научной
+      нотации обычно как &plusmn;m.mmmmmmmE&plusmn;pp. Чтобы не путать знак экспоненты с
+      шестнадцатеричной цифрой E далее такие числа
+      будем указывать в форме &plusmn;m.mmmmmmm<b>^</b>&plusmn;pp (^ вместо E), причем знак
+      порядка будем указывать всегда, а для надежности и точку (десятичный
+      разделить) для мантиссы. Например, 1.23^-02 будет выглядеть как
+      <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>.
+    </p>
+    <p>
+      Т.к. ПМК может использовать ненормализованные числа, то это важно
+      отличать, пример: ненормализованное 0.005^-03 это
+      <span class="code">&nbsp;0.005&nbsp;&nbsp;&nbsp;&nbsp;-03</span>,
+      а нормализованное - это 5.^-06
+      <span class="code">&nbsp;5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-06</span>.
+      Ненормализованные числа в тексте так и будут записываться с ведущими нулями.
+    </p>
+  </div>
+
+  <hr>
+
+  <div id="div_addr_space">
+    <h3>Программное адресное пространство</h3>
+    <p>
+      Документированное значение для адресов программы - 105 ячеек.
+      Фактически всё немного сложнее.
+      Напомним, что адресация ячеек использует только две цифры, поэтому для
+      адресов более 99 используются шестнадцатеричные цифры.
+    </p>
+    <table class="trcenter">
+      <tr><th>Адрес формальный</th><th>Адрес фактический</th><th>Доп. адрес</th></tr>
+      <tr><td>00</td><td>00</td><td></td></tr>
+      <tr><td>01</td><td>01</td><td></td></tr>
+      <tr><td colspan=3>&hellip;</tr>
+      <tr><td>99</td><td>99</td><td></td></tr>
+      <tr><td>A0</td><td>A0</td><td></td></tr>
+      <tr><td>A1</td><td>A1</td><td></td></tr>
+      <tr><td>A2</td><td>A2</td><td></td></tr>
+      <tr><td>A3</td><td>A3</td><td></td></tr>
+      <tr><td>A4</td><td>A4</td><td></td></tr>
+      <tr><td colspan=3></td></tr>
+      <tr><td>A5</td><td>00</td><td></td></tr>
+      <tr><td>A6</td><td>01</td><td></td></tr>
+      <tr><td>A7</td><td>02</td><td></td></tr>
+      <tr><td>A8</td><td>03</td><td></td></tr>
+      <tr><td>A9</td><td>04</td><td></td></tr>
+      <tr><td>B0</td><td>05</td><td></td></tr>
+      <tr><td>B1</td><td>06</td><td></td></tr>
+      <tr><td colspan=3></td></tr>
+      <tr><td>B2</td><td>00</td><td></td></tr>
+      <tr><td>B3</td><td>01</td><td></td></tr>
+      <tr><td>B4</td><td>02</td><td></td></tr>
+      <tr><td>B5</td><td>03</td><td></td></tr>
+      <tr><td>B6</td><td>04</td><td></td></tr>
+      <tr><td>B7</td><td>05</td><td></td></tr>
+      <tr><td>B8</td><td>06</td><td></td></tr>
+      <tr><td>B9</td><td>07</td><td></td></tr>
+      <tr class="trblack"><td>C0</td><td>08</td><td></td></tr>
+      <tr class="trblack"><td>C1</td><td>09</td><td></td></tr>
+      <tr class="trblack"><td>C2</td><td>10</td><td></td></tr>
+      <tr class="trblack"><td>C3</td><td>11</td><td></td></tr>
+      <tr class="trblack"><td>C4</td><td>12</td><td></td></tr>
+      <tr class="trblack"><td>C5</td><td>13</td><td></td></tr>
+      <tr class="trblack"><td>C6</td><td>14</td><td></td></tr>
+      <tr class="trblack"><td>C7</td><td>15</td><td></td></tr>
+      <tr class="trblack"><td>C8</td><td>16</td><td></td></tr>
+      <tr class="trblack"><td>C9</td><td>17</td><td></td></tr>
+      <tr class="trblack"><td>D0</td><td>18</td><td></td></tr>
+      <tr class="trblack"><td>D1</td><td>19</td><td></td></tr>
+      <tr class="trblack"><td>D2</td><td>20</td><td></td></tr>
+      <tr class="trblack"><td>D3</td><td>21</td><td></td></tr>
+      <tr class="trblack"><td>D4</td><td>22</td><td></td></tr>
+      <tr class="trblack"><td>D5</td><td>23</td><td></td></tr>
+      <tr class="trblack"><td>D6</td><td>24</td><td></td></tr>
+      <tr class="trblack"><td>D7</td><td>25</td><td></td></tr>
+      <tr class="trblack"><td>D8</td><td>26</td><td></td></tr>
+      <tr class="trblack"><td>D9</td><td>27</td><td></td></tr>
+      <tr class="trblack"><td>E0</td><td>28</td><td></td></tr>
+      <tr class="trblack"><td>E1</td><td>29</td><td></td></tr>
+      <tr class="trblack"><td>E2</td><td>30</td><td></td></tr>
+      <tr class="trblack"><td>E3</td><td>31</td><td></td></tr>
+      <tr class="trblack"><td>E4</td><td>32</td><td></td></tr>
+      <tr class="trblack"><td>E5</td><td>33</td><td></td></tr>
+      <tr class="trblack"><td>E6</td><td>34</td><td></td></tr>
+      <tr class="trblack"><td>E7</td><td>35</td><td></td></tr>
+      <tr class="trblack"><td>E8</td><td>36</td><td></td></tr>
+      <tr class="trblack"><td>E9</td><td>37</td><td></td></tr>
+      <tr class="trblack"><td>F0</td><td>38</td><td></td></tr>
+      <tr class="trblack"><td>F1</td><td>39</td><td></td></tr>
+      <tr class="trblack"><td>F2</td><td>40</td><td></td></tr>
+      <tr class="trblack"><td>F3</td><td>41</td><td></td></tr>
+      <tr class="trblack"><td>F4</td><td>42</td><td></td></tr>
+      <tr class="trblack"><td>F5</td><td>43</td><td></td></tr>
+      <tr class="trblack"><td>F6</td><td>44</td><td></td></tr>
+      <tr class="trblack"><td>F7</td><td>45</td><td></td></tr>
+      <tr class="trblack"><td>F8</td><td>46</td><td></td></tr>
+      <tr class="trblack"><td>F9</td><td>47</td><td></td></tr>
+      <tr><td colspan=3></td></tr>
+      <tr class="trblack_black"><td>FA</td><td>48</td><td>01</td></tr>
+      <tr class="trblack_black"><td>FB</td><td>49</td><td>02</td></tr>
+      <tr class="trblack_black"><td>FC</td><td>50</td><td>03</td></tr>
+      <tr class="trblack_black"><td>FD</td><td>51</td><td>04</td></tr>
+      <tr class="trblack_black"><td>FE</td><td>52</td><td>05</td></tr>
+      <tr class="trblack_black"><td>FF</td><td>53</td><td>06</td></tr>
+    </table>
+    <p>
+      Первый цикл короткий - адреса A5-B1, которые отображаются на адреса 00-06.
+    </p>
+    <p>
+      Второй цикл длинный - адреса B2-F9, которые отображаются на адреса 00-37.
+      Причем адреса C0-F9 являются <b>темными</b>, это значит в режиме ввода
+      программы по этим адресам сами команды не отображаются.
+      Например, если выполнить
+      <span class="but_b">БП</span>;
+      <span class="but">1</span>;
+      <span class="but">0</span>;
+      <span class="but_f">F</span><span class="op_f">ПРГ</span>, и
+      по адресам 10-12 ввести команды
+      <span class="but_k">К</span><span class="op_k">НОП</span>;
+      <span class="but_k">К</span><span class="op_k">НОП</span>;
+      <span class="but_k">К</span><span class="op_k">НОП</span>,
+      то мы увидим
+      <span class="code">&nbsp;54&nbsp;54&nbsp;54&nbsp;13</span>.
+      Но если затем перейти на адрес C5
+      (<span class="but_f">F</span><span class="op_f">АВТ</span>;
+      <span class="but_b">БП</span>;
+      <span class="reg">c</span><span class="but">5</span>;
+      <span class="but_f">F</span><span class="op_f">ПРГ</span>), то получим
+      <span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C5</span>,
+      хотя фактически этот будет тот же программный код.
+    </p>
+    <p>
+      На <b>супертемные</b> адреса FA-FF можно перейти только косвенно, т.к.
+      впрямую адрес, начинающийся с цифры F не вбить.
+      Впрочем, некоторые нестандартные последовательности команд в ручном
+      режиме, описанные в конце <a href="#div_command">приложения</a>,
+      позволяют вставлять команды,
+      начинающиеся с F. А также для владельцев МК-52 есть штатный способ
+      сделать "or" команд с отдельного модуля, с получением кодов с цифрой F.
+      <br>
+      Так вот, особенность супер темных адресов такая, что после перехода на 
+      него выполняется только одна(!) команда, а затем идет переход на 
+      дополнительный адрес, который указан в последней колонке.
+    </p>
+    <p>
+      Если в адресе перехода вторая цифра тоже шестнадцатеричная, то как
+      указано в предисловии, она прибавляется как есть (E=14 и т.п.).
+      Таким образом переход на адреса 9F (90 + 15) или A5 (100 + 5) или 
+      AC (100 + 12 = 110 + 2 = B2) или B2, будет
+      эквивалентно переходу на адрес 00, только потом порядок команд
+      будет отличаться.
+    </p>
+    <p>
+      Если сама команда двойная, т.е. с адресом перехода (например,
+      <span class="but_b">БП</span>;
+      <span class="but_f">F</span><span class="op_f">x&lt;0</span>;
+      <span class="but_f">F</span><span class="op_f">L1</span>),
+      и при этом идет "разрыв" адресации, то вторая часть команды
+      (адрес перехода) считывается из нового места. Т.е. если по адресу 06
+      стоит команда <span class="but_b">БП</span>,
+      то в обычном потоке адрес перехода будет по адресу 07, но если
+      попали сюда как на адрес B1, то адрес перехода будет по адресу 00.
+    </p>
+
+    <div id="div_addr_space_using">
+      <h4>Практическое применение</h4>
+      <ul>
+        <li>
+          Расположения управляющих потоком выполнения команд по начальным
+          адресам, а в конце программы (или в середине, в зависимости от
+          цикла) их не использовать (автоматический переход на начало цикла)
+          для сокращения длины программы.  Чаще всего в этом качестве выступает
+          <span class="but_b">В/О</span>, но можно и условные переходы,
+          <span class="but_b">С/П</span> и др.
+        </li>
+        <li>
+          Использование разных значений для фактического перехода по одному и
+          тому же адресу (указано выше). Нестандартное ветвление.
+        </li>
+        <li>
+          Изменение адреса перехода сдвоенной команды, в зависимости от
+          формального адреса (указано выше). Также нестандартное ветвление.
+        </li>
+      </ul>
+    </div>
+    
+  </div>
+
+  <hr>
+
+  <div id="div_indirect_addr">
+    <h3>Косвенная адресация</h3>
+    <p>
+      Документированная возможность - регистр, используемый для косвенной
+      адресации, содержит только целое неотрицательное число. Фактически
+      значением его может быть любое число.
+      Пусть число, которое содержится в регистре, который используется для
+      косвенной адресации, записано в виде
+      &plusmn;M<sub>1</sub>.M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>M<sub>6</sub>M<sub>7</sub>M<sub>8</sub>^&plusmn;P<sub>1</sub>P<sub>2</sub>,
+      где M - цифры мантиссы, P - цифры порядка.
+      При этом предполагается, что всегда 8 цифр мантиссы, просто последние
+      могут быть нулевыми и обычно не отображаются.
+    </p>
+    <p>
+      При косвенном обращение сначала исходное число преобразуется по
+      правилам, описанным ниже, а затем записывается обратно
+      (для команд FL0&hellip;FL3 иногда нет).
+      При этом всегда(!) цифры M<sub>7</sub>M<sub>8</sub> преобразованного
+      числа содержат адрес перехода (или номер регистра).
+      Обратите внимание, что преобразованное число не нормализуется перед
+      сохранением обратно, тем самым могут быть числа с ведущими нулями.
+      Обычно это используется или для генерации специальных изображений или
+      в комбинации с другими недокументированными операциями, которым важны
+      только цифры мантиссы
+      (пример в разделе <a href="#div_x2_exp_combine">Таинственный регистр X2</a>).
+    </p>
+    
+    <div id="div_indirect_addr_gt1">
+      <h4>
+        Вариант
+        +M<sub>1</sub>.M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>M<sub>6</sub>M<sub>7</sub>M<sub>8</sub>^+P<sub>1</sub>P<sub>2</sub>
+        , т.е. число больше или равно единицы.
+      </h4>
+      <p>
+        В этом случае к числу слева дописывается 7 - P<sub>2</sub> нулей
+        (только если P<sub>2</sub> &lt; 7), "выталкивая" остальную часть
+        мантиссы право. Например, если P<sub>2</sub> = 4,
+        то допишется 3 нуля, т.е. число будет в виде
+        0.00M<sub>1</sub>M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>^+P<sub>1</sub>7.
+      </p>
+      Пример:
+      <span class="code">&nbsp;123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+      что представляется как 1.23^+02,
+      перейдет в 0.0000123^+07, т.е.
+      <span class="code">&nbsp;00000123.&nbsp;&nbsp;&nbsp;</span>
+      <br>
+      Кстати, это правило показывает, что для обычных целых чисел, порядок
+      которых (от нуля) совпадает с числом цифр-1, слева дописывается такое 
+      число нулей, чтобы получилось 8 цифр.
+      Т.е. число остается тем, что есть, что и соответствует документации.
+      В случае, если кроме целой части есть и еще и дробная, то же правило
+      показывает, что дописываемые нули "вытеснят" дробную часть совсем,
+      что часто используется в программах для сокращения: нет необходимости
+      убирать дробную часть, т.к. косвенная адресация ее сама уберет.
+    </div>    
+    
+    <div id="div_indirect_addr_lt1">
+      <h4>
+        Вариант
+        +M<sub>1</sub>.M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>M<sub>6</sub>M<sub>7</sub>M<sub>8</sub>^-P<sub>1</sub>P<sub>2</sub>
+        , т.е. само число положительное, но меньше единицы.
+      </h4>
+      <p>
+        В этом случае к числу слева дописывается
+        P<sub>2</sub> - 3 нулей (если P<sub>2</sub> &lt; 3, то проверяется,
+        что P<sub>1</sub> не ноль, и если так, то вычисляется
+        1P<sub>2</sub> - 3, и только если и оно меньше нуля, то ничего
+        не делается),  "выталкивая" остальную часть мантиссы право. Например,
+        если P<sub>2</sub> = 5, то допишется 2 нуля, т.е.  число будет в виде
+        0.0M<sub>1</sub>M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>M<sub>6</sub>^-P<sub>1</sub>3.
+        Или если P<sub>2</sub> = 0, а P<sub>1</sub> = 1, допишется
+        7 нулей (10-3), т.е. число будет в виде 0.000000M<sub>1</sub>^-03.
+      </p>
+      Пример:
+      <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>
+      не измениться, т.к. 02 &lt; 3, т.е. адрес перехода будет равен нулю
+      (M<sub>7</sub>M<sub>8</sub>).
+      <br>
+      Пример:
+      <span class="code">&nbsp;1.2345678-08</span> станет как
+      <span class="code">&nbsp;0.0000123-03</span>, т.е. адрес перехода = 23.
+    </div>    
+    
+    <div id="div_indirect_addr_negative">
+      <h4>
+        Вариант
+        -M<sub>1</sub>.M<sub>2</sub>M<sub>3</sub>M<sub>4</sub>M<sub>5</sub>M<sub>6</sub>M<sub>7</sub>M<sub>8</sub>^&plusmn;P<sub>1</sub>P<sub>2</sub>
+        , т.е. само число отрицательное.
+      </h4>
+      <p>
+        В этом случае все как указано выше, только дописываются не нули, а
+        девятки. Знак самого числа сохраняется.
+      </p>
+      Пример:
+      <span class="code">-123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      перейдет в
+      <span class="code">-99999123.&nbsp;&nbsp;&nbsp;</span>,
+      т.е. адрес перехода = 23.
+      <br>
+      Пример:
+      <span class="code">-1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>
+      не измениться, т.е. адрес перехода будет равен нулю.
+      <br>
+      Пример:
+      <span class="code">-1.2345678-08</span>
+      станет как
+      <span class="code">-9.9999123-03</span>, т.е. адрес перехода = 23.
+      <p>
+        Тут нужно сделать <b>замечание</b>. Есть предположение, что девятки не
+        случайны, а равны 10 - 1, где 10 это знак минус (как 
+        шестнадцатеричная цифра  A).
+        Для проверки такого предположения возьмем нестандартное число, где
+        вместо знака стоит другая цифра. Для этого используем сверхчисла,
+        которые называются 0С-оборотнями (потому что в результате они дают
+        ноль, но оставляют "хвост" в регистре <span class="reg">c</span>). Это
+        числа порядка 1.^400. А "хвост" как раз примечателен тем, что на
+        месте  знака образуется цифра.
+      </p>
+      <p>
+        <span class="but_cx">Сx</span>;
+        <span class="but">ВП</span>;
+        <span class="but">5</span>;
+        <span class="but">0</span>;
+        <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <span class="but_b">П&rarr;x</span><span class="reg">c</span>;
+        <span class="but">ВП</span>;
+        <span class="but">7</span>;
+        <span class="but_b">x&rarr;П</span><span class="but">9</span>.
+      </p>
+        Мы увидим "хвост" <span class="code">2E.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        где двойка стоит на месте знака. Нажав <span class="but">/-/</span>
+        получим девятку, впрочем, можно получить сходным образом и другие
+        цифры, кроме единицы, если программно умножить сверхчисло
+        на 2&hellip;8 по программе:
+      <p>
+        <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+        <small><b>01.</b></small><span class="but">1</span>;
+        <small><b>02.</b></small><span class="but">ВП</span>;
+        <small><b>03.</b></small><span class="but">5</span>;
+        <small><b>04.</b></small><span class="but">0</span>;
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>06.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>07.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>08.</b></small><span class="but">&times;</span>;
+        <small><b>09.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>.
+        <small><b>10.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+        <small><b>11.</b></small><span class="but_b">П&rarr;x</span><span class="reg">c</span>;
+        <small><b>12.</b></small><span class="but">ВП</span>;
+        <small><b>13.</b></small><span class="but">7</span>;
+        <small><b>14.</b></small><span class="but_b">С/П</span>.
+      </p>
+      <p>
+        Так вот, возвращаясь к первому примеру, при косвенной адресации:
+        <span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+        <span class="but_b">П&rarr;x</span><span class="but">9</span>.
+        Двойка уменьшается на единицу и становится
+        <span class="code">21111111E.&nbsp;&nbsp;&nbsp;</span>.
+        Аналогично для других чисел, например, если для
+        <span class="code">9E.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        (которое после <span class="but">/-/</span>) выполнить косвенную адресацию, то получим
+        <span class="code">28888888E.&nbsp;&nbsp;&nbsp;</span>.
+      </p>
+      <p>
+        Раз уж затронули необычные числа, упомяну еще курьез. По указанной выше
+        программе получим (для X=7)
+        <span class="code">8E.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>.
+        Если теперь нажать <span class="but_k">К</span><span class="op_k">ЗН</span> 
+        (<span class="code">81.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>)
+        и взять квадрат(!) этого числа
+        <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>,
+        то неожиданно получим
+        <span class="code">-1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>.
+      </p>
+      <p>
+        Теперь рассмотрим ситуацию, когда само значение регистра еще и меняется
+        как описано в документации. Напомню, что изменения происходят не при 
+        любом косвенном обращении, а только когда точно вычисляется значение 
+        адреса для перехода: для условных операторов - только когда условие 
+        не выполнилось.
+      </p>
+    </div>
+    
+    <div id="div_indirect_addr_R0">
+      <h4>Регистры R0&hellip;R3</h4>
+      <p>
+        Для них преобразованное(!) значение
+        предварительно уменьшается на 1 без(!) учета порядка и знака.
+        В расчет берутся только (но все) цифры мантиссы. При этом если
+        был ноль, то преобразуется в -99999999.
+        Из того, что знак не учитывается выходит, что для отрицательных чисел
+        получается увеличение числа (в арифметическом смысле),
+        а не уменьшение. Примеры:
+      </p>
+      <p>
+        <span class="code">&nbsp;123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        что представляется как 1.23^02, перейдет в 0.0000123^+07,
+        затем уменьшится до 0.000012<b>2</b>^+07 и превратиться в
+        <span class="code">&nbsp;00000122.&nbsp;&nbsp;&nbsp;</span>,
+        т.е. адрес перехода = 22.
+        <br>
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>,
+        что представляется как 1.2300000^-02 уменьшится до 1.2299999^-02
+        превратиться в <span class="code">&nbsp;1.2299999-02</span>,
+        т.е. адрес перехода = 99.
+        <br>
+        <span class="code">-123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        что представляется как -1.23^+02, преобразуется в -9.9999123^+07,
+        затем уменьшится до -9.999912<b>2</b>^+07, превратиться в
+        <span class="code">-99999122.&nbsp;&nbsp;&nbsp;</span>,
+        т.е. адрес перехода = 22.
+        <br>
+        <span class="code">-1.2345678-08</span>, преобразуется в -9.9999123^-03,
+        затем уменьшится до -9.999912<b>2</b>^-03, превратиться в
+        <span class="code">-9.9999122-03</span>, т.е. адрес перехода = 22.
+      </p>
+      <p>
+        Обратите внимание, что при уменьшении до нуля порядок числа
+        сохраняется. Например, если исходно было 1.^-20, то после
+        преобразования будет 0.0000001^-13, а после уменьшения станет
+        0.000000<b>0</b>^-13, т.е.
+        <span class="code">&nbsp;0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-13</span>.
+        Правда такой ноль, кроме необычного вида, в операциях ничем от
+        простого нуля не отличается. Но в сочетании с другими
+        недокументированными возможностями, которые могут объединить
+        мантиссу и порядок от разных чисел
+        (см. <a href="#div_x2_exp_combine">Таинственный регистр X2</a>)
+        это может пригодится.
+        Таким же образом из 1.^90 получается
+        <span class="code">&nbsp;0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;97</span>.
+      </p>
+    </div>  
+    
+    <div id="div_indirect_addr_R4">
+      <h4>Регистры R4&hellip;R6</h4>
+      <p>
+        Для них преобразованное значение
+        предварительно увеличивается на 1, так же без учета порядка и знака.
+        При этом если было &plusmn;99999999 (все девятки), то преобразуется в ноль.
+        Примеры:
+      </p>  
+      <p>
+        <span class="code">&nbsp;123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        что представляется как 1.23^+02, перейдет в 0.0000123^+07, затем
+        увеличится до 0.000012<b>4</b>^+07 и превратиться в
+        <span class="code">&nbsp;00000124.&nbsp;&nbsp;&nbsp;</span>, т
+        .е. адрес перехода = 24.
+        <br>
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>,
+        что представляется как 1.2300000^-02, увеличится до
+        1.230000<b>1</b>^+02  превратиться в
+        <span class="code">&nbsp;1.2300001-02</span>, т.е. адрес перехода = 01.
+        <br>
+        <span class="code">-123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        что представляется как -1.23^+02 преобразуется в -9.9999123^+07,
+        затем увеличится до -9.999912<b>4</b>^+07, превратиться в
+        <span class="code">-99999124.&nbsp;&nbsp;&nbsp;</span>,
+        т.е. адрес перехода = 24.
+        <br>
+        <span class="code">-1.2345678-08</span>, преобразуется в -9.9999123^-03,
+        затем увеличится до -9.999912<b>4</b>^-03, превратиться в
+        <span class="code">-9.9999124-03</span>, т.е. адрес перехода = 24.
+      </p>  
+    </div>  
+    
+    <div id="div_indirect_addr_FL0">
+      <h4>Команды FL0&hellip;FL3</h4>
+      <p>
+        Для них действуют те же правила, что для
+        регистров R0&hellip;R3, только перед уменьшением проверяется, что
+        полученное число не равно единице (опять же без учета знака и порядка).
+        В случае если получится единица, происходит завершение цикла и
+        преобразованное значение НЕ записывается обратно в регистр. Примеры:
+      </p>  
+      <p>
+        <span class="code">&nbsp;123.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        что представляется как 1.23^+02, перейдет в 0.0000123^+07,
+        затем уменьшится до 0.000012<b>2</b>^+07 и   превратиться в
+        <span class="code">&nbsp;00000122.&nbsp;&nbsp;&nbsp;</span>,
+        цикл продолжается.
+        <br>
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-02</span>,
+        что представляется как 1.2300000^-02 уменьшится до 1.2299999^-02
+        превратиться в <span class="code">&nbsp;1.2299999-02</span>,
+        цикл продолжается.
+        <br>
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+        преобразуется в 00000001, равно единице - цикл завершиться, а
+        исходное число не измениться, т.е. останется
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <br>
+        <span class="code">&nbsp;1.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-10</span>,
+        что представляется как 1.23^-10, преобразуется до 0.0000001^-03,
+        равно единице - цикл завершиться, а исходное число не измениться.
+      </p>  
+      <p>
+        Проверить "на единицу" исходное можно через регистры R7&hellip;Re.
+        Если после
+        <span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">R</span>;
+        <span class="but_b">П&rarr;x</span><span class="but">R</span>
+        на экране мантисса будет 00000001 (и где-то точка), то значит
+        цикл прервется на исходном числе.
+      </p>
+    </div>
+    
+    <div id="div_indirect_addr_mantissa">
+      <h4>Мантисса содержит шестнадцатеричные цифры</h4>
+      <p>
+        В этом случае <b>уменьшение</b> идет сначала шестнадцатеричной цифры 
+        до 9, а затем как обычно. При уменьшении ниже 0 идет заем
+        (уменьшение на 1 предыдущего, возможно так же шестнадцатеричного),
+        при это текущая цифра будет не F, а как обычно 9.
+      <p>
+        Переход так же будет на шестнадцатеричный адрес, но с этим мы уже
+        знакомы
+        (см. <a href="#div_addr_space">Программное адресное пространство</a>).
+      </p>
+      <p>
+        К сожалению, если идет <b>увеличение</b>, то число с
+        шестнадцатеричными цифрами предварительно подвергается
+        нормализации (справа налево, смысл как указано во введении):
+        буквы считаются как двузначные, с переносом лишней единицы в
+        предыдущий разряд. Например, число 9AE и +1 будет так: E=14,
+        значит последняя цифра 4, + 1 = 5 и 1 «в уме»;
+        затем A = 10, + 1 в уме, будет 11, т.е. 1 и 1 в уме;
+        далее 9 + 1 = 10. Итого 1015. Это значит, что косвенная адресация
+        через R4&hellip;R6 всегда уберет шестнадцатеричные цифры из числа.
+        При этом нестандартный знак числа (см. замечание в варианте для
+        отрицательных чисел) остается.
+      </p>
+    </div>  
+    
+    <div id="div_indirect_addr_exponent">
+      <h4>Порядок содержит шестнадцатеричные цифры</h4>
+      <p>
+        На самом деле без Еггогологии можно получить только 1.^&plusmn;HH,
+        используя оператор
+        <span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>.
+      </p>
+      <p>
+        Для чисел вида 1.^+0H (одна цифра) никаких преобразований не
+        производится, а значит адрес перехода всегда будет нулевым.
+        Если идет увеличение/уменьшение (через выбор регистра),
+        то мантисса увеличивается/уменьшается в соответствии с правилами выше,
+        а знак и порядок не меняется.
+        Пример: если в регистр R0 записать
+        <span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0E</span>
+        и выполнить
+        <span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">0</span>,
+        то результатом станет уменьшение мантиссы 100000000 до 09999999,
+        т.е. <span class="code">&nbsp;0.9999999&nbsp;0E</span>.
+       </p>  
+      <p>
+        Для двузначных чисел порядка ситуация сложнее. Возьмем,
+        для примера 1.^+B0
+        (<span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L0</span>).
+        Кстати, 1.^+AA будет автоматически переведено в 1.^+B0,
+        как и 1.^+0A будет автоматически переведено в 1.^+10
+        (чем-то именно A не нравиться, для остальных цифр такого не замечено, 
+        хотя и тут можно обмануть, если для 1^.-LL набрать ВП 55).
+        Так вот, по сути это число равно 1.^+110. Как видно, вместо знака
+        порядка используется цифра, но для ПМК это тоже, что и знак,
+        поэтому будет применено правило для отрицательных порядков, то
+        есть допишется слева 7(10-3) нулей, что приведет к 0.0000001^117.
+        Т.е. в качестве адреса перехода будет 01, но само число из регистра
+        уже лучше не извлекать, т.к. оно будет сверхчислом и на экране
+        отображаться как ЕГГ0Г.
+      </p>
+      <p>
+        Если у двузначных чисел порядок отрицательный, то срабатывает
+        правило "сумма=160", это значит, что внутренне порядок меняется на
+        число по модулю 160. Для примера, возьмем 1.^-C0
+        (<span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-C0</span>).
+        Это эквивалентно 1.^-120, а по правилу =160, как 1.^+40.
+        Используя правило преобразования для чисел больше единицы, получаем,
+        что число будет преобразовано в 0.0000001^+47, соответственно
+        адрес перехода 01, а полученное после косвенной адресации число можно
+        просто извлечь из регистра: будет
+        <span class="code">&nbsp;0.0000001&nbsp;47</span>
+        Для сравнения, если взять 1.^-C1, то правило =160, приведет к 1.^+39,
+        что не поддается преобразованию (9 &gt; 7), а значит само число после
+        косвенной адресации не измениться и останется
+        <span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-C1</span>
+        (адрес переход равен 00). Да, к этому число можно прибавить 0,
+        чтобы увидеть
+        <span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;39</span>.
+      </p>
+      <p>
+        Если идет увеличение/уменьшение (через выбор регистра), то мантисса
+        увеличивается/уменьшается в соответствии с правилами выше.
+      </p>  
+      <p>
+        Кстати, в связи с этим вспомнилась еще одна не документированность.
+        Возьмем число 1.^-E0
+        (<span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-E0</span>):
+      </p>
+      <p>
+        <span class="but">8</span>;
+        <span class="but">8</span>;
+        <span class="but">В&uarr;</span>;
+        <span class="but">6</span>;
+        <span class="but">6</span>;
+        <span class="but_k">К</span><span class="op_k">&or;</span>
+        <span class="but">/-/</span>;
+        <span class="but_k">К</span><span class="op_k">{x}</span>
+        <span class="but">ВП</span>;
+        <span class="but">2</span>;
+        <span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>.
+      </p>
+      Получилось число как 1.^-140 или по правилу 160 = 1.^20. Теперь
+      если убрать еще 20 из порядка:
+      <p>
+        <span class="but">ВП</span>;
+        <span class="but">2</span>;
+        <span class="but">0</span>;
+        <span class="but">/-/</span>;
+        <span class="but_b">x&rarr;П</span><span class="but">9</span>.
+      </p>
+      <p>
+        то мы получим очень интересное число 1.^-00
+        (<span class="code">&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-00</span>).
+      </p>
+      У этой единицы есть замечательные способности:
+      <ul>
+        <li>
+          При умножении на число больше или равное единице оно ведет себя
+          как единица, а вот при умножении на число меньше единицы - как ноль.
+        </li>
+        <li>
+          При делении (на него) числа больше или равное десяти, оно ведет
+          себя как единица, а если число меньше десяти - то как ноль
+          (т.е. ЕГГ0Г).  Если делить это число на что-то, то ведет себя как
+          обычная единица.
+        </li>
+        <li>
+          При сложении/вычитании оно попадает сразу во второй разряд:
+          5 + 1.^-00 = 51; 2 - 1.^-00 = 19. Точнее, число становится 
+          двузначным, и операция выполняется со вторым разрядом:
+          2.3 + 1.^-00 = 24; &pi; - 1.^-00 = 30.415926. Для двух и более 
+          значных получается, как просто единица.
+        </li>
+        <li>
+          При взятии корня будет 1.^-48, но квадрат от нее будет просто 1.
+        </li>
+        <li>
+          Дробная часть не меняет его, т.е. оно же остается, соответственно
+          целая часть дает ноль.
+        </li>
+        <li>
+          Некоторые тригонометрические функции его тоже отличают.
+          Например, arccos(1) = 0;00;00 (для Р;ГРД;Г),
+          но arccos(1.^-00) = 7.8539812^-01;49.999997;44.999998.
+        </li>
+        <li>
+          e<sup>x</sup> его считает единицей, но для 10<sup>x</sup> уже
+          будет переполнение (ЕГГ0Г).
+        </li>
+      </ul>
+    </div>  
+    
+    <div id="div_indirect_addr_reg">
+      <h4>Значение - номер регистра, а не адрес</h4>
+      <p>
+        Если косвенное значение представляет не адрес, а
+        номер регистра, то его номер также определятся двумя последними
+        числами, разбиваясь на два варианта,
+        когда первая цифра значения ноль, и когда нет:
+      </p>
+      <table class="trcenter">
+        <tr><th>Первая ноль</th><th>Первая НЕ ноль</th></tr>
+        <tr><td>00&rarr;R0</td><td>#0&rarr;Ra</td></tr>
+        <tr><td>01&rarr;R1</td><td>#1&rarr;Rb</td></tr>
+        <tr><td>02&rarr;R2</td><td>#2&rarr;Rc</td></tr>
+        <tr><td>03&rarr;R3</td><td>#3&rarr;Rd</td></tr>
+        <tr><td>04&rarr;R4</td><td>#4&rarr;Re</td></tr>
+        <tr><td>05&rarr;R5</td><td>#5&rarr;R0</td></tr>
+        <tr><td>06&rarr;R6</td><td>#6&rarr;R0</td></tr>
+        <tr><td>07&rarr;R7</td><td>#7&rarr;R1</td></tr>
+        <tr><td>08&rarr;R8</td><td>#8&rarr;R2</td></tr>
+        <tr><td>09&rarr;R9</td><td>#9&rarr;R3</td></tr>
+        <tr><td>0A&rarr;Ra</td><td>#A&rarr;R4</td></tr>
+        <tr><td>0B&rarr;Rb</td><td>#B&rarr;R5</td></tr>
+        <tr><td>0C&rarr;Rc</td><td>#C&rarr;R6</td></tr>
+        <tr><td>0D&rarr;Rd</td><td>#D&rarr;R7</td></tr>
+        <tr><td>0E&rarr;Re</td><td>#E&rarr;R8</td></tr>
+        <tr><td>0F&rarr;R0</td><td>#F&rarr;R9</td></tr>
+      </table>
+    </div>  
+    
+    <div id="div_indirect_addr_using">
+      <h4>Практическое использование</h4>
+      <p>
+        Вот пример использования знаний косвенной адресации для
+        номеров регистров: программа заполняет регистры R0&hellip;R3
+        инвертированными случайными числами, при этом используется
+        только один регистр R0.
+      </p>
+      <p>
+        <small><b>00.</b></small><span class="but_cx">Сx</span>;
+        <small><b>01.</b></small><span class="but_b">x&rarr;П</span><span class="but">0</span>;
+        <small><b>02.</b></small><span class="but_k">К</span><span class="op_k">СЧ</span>;
+        <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+        <small><b>04.</b></small><span class="but_k">К</span><span class="but_b">x&rarr;П</span><span class="but">0</span>;
+        <small><b>05.</b></small><span class="but_b">П&rarr;x</span><span class="but">0</span>;
+        <small><b>06.</b></small><span class="but_f">F</span><span class="op_f">x&ges;0</span>;
+        <small><b>07.</b></small><span class="but">02</span>;
+        <small><b>08.</b></small><span class="but_b">С/П</span>
+      </p>
+      <p>
+        Еще практических советов. Уменьшение шестнадцатеричной цифры для БЗ-34
+        было единственным способом из цифры E получить остальные цифры.
+        В МК-61 с приходом бинарных операций стало проще, но т.к. первая цифра
+        все еще не во власти этих операций, то через косвенную адресацию
+        получается быстрее, чем через дробную часть и ввод порядка.
+      </p>
+      <p>
+        Особенность не уменьшения числа по окончании цикла, с учетом того,
+        что фактически число может сильно отличаться от единицы
+        (см. пример выше) позволяет использовать команды FLx для быстрой
+        проверки значения регистра с одновременным переходом при удаче/неудаче.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id="div_x2">
+    <h3>Таинственный регистр X2</h3>
+    <p>
+      Такой регистр действительно не упоминается в документации. В
+      действительности этот тот регистр, содержимое которого отображается на
+      дисплее при остановке ПМК. Поэтому его иногда называют <i>экранным</i> регистром.
+    </p>
+    <p>
+      В документации указано, что таковым является регистр X, но это не так.
+      В режиме вычислений после каждой команды содержимое регистра X сразу же
+      копируется в X2. И поэтому разницы между ними нет.
+      При таком копировании производятся дополнительные проверки
+      (например, на предмет переполнения).
+      Видимо в целях экономии в программном режиме при выполнении
+      большинства(!) команд такое копировании не производится.
+      Более того (а это и есть самое полезное), некоторые команды позволяют
+      сделать и обратное копирование.
+    </p>
+    
+    <div id="div_x2_affect">
+      <h4>X2-влияющие команды</h4>
+      <p>
+        Для начала опишем список команд, которые копируют содержимое X в X2
+        (после выполнения, конечно). Назовем такие команды как X2-влияющие.
+      </p>
+      <b>Безусловно</b> выполняют копирование X&rarr;X2 следующие команды:
+      <ul>
+        <li>
+          ввод числа (после ввода каждой цифры, в том числе и разделителя ".")
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but">/-/</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_cx">Сx</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but">В&uarr;</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">Вx</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_b">С/П</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_b">В/О</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_b">П&rarr;x</span><span class="but">R</span> (R=0&hellip;F)
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">R</span>
+          (R=0&hellip;F)
+        </li>
+        <li style="padding: 3px 0">
+          пустые операторы с кодами F0-FF
+        </li>
+        <li style="padding: 3px 0">
+          все команды, генерирующие ошибку (в силу перехода в режим вычислений),
+          например,
+          27(<span class="but_k">К</span><span class="but">-</span>),
+          28(<span class="but_k">К</span><span class="but">&times;</span>),
+          29(<span class="but_k">К</span><span class="but">&divide;</span>),
+          2B-2E, 3C и стандартные операции при генерации ошибок.
+        </li>
+      </ul>
+      Выполняют копирование только <b>при НЕ переходе на адрес</b>
+      следующие команды:
+      <ul>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">x&lt;0</span>
+          (команда <span class="but_k">К</span><span class="op_f">x&lt;0</span> -
+          никогда НЕ влияет на X2)
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">x=0</span> (команда
+          <span class="but_k">К</span><span class="op_f">x=0</span> -
+          никогда НЕ влияет на X2)
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">x&ges;0</span> (команда
+          <span class="but_k">К</span><span class="op_f">x&ges;0</span> -
+          никогда НЕ влияет на X2)
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">x&ne;0</span> (команда
+          <span class="but_k">К</span><span class="op_f">x&ne;0</span> -
+          никогда НЕ влияет на X2)
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">L0</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">L1</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">L2</span>
+        </li>
+        <li style="padding: 3px 0">
+          <span class="but_f">F</span><span class="op_f">L3</span>
+        </li>
+      </ul>
+      Для условных операторов это означает, что копирование X&rarr;X2
+      производится, когда условие выполняется. Для циклов - когда
+      цикл завершается.
+      <p>
+        Остальные операторы НЕ копируют X в X2. А это, например, означает, что
+        регистр X во время таких операций может содержать сверхчисло
+        (больше или равно 10<sup>100</sup>).
+        При этом, конечно, нужно учитывать, чтобы команда сам по себе не делала
+        такую проверку на переполнение.
+        Например,
+        <span class="but_f">F</span><span class="op_f">10<sup>x</sup></span> делает
+        проверку параметра перед выполнением, а
+        <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span> - нет.
+      </p>
+      <p>
+        Для пояснения рассмотрим такую программу:
+      </p>
+      <p>
+        <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+        <small><b>01.</b></small><span class="but">5</span>;
+        <small><b>02.</b></small><span class="but">0</span>;
+        <small><b>03.</b></small><span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>;
+        <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x=0</span>;
+        <small><b>06.</b></small><span class="but">07</span>;
+        <small><b>07.</b></small><span class="but_cx">Сx</span>;
+        <small><b>08.</b></small><span class="but_b">С/П</span>.
+      </p>
+      <p>
+        Можно увидеть, что на шаге 04 в регистре X возникает сверхчисло.
+        Причем оператор 
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x=0</span> 
+        не выполняется, т.е. идет переход на адрес 07 (как адрес перехода). 
+        В соответствии с таблицей выше, в этом случае копирование X в X2 
+        не происходит, а значит, ошибки не должно возникать.
+        В чем легко убедиться, запустив программ.
+      </p>
+      <p>
+        Но если в программе заменить оператор на
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x&ne;0</span>,
+        то условие уже будет выполняться, и будет выполняться копирование
+        X в X2, которое приведет к ошибке.
+        Что также проверяется запуском программы.
+      </p>
+      <p>
+        Все это не имело бы практического смысла, если бы не было команд,
+        которые делают обратное копирование X2&rarr;X.
+      </p>
+    </div>
+
+    <div id="div_x2_point">
+      <h4>Команда <span class="but">.</span> (код 0A)</h4>
+      <p>
+        Данная команда в программном режиме восстанавливает в регистре X
+        значение X2 (за исключением случая, когда идет обычный ввод числа,
+        например, 1.23, в этом случае поведение полностью соответствует
+        документации и эквивалентно режиму вычислений). При этом содержимое
+        стека не меняется. Также команда ничего не делает после X2-влияющей
+        команды, но это и логично.
+      </p>
+      <p>
+        На практике такую команду чаще всего используют для экономии регистров,
+        реже - когда требуется ввод без изменения стека.
+        <br>
+        Пример: проверка битового флага и если его нет, то его установка.
+        Пусть в R9 храниться некое число для работы с битами, а в R1 бит
+        для проверки, тогда следующий фрагмент сначала сделает проверку
+        доступности бита, а при недоступности, сделает его установку:
+      </p>
+      <p>
+        <small><b>00.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+        <small><b>01.</b></small><span class="but_b">П&rarr;x</span><span class="but">1</span>;
+        <small><b>02.</b></small><span class="but_k">К</span><span class="op_k">&and;</span>;
+        <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+        <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">x&ne;0</span>;
+        <small><b>05.</b></small><span class="but">77</span>;
+        &hellip;;
+        <small><b>77.</b></small><span class="but_b">.</span>;
+        <small><b>78.</b></small><span class="but_k">К</span><span class="op_k">&or;</span>;
+        <small><b>79.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>.
+      </p>
+      <p>
+        Получается, что оператор "точка" по адресу 77 восстановит R1 в X без
+        сдвига стека, что позволит сразу выполнить бинарную операцию.
+        Обычно само значение из R1 "вычислено", а не храниться в регистре.
+        Обратите внимание, что выбрана не X2-влияющая проверка с переходом.
+      </p>
+      <p>
+        Еще пример - использовать оператора точка как входной параметр
+        подпрограммы, т.е. эта команда стоит первым оператором. В этом случае,
+        например, после ввода пользователя (после команды С/П, которая всегда
+        копирует X в X2), сначала выполняются некие вычисления, не
+        затрагивающие X2 (в том числе сохранение этих результатов в регистры),
+        а затем вызов подпрограммы, которая таким образом "видит" ввод
+        пользователя.
+      </p>
+    </div>  
+
+    <div id="div_x2_exp">
+      <h4>Команда <span class="but">ВП</span> (код 0C)</h4>
+      <p>
+        Для этой команды существуют несколько условий и правил восстановления.
+        Обращаю внимание, что после X2-влияющей команды она ведет себя как
+        обычно (как документировано).  Причем, даже если она используется
+        нестандартно (и выполнит некое восстановление), то все равно после ее
+        выполнения ввод цифр будет восприниматься как ввод порядка.
+      </p>
+      <ul>
+        <li><div id="div_x2_exp_SR">
+          <b>Восстановление X2 с отбрасыванием первой цифры</b>.
+          Это выполняется после последовательности операторов
+          <span class="but_b">x&rarr;П</span><span class="but">R</span>;
+          <span class="but">ВП</span>,
+          где R - любой регистр памяти. При этом текущее содержимое регистра
+          X теряется, без изменения стека.
+          <p>
+            Пример. Пусть нам нужно обработать ввод выбора пользователя для
+            перемещения в некоем 3-ном лабиринте. Обычно используются клавиши
+            2,4,6,8,&plusmn;5 (что соответствует направлению движения).
+            Рассмотрим такую последовательность (в предположении, что выбор
+            пользователя храниться в регистре R9 и значение 0 имеет еще
+            какой-то дополнительный смысл):
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+            <small><b>01.</b></small><span class="but">2</span>;
+            <small><b>02.</b></small><span class="but">&divide;</span>;
+            <small><b>03.</b></small><span class="but_f">F</span><span class="op_f">x&ne;0</span>
+            <small><b>04.</b></small><span class="but">77</span>;
+            <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>06.</b></small><span class="but">+</span>;
+            <small><b>07.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>;
+            <small><b>08.</b></small><span class="but">ВП</span>;
+            <small><b>09.</b></small><span class="but_f">F</span><span class="op_f">x=0</span>
+            <small><b>10.</b></small><span class="but">55</span>;
+            <small><b>11.</b></small><span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">9</span>
+          </p>
+          <p>
+            Что здесь происходит? На шаге два мы получим одно из чисел
+            1, 2, 3, 4, &plusmn;2.5 или 0. Условным оператором мы не только отсекаем
+            вариант с нулем, но делаем X&rarr;X2. Далее к полученному числу
+            сразу прибавляем &pi; и сохраняем в R9 для дальнейшей косвенной
+            адресации (пусть в R4&hellip;R7 хранятся коэффициенты умножения для
+            выполнения движения).  Обращаю внимание, что тут использованы не
+            X2-влияющие команды.  После команды <span class="but">ВП</span> мы
+            "восстановим" в X то значение, что было после деления на шаге 02,
+            только без первой цифры, т.е. ноль (для 1&hellip;4) или &plusmn;0.5, чтобы
+            использовать это для последующего ветвления программы
+            (умножение на коэффициент деления, а для &plusmn;0.5 можно будет взять
+            знак числа и т.д.). Без использования <span class="but">ВП</span>
+            потребовалось бы использовать или дополнительный
+            регистр, или дополнительные команды по манипуляции со стеком.
+          </p>
+          <p>
+            Дополнительные условия. <b>Если</b> содержимое X2 равно <b>нулю</b>,
+            то будет восстановлена <b>единица</b>.
+          </p>
+          <p>
+            Если в момент восстановления (выполнения команды
+            <span class="but">ВП</span>) содержимое регистра <b>X   меньше нуля</b>,
+            то вместо удаления первой цифры у числа X2,
+            она будет <b>заменена на 9</b>.
+            <br>
+            Например, после выполнения программы
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>01.</b></small><span class="but">/-/</span>;
+            <small><b>02.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>03.</b></small><span class="but">&times;</span>;
+            <small><b>04.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>;
+            <small><b>05.</b></small><span class="but">ВП</span>;
+            <small><b>06.</b></small><span class="but_b">С/П</span>
+          </p>
+          <p>
+            на экране будет <span class="code">-9.1415926&nbsp;&nbsp;&nbsp;</span> в
+            R9 будет -&pi;&times;&pi; (команда по адресу 01 X2-влияющая).
+          </p>
+        </div></li>
+        <li><div id="div_x2_exp_combine">
+          <b>Восстановление X2 с заменой первой цифры на цифру из числа в X</b>.
+          Как правило это наиболее интересная последовательность.
+          Она позволяет нестандартно сочетать два числа.
+          <p>
+            Рассмотри последовательность
+            <span class="but_k">К</span><span class="op_k">НОП</span>;
+            <span class="but">ВП</span>.
+            При этом <span class="but_k">К</span><span class="op_k">НОП</span> взята как
+            более нейтральная, могут быть и другие не X2-влияющие команды,
+            назовем это первой командой. Тут важно учитывать:
+          </p>
+          <ol>
+            <li>
+              В качестве образца первой цифры берется содержимое X до(!)
+              начала данной последовательности.
+            </li>
+            <li>
+              Если вместо <span class="but_k">К</span><span class="op_k">НОП</span>
+              стоит другая не X2-влияющая команда, то она выполняется, но
+              результат ее выполнения будет потерян. Т.е. ни первая цифра
+              числа, ни что остальное не учтется. При этом стек
+              будет иметь состояние как обычно после выполнения команды.
+            </li>
+            <li>
+              Если первая команда - это переход на другой адрес, то она
+              выполниться и последовательность с <span class="but">ВП</span>
+              будет нарушена.
+            </li>
+            <li>
+              Если первая команда генерит ошибку, то снова последовательность
+              с <span class="but">ВП</span> будет нарушена.
+            </li>
+            <li>
+              Если первая команда это
+              <span class="but_b">x&rarr;П</span><span class="but">R</span>, то будет
+              выполнено по правилу, описанному выше, с отбрасыванием первой цифры.
+            </li>
+          </ol>
+          <p>
+            Пример:
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>01.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+            <small><b>02.</b></small><span class="but_k">К</span><span class="op_k">ЗН</span>;
+            <small><b>03.</b></small><span class="but_f">F</span><span class="op_f">Вx</span>;
+            <small><b>04.</b></small><span class="but">&xharr;</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>
+            <small><b>06.</b></small><span class="but">ВП</span>;
+            <small><b>07.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            В результате получим <span class="code">1.ELE·6Г9&nbsp;&nbsp;&nbsp;</span>.
+            Тут дробная часть понятна - это инверсия числа &pi; которое
+            сохраняется X2-влияющей командой по адресу 03. А интересна тут
+            цифра 1 на первом месте, которая появилась в стеке по команде
+            <span class="but_k">К</span><span class="op_k">ЗН</span>.
+            Именно она подставляется вместо восьмерки при восстановлении.
+          </p>
+          <p>
+            Интересно, что первой цифрой может быть и шестнадцатеричная, тем
+            самым можно получить то, что в режиме вычислений трудно сделать.
+            Например,
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>
+            <small><b>01.</b></small><span class="but">9</span>;
+            <small><b>02.</b></small><span class="but_f">F</span><span class="op_f">1/x</span>;
+            <small><b>03.</b></small><span class="but">5</span>;
+            <small><b>04.</b></small><span class="but">&times;</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+            <small><b>06.</b></small><span class="but">/-/</span>;
+            <small><b>07.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+            <small><b>08.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>
+            <small><b>09.</b></small><span class="but">ВП</span>;
+            <small><b>10.</b></small><span class="but">/-/</span>;
+            <small><b>11.</b></small><span class="but">9</span>;
+            <small><b>12.</b></small><span class="but">9</span>;
+            <small><b>13.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            Будет 10(!) "минусов".
+            <span class="code">--.--------99</span>. Тут
+            X2-влияющая команда по адресу 06 фиксирует 8.AAAAAAA
+            (заодно добавляя минус), а оператор дробной части оставляет на
+            первом месте тоже цифру A. Все это последовательность с
+            <span class="but">ВП</span> успешно объединяет, а порядок -99 в конце
+            дописывается для красоты.
+          </p>
+          <p>
+            Еще пример. Пусть нужна подпрограмма, которая из первой цифры
+            (целой части) дробного числа в регистре X делает букву.
+            Например, 1&rarr;E, 2&rarr;D,... 4&rarr;A.
+            В режиме вычислений для этого подошла бы последовательность
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but">1</span>;
+            <small><b>01.</b></small><span class="but">0</span>;
+            <small><b>02.</b></small><span class="but">+</span>;
+            <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+            <small><b>04.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+            <small><b>05.</b></small><span class="but">ВП</span>;
+            <small><b>06.</b></small><span class="but">1</span>;
+            <small><b>07.</b></small><span class="but_k">К</span><span class="op_k">[x]</span>.
+          </p>
+          <p>
+            С учетом специфики выполнения команды <span class="but">ВП</span> в
+            программном режиме нужно еще скопировать X&rarr;X2 после команды
+            <span class="but_k">К</span><span class="op_k">{x}</span>, т.е.
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but">1</span>;
+            <small><b>01.</b></small><span class="but">0</span>;
+            <small><b>02.</b></small><span class="but">+</span>;
+            <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+            <small><b>04.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+            <small><b>05.</b></small><span class="but">В&uarr;</span>;
+            <small><b>06.</b></small><span class="but">ВП</span>;
+            <small><b>07.</b></small><span class="but">1</span>;
+            <small><b>08.</b></small><span class="but_k">К</span><span class="op_k">[x]</span>.
+          </p>
+          <p>
+            Это +1 команда, к тому же стек будет испорчен. Рассмотрим
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but">1</span>;
+            <small><b>01.</b></small><span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>;
+            <small><b>02.</b></small><span class="but">+</span>;
+            <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">ИНВ</span>;
+            <small><b>04.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>06.</b></small><span class="but">ВП</span>.
+          </p>
+          <p>
+            Здесь, благодаря восстановлению единицы (шаг 0), на шаге 06,
+            останется только одна шестнадцатеричная цифра.
+            Так недокументированная последовательность сделала подпрограмму
+            короче на два шага.
+          </p>
+          <p>
+            Нужно понимать, что если число в X2 не нормализовано, то все равно
+            заменяется первая цифра. Воспользуемся знаниями косвенной адресации:
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">4</span>;
+            <small><b>02.</b></small><span class="but_b">x&rarr;П</span><span class="but">7</span>;
+            <small><b>03.</b></small><span class="but_k">К</span><span class="but_b">БП</span><span class="but">7</span>;
+            <small><b>04.</b></small><span class="but_b">П&rarr;x</span><span class="but">7</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>06.</b></small><span class="but">ВП</span>;
+            <small><b>07.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            В данном случае 4 после косвенного перехода становится 00000004,
+            а значит замена первой цифры приведет к
+            <span class="code">&nbsp;40000004.&nbsp;&nbsp;&nbsp;</span>,
+            в чем легко убедиться, запустив программу.
+          </p>
+          <p>
+            Теперь рассмотрим особенности. Если число <b>X</b> до начала
+            последовательности <b>было нулем</b>, то вместо первой цифры
+            устанавливается ноль. Обычно это значит, что число будет без первой
+            цифры (начальный ноль не значащий). Но если он уже и так там был
+            (например, число - это результат косвенной адресации с ведущими
+            нулями), тогда никаких полезных действий не будет.
+            Впрочем, иногда, именно это различие можно использовать, чтобы
+            узнать, выполнялась ли косвенная адресация или нет.
+          </p>
+          <p>
+            Если <b>X2 нулевое</b>, то тут как бы проявляется известный трюк
+            с ВП, который 0 превращает в 1. В данном случае первая цифра числа
+            X увеличивается на 1. Вот фрагмент:
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">0</span>;
+            <small><b>03.</b></small><span class="but">&xharr;</span>;
+            <small><b>04.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>05.</b></small><span class="but">ВП</span>;
+            <small><b>06.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            Если на вход этой программе дать 5, то выдаст 6. А если 9, то
+            выдаст...A(!), потом аналогично B, C, D, E, F. Впрочем, последнее
+            лучше тут же заменить на 0 и прочистить стек - пустышки коварны
+            (во всяком случае, если на вход передать F, то программа однозначно
+            будет перекручена во что-то неузнаваемое).
+          </p>
+          <p>
+            Еще пример:
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_f">F</span><span class="op_f">1/x</span>;
+            <small><b>01.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>02.</b></small><span class="but">ВП</span>;
+            <small><b>03.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            На вход
+            <span class="code">-9.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+            на выходе первая цифра от обратной величины
+            <span class="code">-1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>.
+          </p>
+        </div></li>
+        <li><div id="div_x2_exp_goto">
+          <b><span class="but">ВП</span> сразу после косвенного перехода</b>. 
+          Т.е. в программе делается переход через команду
+          <span class="but_k">К</span><span class="but_b">БП</span><span class="but">R</span>
+          или переход при проверке условия, например,
+          <span class="but_k">К</span><span class="op_f">x=0</span><span class="but">R</span>
+          и сразу в месте, куда выполнился переход идет команда
+          <span class="but">ВП</span>.
+          <p>
+            В этом случае также идет восстановление X2, но при этом <b>первая
+            цифра меняется на 7</b>. Знак и порядок сохраняются. Аналогично
+            тому, что и ранее, если число в X2 не нормализовано,
+            то все равно идет замена первой цифры, оставляя остальные как есть.
+            В случае  X2=0 число будет восстановлено как 8.
+          </p>
+          <p>
+            Для условных переходов это работает только если идет переход на
+            адрес. Если же условие выполняется (т.е. без перехода),
+            то поведение будет как указано выше (фактически команда будет
+            проигнорирована). Если первая после перехода не
+            <span class="but">ВП</span>, то тоже по правилам для
+            <span class="but">ВП</span> ранее.  Пример.
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">1</span>;
+            <small><b>02.</b></small><span class="but">0</span>;
+            <small><b>03.</b></small><span class="but_b">x&rarr;П</span><span class="but">8</span>;
+            <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="but_b">БП</span><span class="but">8</span>;
+            &hellip;
+            <small><b>10.</b></small><span class="but">ВП</span>;
+            <small><b>11.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            После остановке на экране будет
+            <span class="code">&nbsp;70.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>,
+            т.е. восстановлено X2=10 (вместо 100), и первая цифра заменена на 7.
+          </p>
+          <p>
+            Еще пример.
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>02.</b></small><span class="but">6</span>;
+            <small><b>03.</b></small><span class="but">+</span>;
+            <small><b>04.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+            <small><b>06.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+            <small><b>07.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>08.</b></small><span class="but_k">К</span><span class="but_b">БП</span><span class="but">9</span>;
+            <small><b>09.</b></small><span class="but">ВП</span>;
+            <small><b>10.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            По уже указанными правилам будет
+            <span class="code">&nbsp;70000009.&nbsp;&nbsp;&nbsp;</span>. Если
+            заменить команду по адресу 08 на
+            <span class="but_k">К</span><span class="op_f">x=0</span><span class="but">9</span>,
+            то ничего не измениться, т.к. условие не выполниться и будет переход.
+            Но если заменить на
+            <span class="but_k">К</span><span class="op_f">x&ne;0</span><span class="but">9</span>,
+            то уже условие выполниться, перехода не будет, и сработает старое
+            правило, т.е. будет использована первая цифра числа в X, т.е.
+            <span class="code">&nbsp;30000009.&nbsp;&nbsp;&nbsp;</span>.
+          </p>
+        </div></li>
+        <li><div id="div_x2_exp_plus">
+          <b>Использование <span class="but">ВП</span> как сложение.</b> 
+          Редкий случай, скорее для информации только. Последовательность
+          <span class="but_k">К</span><span class="op_k">НОП</span>;
+          <span class="but">ВП</span>;
+          <span class="but">ВП</span>.
+          При нулевом значении X2, сначала, как и описывалось ранее, увеличит X
+          на единицу, а второе ВП уже на величину цифры, которая была до
+          увеличения. Последующие добавления ВП уже ничего не меняют.
+          Пример:
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">0</span>;
+            <small><b>02.</b></small><span class="but">&xharr;</span>;
+            <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>04.</b></small><span class="but">ВП</span>;
+            <small><b>05.</b></small><span class="but">ВП</span>;
+            <small><b>06.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            На вход 6, на выходе D(6+7=13). На вход D, на выходе B(13+14=27=16+11).
+          </p>
+        </div></li>
+        <li><div id="div_x2_exp_down">
+          <b>Команда <span class="but">.</span> перед <span class="but">ВП</span> 
+          "сдвигает" захват X</b> глубже на начало.
+          <p>
+            Обычно команда <span class="but">.</span> восстанавливает в X значение
+            X2, но <span class="but">ВП</span> тоже пытается восстановить X2,
+            но 1-ю цифру берет ту, что было за 2 хода в до нее в X. Рассмотрим
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">1</span>;
+            <small><b>02.</b></small><span class="but">5</span>;
+            <small><b>03.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+            <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>06.</b></small><span class="but">.</span>;
+            <small><b>07.</b></small><span class="but">ВП</span>;
+            <small><b>08.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            Результат 55, потому что
+            15<sup>2</sup>=225, 225<sup>2</sup>=<b>5</b>0625 и «выигрывает» ВП,
+            который восстановит X2(15), с первой цифрой 5.
+            Если убрать второй КНОП, то результат будет 25 (2 от 225), т. е.
+            второй x<sup>2</sup> будет проигнорирован, как будто команда «.»
+            отодвинула ВП вглубь.
+            Если поменять KНОП и «.» местами, то будет 15, т. к. «.»
+            восстановит 15 и уже с ним работает ВП, как в ручном режиме.
+            Другой пример:
+          </p>
+          <p>
+            <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>01.</b></small><span class="but">1</span>;
+            <small><b>02.</b></small><span class="but">5</span>;
+            <small><b>03.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+            <small><b>04.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>;
+            <small><b>05.</b></small><span class="but_k">К</span><span class="op_k">НОП</span>;
+            <small><b>06.</b></small><span class="but">.</span>;
+            <small><b>07.</b></small><span class="but">ВП</span>;
+            <small><b>08.</b></small><span class="but_b">С/П</span>.
+          </p>
+          <p>
+            Здесь «.» отодвигает до хП9, т.е. восстановится 15 с цифрой 3,
+            т.е. 35. Если убрать КНОП, то поведение будет как у хП9;ВП, т.е.
+            15 без первой цифры (5)".
+          </p>
+        </div></li>
+      </ul>
+    </div>
+    
+    <div id="div_x2_final">
+      <h4>Итог</h4>
+      <p>
+        Причиной нестандартного поведения команд
+        <span class="but">ВП</span> и <span class="but">.</span> является то, что
+        подпрограммы ввода числа в ПМК, в том числе его порядка,
+        работают напрямую с регистром X2.
+      </p>
+      Рассмотрим пример, который затрагивает другую команду ввода числа:
+      <p>
+        <small><b>01.</b></small><span class="but">B&uarr;</span>;
+        <small><b>02.</b></small><span class="but">ВП</span>;
+        <small><b>03.</b></small><span class="but">2</span>;
+        <small><b>04.</b></small><span class="but">/-/</span>;
+        <small><b>05.</b></small><span class="but_b">С/П</span>.
+      </p>
+      Очевидно, что тут произойдет деление на 100. Этот код ведет себя в
+      соответствии с документацией.  Немного дополним его:
+      <p>
+        <small><b>01.</b></small><span class="but">B&uarr;</span>;
+        <small><b>02.</b></small><span class="but">ВП</span>;
+        <small><b>03.</b></small><span class="but">2</span>;
+        <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">&pi;</span>;
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>06.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>07.</b></small><span class="but">/-/</span>;
+        <small><b>08.</b></small><span class="but_b">С/П</span>.
+      </p>
+      Если посмотреть, выглядит так, что после ввода порядка (умножения на 100)
+      мы берем еще &pi;, два раза возводим его в квадрат, а затем делаем
+      отрицательным. На самом деле это фрагмент делает то же, что и первый!
+      Операции ввода числа работают с X2, в промежутке все команды - не
+      X2-влияющие, они, конечно, будут выполнены, но результат будет отброшен
+      при выполнении команды <span class="but">/-/</span>, которая продолжит ввод
+      числа (в данном случае порядка) в регистре X2.
+      То, что промежуточные команды выполнялись, можно узнать по содержимому
+      стека - в регистре Y будет входное значение, умноженное на 100,
+      а в X1 - квадрат от &pi;.
+      <p>
+        Еще пример. Известно (хотя не документировано), что для запрета ввода
+        точки при вводе порядка, сочетание команд <span class="but">ВП</span> и
+        <span class="but">.</span> генерит ошибку. Более того, в отличии от остальных
+        способов получения ошибки он отличается тем, что
+      </p>
+      <ol>
+        <li>Он самый быстрый, действует мгновенно, а не "задумываясь".</li>
+        <li>
+          Он не пропускает в программном режиме лишнюю команду, как делают
+          все остальные операции, вызывающие ошибку (ах да, это тоже не
+          документировано).
+        </li>
+      </ol>
+      <p>
+        Но это сочетание также работает с X2, т.е. игнорирует все не X2-влияющие
+        команды. В связи с этим становится ясно, что следующий фрагмент:
+      </p>
+      <p>
+        <small><b>01.</b></small><span class="but">B&uarr;</span>;
+        <small><b>02.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>03.</b></small><span class="but">ВП</span>;
+        <small><b>04.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>05.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>06.</b></small><span class="but">.</span>;
+        <small><b>07.</b></small><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+        <small><b>08.</b></small><span class="but_b">С/П</span>.
+      </p>
+      остановится по ошибке уже на команде <span class="but">.</span> (т.е. следующим
+      для исполнения будет адрес 07) и успеет возвести в квадрат только дважды
+      (первый квадрат, как не X2-влияющий будет отброшен по команде
+      <span class="but">ВП</span>).
+    </div>  
+  </div>
+  
+  <hr>
+
+  <div id="div_hex">
+    <h3>Шестнадцатеричная арифметика</h3>
+    <p>
+      Речь идет об обычных арифметических операциях, но в ситуации, когда
+      операнд представляет собой число, содержащее шестнадцатеричные цифры
+      A..E (F убрано из рассмотрения как опасное, по крайней мере в качестве
+      первой цифры).
+    </p>
+    <p>
+      Для простоты рассмотрим ситуации, когда число состоит из одной
+      шестнадцатеричной цифры. Далее будем ее обозначать буквой H. Для более
+      ясного порядка операндов будем использовать стандартные обозначения X и Y.
+    </p>
+    
+    <div id="div_hex_h_plus_y">
+      <h4>Операция H <span class="but">+</span> Y</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>Y</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>2</td><td>3</td><td>4</td><td>5</td><td>0</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>3</td><td>4</td><td>5</td><td>0</td><td>1</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>4</td><td>5</td><td>0</td><td>1</td><td>2</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>5</td><td>0</td><td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>10</td><td>21</td><td>22</td><td>24</td><td>24</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>21</td><td>22</td><td>23</td><td>24</td><td>25</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>25</td><td>26</td><td>27</td><td>28</td><td>29</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>27</td><td>28</td><td>29</td><td>30</td><td>31</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>28</td><td>29</td><td>30</td><td>31</td><td>32</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>29</td><td>30</td><td>31</td><td>32</td><td>33</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>30</td><td>31</td><td>32</td><td>33</td><td>34</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>32</td><td>33</td><td>34</td><td>35</td><td>20</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>33</td><td>34</td><td>35</td><td>20</td><td>21</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>34</td><td>35</td><td>20</td><td>21</td><td>22</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>35</td><td>20</td><td>21</td><td>22</td><td>23</td>
+        </tr>          
+      </table>
+      <p>
+        Вычисление идет как шестнадцатеричное, остаток по модулю 16, а от
+        него берется последняя цифра (чтобы осталась одна).
+        X = ((X + Y) mod 16) mod 10.
+        <br>
+        Если <b>Y двузначное</b>, то уже две цифры X = ((X + Y) mod 256)
+        mod 100, а значит получается <b>как обычное сложение</b>, если число
+        двузначное.
+        <br>
+        Если <b>Y дробное</b>, то целая часть как выше, а дробная сохраняется.
+      </p>
+    </div>  
+    
+    <div id="div_hex_x_plus_h">
+      <h4>Операция X <span class="but">+</span> H</h4>
+      <p>
+        В этом случае осуществляется обычное сложение, только результат
+        нормализуется. Например, 0 + A = 10; 9 + E = 23. В случае
+        шестнадцатеричного X см. таблицу выше.
+      </p>
+    </div>  
+    
+    <div id="div_hex_y_minus_h">
+      <h4>Операция Y <span class="but">-</span> H</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>Y</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>-10</td><td>-1</td><td>-2</td><td>-3</td><td>-4</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>-9</td><td>-10</td><td>-1</td><td>-2</td><td>-3</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>-8</td><td>-9</td><td>-10</td><td>-1</td><td>-2</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>-7</td><td>-8</td><td>-9</td><td>-10</td><td>-1</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>-6</td><td>-7</td><td>-8</td><td>-9</td><td>-10</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>-5</td><td>-6</td><td>-7</td><td>-8</td><td>-9</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>-4</td><td>-5</td><td>-6</td><td>-7</td><td>-8</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>-3</td><td>-4</td><td>-5</td><td>-6</td><td>-7</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>-2</td><td>-3</td><td>-4</td><td>-5</td><td>-6</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>-1</td><td>-2</td><td>-3</td><td>-4</td><td>-5</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>0</td><td>-1</td><td>-2</td><td>-3</td><td>-4</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>1</td><td>0</td><td>-1</td><td>-2</td><td>-3</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>2</td><td>1</td><td>0</td><td>-1</td><td>-2</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>3</td><td>2</td><td>1</td><td>0</td><td>-1</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>0</td><td>15</td><td>14</td><td>13</td><td>12</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>1</td><td>16</td><td>15</td><td>14</td><td>13</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>2</td><td>17</td><td>16</td><td>15</td><td>14</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>3</td><td>18</td><td>17</td><td>16</td><td>15</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>4</td><td>19</td><td>18</td><td>17</td><td>16</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>5</td><td>20</td><td>19</td><td>18</td><td>17</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>6</td><td>21</td><td>20</td><td>19</td><td>18</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>7</td><td>22</td><td>21</td><td>20</td><td>19</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>8</td><td>23</td><td>22</td><td>21</td><td>20</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>9</td><td>24</td><td>23</td><td>22</td><td>21</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>0</td><td>25</td><td>24</td><td>23</td><td>22</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>1</td><td>10</td><td>25</td><td>24</td><td>23</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>2</td><td>11</td><td>10</td><td>25</td><td>24</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>3</td><td>12</td><td>11</td><td>10</td><td>25</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>4</td><td>13</td><td>12</td><td>11</td><td>10</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>5</td><td>14</td><td>13</td><td>12</td><td>11</td>
+        </tr>
+      </table>
+      <p>
+        Выглядит похоже на X = (Y - X) mod 16, но не всегда понятно, когда
+        берется заем, а когда нет. Число A какое-то особенное для двузначных.
+        <br>
+        Для трех- и выше значных повторяется как для двузначных,
+        т.е. 100 - A = 90; 100 - B = 105,..., 109 - E = 111.
+      </p>
+    </div>  
+    
+    <div id="div_hex_h_minus_x">
+      <h4>Операция H <span class="but">-</span> X</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>X</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>9</td><td>0</td><td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>8</td><td>9</td><td>0</td><td>1</td><td>2</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>7</td><td>8</td><td>9</td><td>0</td><td>1</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>6</td><td>7</td><td>8</td><td>9</td><td>0</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>4</td><td>5</td><td>6</td><td>7</td><td>8</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>-1</td><td>0</td><td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>-2</td><td>-1</td><td>0</td><td>1</td><td>2</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>-3</td><td>-2</td><td>-1</td><td>0</td><td>1</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>-4</td><td>-3</td><td>-2</td><td>-1</td><td>0</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>-1</td><td>0</td><td>1</td><td>2</td><td>3</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>-2</td><td>-1</td><td>0</td><td>1</td><td>2</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>-3</td><td>-2</td><td>-1</td><td>0</td><td>1</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>-4</td><td>-3</td><td>-2</td><td>-1</td><td>0</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>-5</td><td>-4</td><td>-3</td><td>-2</td><td>-1</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>-6</td><td>-5</td><td>-4</td><td>-3</td><td>-2</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>-7</td><td>-6</td><td>-5</td><td>-4</td><td>-3</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>-8</td><td>-7</td><td>-6</td><td>-5</td><td>-4</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>-9</td><td>-8</td><td>-7</td><td>-6</td><td>-5</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>-10</td><td>-9</td><td>-8</td><td>-7</td><td>-6</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>-1</td><td>-10</td><td>-9</td><td>-8</td><td>-7</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>-2</td><td>-1</td><td>-10</td><td>-9</td><td>-8</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>-3</td><td>-2</td><td>-1</td><td>-10</td><td>-9</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>-4</td><td>-3</td><td>-2</td><td>-1</td><td>-10</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>-5</td><td>-4</td><td>-3</td><td>-2</td><td>-1</td>
+        </tr>
+      </table>
+      <p>
+        Нарушения обычного вычитания только для нескольких чисел (ниже и
+        правее, начиная с 1;B, для двузначных начиная с 1B;A).
+        <br>
+        Кстати, особенность: когда из шестнадцатеричного числа вычитается
+        его десятичный аналог, то ноль, на самом деле, ненормализованный
+        (т.е. из 4-х значного будет 0000), и это можно использовать
+        для получения нуля в любой степени. Пример (в ручном режиме):
+      </p>
+      <ol>
+        <li>
+          Получим цифру E документированным образом:
+          <span class="but">1</span>;
+          <span class="but">1</span>;
+          <span class="but_k">К</span><span class="op_k">ИНВ</span>;
+          <span class="but_k">К</span><span class="op_k">{x}</span>;
+          <span class="but">ВП</span>;
+          <span class="but">1</span>;
+          <span class="but_k">К</span><span class="op_k">[x]</span>.
+          Или можно нестандартным:
+          <span class="but">1</span>;
+          <span class="but_k">К</span><span class="op_k">&times;</span>;
+          <span class="but">ВП</span>.
+        </li>
+        <li>
+          Добавим порядок, который хотим получить:
+          <span class="but">ВП</span>;
+          <span class="but">9</span>;
+          <span class="but">9</span>.
+        </li>
+        <li>
+          Затем скопируем в стек:
+          <span class="but">В&uarr;</span>
+          <span class="but">В&uarr;</span>
+          <span class="but_cx">СX</span>.
+        </li>
+        <li>
+          Выполним сложение (с нулем) и вычитание:
+          <span class="but">+</span>;
+          <span class="but">-</span>.
+        </li>
+      </ol>
+      <p>
+        И вот мы получили
+        <span class="code">&nbsp;0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;99</span>.
+      </p>
+    </div>  
+    
+    <div id="div_hex_h_mult_y">
+      <h4>Операция H <span class="but">&times;</span> Y</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>Y</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>10</td><td>10</td><td>10</td><td>10</td><td>0</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>20</td><td>20</td><td>20</td><td>20</td><td>0</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>30</td><td>30</td><td>30</td><td>30</td><td>0</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>40</td><td>40</td><td>40</td><td>40</td><td>0</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>50</td><td>50</td><td>50</td><td>50</td><td>0</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>60</td><td>60</td><td>60</td><td>60</td><td>0</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>70</td><td>70</td><td>70</td><td>70</td><td>0</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>80</td><td>80</td><td>80</td><td>80</td><td>0</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>90</td><td>90</td><td>90</td><td>90</td><td>0</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>00</td><td>00</td><td>00</td><td>00</td><td>0</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>10</td><td>10</td><td>10</td><td>10</td><td>0</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>20</td><td>20</td><td>20</td><td>20</td><td>0</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>30</td><td>30</td><td>30</td><td>30</td><td>0</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>40</td><td>40</td><td>40</td><td>40</td><td>0</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>100&nbsp;</td><td>100</td><td>100</td><td>100</td><td>0</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>110</td><td>110</td><td>110</td><td>110</td><td>0</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>120</td><td>120</td><td>120</td><td>120</td><td>0</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>130</td><td>130</td><td>130</td><td>130</td><td>0</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>140</td><td>140</td><td>140</td><td>140</td><td>0</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>150</td><td>150</td><td>150</td><td>150</td><td>0</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>160</td><td>160</td><td>160</td><td>160</td><td>0</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>170</td><td>170</td><td>170</td><td>170</td><td>0</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>180</td><td>180</td><td>180</td><td>180</td><td>0</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>190</td><td>190</td><td>190</td><td>190</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>200</td><td>200</td><td>200</td><td>200</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>210</td><td>210</td><td>210</td><td>210</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>220</td><td>220</td><td>220</td><td>220</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>230</td><td>230</td><td>230</td><td>230</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>240</td><td>240</td><td>240</td><td>240</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>250</td><td>250</td><td>250</td><td>250</td><td>0</td>
+        </tr>
+      </table>
+      <p>
+        Поразительное однообразие, почти все ведут себя как 10. Не ясно, чем
+        так отличается E, но ноль получается и для многозначных чисел.
+        <br>
+        Для двузначных соответственно, т. е. C &times; 20 = 200, но E &times; 20 = 0.
+      </p>
+    </div>  
+    
+    <div id="div_hex_x_mult_h">
+      <h4>Операция X <span class="but">&times;</span> H</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>X</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>4</td><td>6</td><td>8</td><td>10</td><td>12</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>4</td><td>1</td><td>4</td><td>23</td><td>10</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>8</td><td>2</td><td>0</td><td>20</td><td>24</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>50</td><td>11</td><td>32</td><td>53</td><td>42</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>0</td><td>22</td><td>44</td><td>50</td><td>40</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>10</td><td>33</td><td>40</td><td>63</td><td>54</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>20</td><td>44</td><td>52</td><td>60</td><td>68</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>30</td><td>55</td><td>64</td><td>73</td><td>82</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>10</td><td>21</td><td>32</td><td>43</td><td>54</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>04</td><td>16</td><td>28</td><td>40</td><td>52</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>14</td><td>11</td><td>24</td><td>53</td><td>50</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>08</td><td>22</td><td>20</td><td>50</td><td>4</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>990</td><td>021</td><td>052</td><td>923</td><td>922</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>000</td><td>032</td><td>904</td><td>920</td><td>920</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>010</td><td>043</td><td>900</td><td>933</td><td>934</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>020</td><td>054</td><td>912</td><td>930</td><td>948</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>030</td><td>905</td><td>924</td><td>943</td><td>962</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>940</td><td>960</td><td>980</td><td>0</td><td>20</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>940</td><td>960</td><td>980</td><td>0</td><td>20</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>940</td><td>960</td><td>980</td><td>0</td><td>20</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>940</td><td>960</td><td>980</td><td>0</td><td>20</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>40</td>
+        </tr>
+      </table>
+      <p>
+        Тут уже трудно поддается логике.
+        На практике автор как-то использовал D. С одной стороны, это
+        изображение, с другой - коэффициент 10 (см. таблицу H &times; Y),
+        а самое основное - это проверка битового сдвига. При умножении
+        дробной части, содержащей 1, 2, 4, 8 (как бы биты) возможен выход
+        за диапазон, т.е. 0.5 или 1.6. Так вот, при умножении на D по
+        указанной таблице, результат получался из одной цифры, если все
+        нормально, или из двух, при выходе за диапазон.
+      </p>
+      <p>
+        Для двухзначных результат бывает ненормализованным: обратите
+        внимание на ведущие нули в некоторых случаях. На этом фоне
+        14 &times; E выглядит как белая ворона.
+      </p>
+    </div>
+    
+    <div id="div_hex_h_div_x">
+      <h4>Операция H <span class="but">&divide;</span> X</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>X</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>ЕГГ0Г</td><td>ЕГГ0Г</td><td>ЕГГ0Г</td><td>ЕГГ0Г</td><td>ЕГГ0Г</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>5</td><td>5.5</td><td>6</td><td>6.5</td><td>7</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>3.3333333</td><td>3.6666666</td><td>4</td><td>4.3333333</td><td>4.6666666</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>2.5</td><td>2.75</td><td>3</td><td>3.25</td><td>3.5</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>2</td><td>2.2</td><td>2.4</td><td>2.6</td><td>2.8</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>1.6666666</td><td>1.8333333</td><td>2</td><td>2.1666666</td><td>2.3333333</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>1.4285714</td><td>1.5714285</td><td>1.7142857</td><td>1.8571428</td><td>2</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>1.25</td><td>1.375</td><td>1.5</td><td>1.625</td><td>1.75</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>1.1111111</td><td>1.2222222</td><td>1.3333333</td><td>1.4444444</td><td>1.5555555</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>1</td><td>1.1</td><td>1.2</td><td>1.3</td><td>1.4</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>8.4444443^-01</td><td>1</td><td>1.2525252</td><td>1.3434343</td><td>1.4343434</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>ЕГГ0Г</td><td>ЕГГ0Г</td><td>1</td><td>1.23</td><td>1.3</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>4.^-01</td><td>6.^-01</td><td>8.^-01</td><td>1</td><td>1.2</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>5.2929292^-01</td><td>2.2929292^-01</td><td>5.2929292^-0</td><td>8.2929292^-01</td><td>1</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>0.^-01</td><td>1.^-01</td><td>2.^-01</td><td>3.^-01</td><td>4.^-01</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>9.090909^-01</td><td>0.^-01</td><td>0.9090909^-01</td><td>1.8181818-01</td><td>2.7272727-01</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>8.3333333^-01</td><td>9.1666666^-01</td><td>0.^-01</td><td>0.8333333-01</td><td>1.6666666-01</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>7.6923076^-01</td><td>8.4615384^-01</td><td>9.2307692^-01</td><td>0.^-01</td><td>0.7692307-01</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>7.1428571^-01</td><td>7.8571428^-01</td><td>8.5714285^-01</td><td>9.2857142-01</td><td>0.^-01</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>6.6666666^-01</td><td>7.3333333^-01</td><td>8.^-01</td><td>8.6666666-01</td><td>9.3333333-01</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>6.25^-01</td><td>6.875^-01</td><td>7.5^-01</td><td>8.125-01</td><td>8.75-01</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>5.8823529^-01</td><td>6.4705882^-01</td><td>7.0588235^-01</td><td>7.6470588-01</td><td>8.2352941-01</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>5.5555555^-01</td><td>6.1111111^-01</td><td>6.6666666^-01</td><td>7.2222222-01</td><td>7.7777777-01</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>5.2631578^-01</td><td>5.7894736^-01</td><td>6.3157894^-01</td><td>6.8421052-01</td><td>7.368421-01</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>5.^-01</td><td>5.1^-01</td><td>6.3157894-01</td><td>6.1^-01</td><td>7.^-01</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>5.0330001^-01</td><td>6.^-01</td><td>7.0001032-01</td><td>7.8330001-01</td><td>8.2330001-01</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>6.^-01</td><td>7.0003809^-01</td><td>7.8100038-01</td><td>8.1810003-01</td><td>8.100038-01</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>7.0005899^-01</td><td>7.9000589^-01</td><td>8.^-01</td><td>9.0005899-01</td><td>9.9000589-01</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>5.64^-01</td><td>5.90002^-01</td><td>6.4^-01</td><td>6.60002-01</td><td>7.24-01</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>5.4000299^-01</td><td>5.3223099^-01</td><td>6.153223-01</td><td>7.0002999-01</td><td>7.7000299-01</td>
+        </tr>
+      </table>
+      <p>
+        Здесь кроме случая X = 1, и некоторых двузначных это обычное
+        деление нормализованного шестнадцатеричного числа. Пример:
+        E &divide; 7 = 14 &divide; 7 = 2.
+        <br>
+        Правда и здесь встречаются ненормализованные числа
+        (пример D &divide; 12, или C &divide; 11, которое на порядок меньше,
+        чем A &divide; 11).
+        <br>
+        Встречаются и ненормализованные нули, пример:   С &divide; 12, и
+        выглядит, как указано:
+        <span class="code">&nbsp;0.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-01</span>.
+        Впрочем, <a href="#div_indirect_addr">в косвенной адресации</a> мы
+        уже встречались с подобными нулями.
+      </p>
+    </div>  
+    
+    <div id="div_hex_y_div_h">
+      <h4>Операция Y <span class="but">&divide;</span> H</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>Y</sub>&setminus;<sup>H</sup></td>
+          <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <th>0</th>
+          <td>9.090909^-01</td><td>9.9099099^-01</td><td>4.4444443</td><td>9.9099099^-01</td><td>9.9099099^-01</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>ЕГГ0Г</td><td>9.099099^-01</td><td>9.9099099^-01</td><td>9.9099099^-01</td><td>9.9099099^-01</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>ЕГГ0Г</td><td>8.4444443^-01</td><td>9.099099^-01</td><td>9.9099099^-01</td><td>9.9099099^-01</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>ЕГГ0Г</td><td>6.4444443^-01</td><td>ЕГГ0Г</td><td>9.099099^-01</td><td>9.9099099^-01</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>ЕГГ0Г</td><td>4.4444443^-01</td><td>ЕГГ0Г</td><td>8.^-01</td><td>9.099099^-01</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>ЕГГ0Г</td><td>2.4444443^-01</td><td>ЕГГ0Г</td><td>0.^-01</td><td>2.929292^-02</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>ЕГГ0Г</td><td>6.4444443^-01</td><td>ЕГГ0Г</td><td>2.^-01</td><td>3.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>ЕГГ0Г</td><td>4.4444443^-01</td><td>ЕГГ0Г</td><td>4.^-01</td><td>6.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>ЕГГ0Г</td><td>2.4444443^-01</td><td>ЕГГ0Г</td><td>0</td><td>9.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>ЕГГ0Г</td><td>0.4444443^-01</td><td>ЕГГ0Г</td><td>2.^-01</td><td>2.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>A</th>
+          <td>1</td><td>8.4444443^-01</td><td>ЕГГ0Г</td><td>4.^-01</td><td>5.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>B</th>
+          <td>1.1</td><td>1</td><td>ЕГГ0Г</td><td>6.^-01</td><td>2.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>C</th>
+          <td>1.2</td><td>1.2525252</td><td>1</td><td>8.^-01</td><td>5.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>D</th>
+          <td>1.3</td><td>1.3434343</td><td>1.23</td><td>1</td><td>8.2929292^-01</td>
+        </tr>
+        <tr>
+          <th>E</th>
+          <td>1.4</td><td>1.4343434</td><td>1.3</td><td>1.2</td><td>1</td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <tr>
+          <th>10</th>
+          <td>ЕГГ0Г</td><td>9.09909</td><td>9.9099099</td><td>9.9099099</td><td>9.9099099</td>
+        </tr>
+        <tr>
+          <th>11</th>
+          <td>ЕГГ0Г</td><td>9.099099</td><td>ЕГГ0Г</td><td>9.8</td><td>9.0292929</td>
+        </tr>
+        <tr>
+          <th>12</th>
+          <td>ЕГГ0Г</td><td>9.099099</td><td>ЕГГ0Г</td><td>0</td><td>9.3292929</td>
+        </tr>
+        <tr>
+          <th>13</th>
+          <td>ЕГГ0Г</td><td>9.099099</td><td>ЕГГ0Г</td><td>0.2</td><td>9.6292929</td>
+        </tr>
+        <tr>
+          <th>14</th>
+          <td>ЕГГ0Г</td><td>9.099099</td><td>ЕГГ0Г</td><td>0.4</td><td>9.9292929</td>
+        </tr>
+        <tr>
+          <th>15</th>
+          <td>ЕГГ0Г</td><td>9</td><td>ЕГГ0Г</td><td>9</td><td>0.22922929</td>
+        </tr>
+        <tr>
+          <th>16</th>
+          <td>ЕГГ0Г</td><td>9.2525252</td><td>ЕГГ0Г</td><td>9.2</td><td>0.5292929</td>
+        </tr>
+        <tr>
+          <th>17</th>
+          <td>ЕГГ0Г</td><td>9.3434343</td><td>ЕГГ0Г</td><td>9.4</td><td>9.2292929</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>ЕГГ0Г</td><td>9.4343434</td><td>ЕГГ0Г</td><td>9.6</td><td>9.5292929</td>
+        </tr>
+        <tr>
+          <th>19</th>
+          <td>ЕГГ0Г</td><td>9.5252525</td><td>ЕГГ0Г</td><td>9.8</td><td>9.8292929</td>
+        </tr>
+        <tr>
+          <th>1A</th>
+          <td>ЕГГ0Г</td><td>9.6</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+        <tr>
+          <th>1B</th>
+          <td>ЕГГ0Г</td><td>9.8525252</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+        <tr>
+          <th>1C</th>
+          <td>ЕГГ0Г</td><td>9.9434343</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+        <tr>
+          <th>1D</th>
+          <td>ЕГГ0Г</td><td>0.0343434</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+        <tr>
+          <th>1E</th>
+          <td>ЕГГ0Г</td><td>9.099099</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+        <tr>
+          <th>1F</th>
+          <td>ЕГГ0Г</td><td>7.4444443</td><td>9.9909909</td><td>9.9909909</td><td>9.9909909</td>
+        </tr>
+      </table>
+      <p>
+        Тут логики не наблюдается. Очень похожие, но разные числа:
+        9.099099^-01 и 9.9099099^-01 (или 9.099099 и 9.9099099). 
+        Также интересно, что ноль разделить на A вовсе не ноль.
+        <br>
+        А самое главное, тут не просто ЕГГ0Г, а <b>плохой ЕГГ0Г</b>,
+        который ранее не встречался. После его появления ПМК в дальнейшем
+        (до выключения ПМК) при выполнении многих операций
+        всегда выдает ЕГГ0Г. Вот список таких операций.
+      </p>
+      <ul>
+        <li><span class="but">+</span></li>
+        <li><span class="but">-</span></li>
+        <li><span class="but">&times;</span></li>
+        <li><span class="but">&divide;</span></li>
+        <li><span class="but">&xharr;</span></li>
+        <li><span class="but_f">F</span><span class="op_f">sin</span></li>
+        <li><span class="but_f">F</span><span class="op_f">cos</span></li>
+        <li><span class="but_f">F</span><span class="op_f">tg</span></li>
+        <li><span class="but_f">F</span><span class="op_f">&radic;</span></li>
+        <li><span class="but_f">F</span><span class="op_f">1/x</span></li>
+        <li><span class="but_f">F</span><span class="op_f">sin<sup>-1</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">cos<sup>-1</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">tg<sup>-1</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">&pi;</span></li>
+        <li><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">e<sup>x</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">lg</span></li>
+        <li><span class="but_f">F</span><span class="op_f">ln</span></li>
+        <li><span class="but_f">F</span><span class="op_f">x<sup>y</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">10<sup>x</sup></span></li>
+        <li><span class="but_f">F</span><span class="op_f">&orarr;</span></li>
+      </ul>
+      <p>
+        Ошибка возникает как в режиме вычислений, так и в программном
+        режиме. Интересно, что
+        <span class="but_f">F</span><span class="op_f">&orarr;</span> выдает ошибку,
+        а <span class="but_f">F</span><span class="op_f">Вx</span> - нет.
+      </p>
+    </div>  
+    
+    <div id="div_hex_func">
+      <h4>Результат функций над шестнадцатеричными числами</h4>
+      <table class="trcenter">
+        <tr>
+          <td><sub>H</sub>&setminus;<sup>F(H)</sup></td>
+          <th>A</th><th>B</th><th>B</th><th>D</th><th>E</th>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">x<sup>2</sup></span></td>
+          <td>00</td><td>10</td><td>20</td><td>30</td><td>0</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">&radic;</span></td>
+          <td>3.1622776</td><td>3.3166247</td><td>3.4641016</td><td>3.6055512</td><td>3.7416573</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">1/x</span></td>
+          <td>ЕГГ0Г</td><td>9.099099^-01</td><td>9.9099099^-01</td><td>9.9099099^-01</td><td>9.9099099^-01</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">e<sup>x</sup></span></td>
+          <td>22026.467</td><td>59874.133</td><td>162754.78</td><td>442413.37</td><td>1202604.3</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">10<sup>x</sup></span></td>
+          <td>1.^+10</td><td>1.^+0L</td><td>1.^+0C</td><td>1.^+0Г</td><td>1.^+0E</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">lg</span></td>
+          <td>1</td><td>41.823681</td><td>42.40274</td><td>42.816354</td><td>43.126564</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">ln</span></td>
+          <td>2.3025851</td><td>96.302585</td><td>97.635918</td><td>98.588299</td><td>99.302585</td>
+        </tr>
+        <tr>
+          <td><span class="but_f">F</span><span class="op_f">x<sup>1</sup></span></td>
+          <td>10</td><td>6.6631773^+41</td><td>2.5277867^+42</td><td>6.551706^+42</td><td>1.3383338^+43</td>
+        </tr>
+        <tr>
+          <td><span class="but_k">К</span><span class="op_k">[x]</span></td>
+          <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td>
+        </tr>
+      </table>
+      <ul>
+        <li>
+          Результат возведения в квадрат согласуется с таблицей
+          умножения, приведенной выше.
+        </li>
+        <li>
+          Излечение корня вообще по правилам - как корень из
+          нормализованного числа.
+        </li>
+        <li>
+          Обратная величина также согласуется с таблицей деления, причем
+          здесь опять плохой ЕГГ0Г.
+        </li>
+        <li>e<sup>x</sup> тоже как корень - все по правилам.</li>
+        <li>
+          10<sup>x</sup> отображает шестнадцатеричную степень, только цифра
+          A не любит светиться.
+        </li>
+        <li>Результаты логарифмов уже не понятны.</li>
+        <li>
+          Fx<sup>1</sup> это Fx<sup>y</sup>, для случая y=1. Впрочем
+          результат от этого не становится более ясным.  Кроме числа A,
+          остальные возводятся в первую степень как какие-то суперчисла.
+        </li>
+        <li>
+          K[x] похож на сложение с нулем. Причем, если бы число было еще
+          с дробной частью, то целая часть осталась бы без изменений,
+          даже шестнадцатеричная.
+        </li>
+      </ul>
+      <p>
+        Про более редкие операции переводов градусов/часов сказано
+        <a href="#div_command">в приложении по командам</a>.
+      </p>
+    </div>  
+    
+    <div id="div_hex_using">
+      <h4>Практическое применение</h4>
+      <p>
+        Практическое применение - это получение нестандартного
+        результата (как отличие от обычной цифры). Или получение нестандартной
+        последовательности. Или как был приведен выше по умножению.
+      </p>
+      <p>
+        Случаи с двойными и более шестнадцатеричными числами (в том числе в
+        дробной части) не рассмотрены, как очень редко встречающиеся.
+        Там тоже можно построить подобные таблицы, но проще посмотреть
+        результат под конкретное число.
+      </p>
+    </div>  
+  </div>
+  
+  <hr>
+
+  <div id="div_tricks">
+    <h3>Трюки по оптимизации</h3>
+    <p>
+      Здесь рассмотрены некоторые способы, которые позволяют оптимизировать
+      программу. Большинство трюков - это использование документированных
+      возможностей, но возможно необычным образом.
+      Ясно, что все варианты не рассмотреть, а лишь несколько для
+      демонстрации, как нужно нестандартно подходить к вопросу оптимизации.
+    </p>
+    <ul>
+      <li>
+        <b>Косвенная адресация вместо прямой.</b> Это очевидное решение,
+        т.к. (без)условный переход (или  вызов подпрограммы) занимает две
+        команды, а то же самое с косвенной адресацией - только одну. Чем
+        больше таких вызовов, тем выгоднее.
+        <p></p>
+      </li>
+      <li>
+        <b>Правильный порядок в стеке.</b> Это также очевидное решение, при
+        котором порядок вычисления меняют так, чтобы операнды по максимуму
+        использовали стек (а не регистры памяти), и при этом располагались в
+        порядке последующего вычисления. Или еще - использование стека
+        вычислений для дублирования числа. Пусть некое число нужно многократно
+        использовать в вычислениях. Чтобы не вызывать его несколько раз из
+        регистра памяти (а может даже и не сохранять), используется следующая
+        методика: число вычисляют раньше, чем положено, затем после него
+        делаются другие вычисления,  но так, чтобы наше число "дошло" до
+        регистра T. Затем другие вычисления завершаются, а регистры стека
+        Y&hellip;T остаются заполнены нашим числом (причем и далее будут им
+        заполняться). Экономия в командах на вызов из регистра.
+        <p></p>
+      </li>
+      <li>
+        <b>Использования цикличности адресного пространства</b> для
+        сокращения программы. Эти способы уже были рассмотрены ранее в
+        разделе по <a href="#div_addr_space">адресному пространству</a>.
+        <p></p>
+      </li>
+      <li>
+        <b>Замена <span class="but_b">БП</span><span class="but">01</span> на
+        <span class="but_b">В/О</span>.</b> Это работает, только если стек
+        возврата адресов пустой (нулевой).
+        См. в <a href="#div_command">приложении</a> комментарий по команде
+        <span class="but_b">В/О</span>.
+        <p></p>
+      </li>
+      <li>
+        <b>Совмещение адреса перехода и команды.</b> В этом случае адрес
+        перехода для двойных команд (чаще всего <span class="but_b">БП</span>)
+        используется одновременно и как обычная команда для другой
+        последовательности.  Очевидно, что требуется знание кодов операций.
+        Благодаря цикличности адресации или ее неоднозначности можно
+        "подогнать" адрес под нужную команду. Например, последовательность
+        <span class="but_b">БП</span>;
+        <span class="but">53</span>;
+        <span class="but_b">x&rarr;П</span><span class="reg">d</span>
+        можно заменить на
+        <span class="but_b">БП</span>;
+        <span class="but">4D</span>.
+        т.к. адрес 4D = 53, а 4D = это
+        <span class="but_b">x&rarr;П</span><span class="reg">d</span>.
+        <p>
+        Иногда ради такой "подгонки" делают перестроение программы:
+        перемешивание независимых кусков программы, располагая их по
+        разным адресам.
+        Сюда же относится пример из журнала ТМ &numero;9 за 1985:
+        </p>
+        <p>
+          <small><b>60.</b></small><span class="but_f">F</span><span class="op_f">x&lt;0</span>;
+          <small><b>61.</b></small><span class="but">61</span>;
+          <small><b>62.</b></small><span class="but_f">F</span><span class="op_f">x&ges;0</span>;
+          <small><b>63.</b></small><span class="but">63</span>;
+          <small><b>64.</b></small><span class="but_b">С/П</span>.
+        </p>
+        Когда перед остановкой выводилось содержимое нужного регистра при
+        проверке условия. Экономия на том, что адрес перехода совпадает с
+        командой извлечения из регистра.
+        <p></p>
+      </li>
+      <li>
+        <b>Удаление условных операторов.</b> Речь идет о замене условных
+        операторов, которые обычно двойные, на простую арифметику.
+        Пусть есть часть программы, где при X&ne;0 нужно к регистру 9
+        добавить единицу (некий счетчик). Решение в лоб:
+        <p>
+          <small><b>00.</b></small><span class="but_f">F</span><span class="op_f">x&ne;0</span>;
+          <small><b>01.</b></small><span class="but">06</span>;
+          <small><b>02.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+          <small><b>03.</b></small><span class="but">1</span>;
+          <small><b>04.</b></small><span class="but">+</span>;
+          <small><b>05.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>.
+        </p>
+        Решение с удалением условия:
+        <p>
+          <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">ЗН</span>;
+          <small><b>01.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+          <small><b>02.</b></small><span class="but">+</span>;
+          <small><b>03.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>.
+        </p>
+        В случае, если X может быть и отрицательным, будет чуть длиннее, но
+        все равно короче прямого решения:
+        <p>
+          <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">ЗН</span>;
+          <small><b>01.</b></small><span class="but_k">К</span><span class="op_k">|x|</span>;
+          <small><b>02.</b></small><span class="but_b">П&rarr;x</span><span class="but">9</span>;
+          <small><b>03.</b></small><span class="but">+</span>;
+          <small><b>04.</b></small><span class="but_b">x&rarr;П</span><span class="but">9</span>.
+        </p>
+      </li>
+      <li>
+        <b>Нестандартное использование циклов FLx.</b>
+        <ol>
+          <li>
+            Знание того, что цикл по завершении оставит единицу позволяет
+            не инициализировать его при повторном заходе.
+          </li>
+          <li>
+            Быстрая проверка на единицу содержимого регистров R0&hellip;R3 с
+            переходом при невыполнении. Иногда для этой возможности
+            переставляют регистры, т.е. специально используется R0&hellip;R4
+            вместо других для такой возможности.
+          </li>
+          <li>
+            Выполнение операций, не имеющих отношение к циклу. Например,
+            нужно в конце некой подпрограммы уменьшить счетчик попыток в
+            регистре R2 и перейти на адрес (пусть 77). Вместо
+            <p>
+              <small><b>00.</b></small><span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">2</span>;
+              <small><b>01.</b></small><span class="but_b">БП</span>;
+              <small><b>02.</b></small><span class="but">77</span>.
+            </p>
+            которое, кстати, портит стек (и для исправления может
+            потребоваться еще команда), сделать:
+            <p>
+              <small><b>00.</b></small><span class="but_f">F</span><span class="op_f">L2</span>;
+              <small><b>01.</b></small><span class="but">77</span>.
+            </p>
+            Разумеется, счетчик должен не кончаться или сразу после этого кода
+            идет проверка по его окончанию. При это для "бесконечности"
+            счетчика иногда делают его отрицательным, если в конце вычислений важна
+            только разница между началом и концом.
+          </li>
+        </ol>
+        <p></p>
+      </li>
+      <li>
+        <b>Проверка на больше/меньше единицы.</b> Если известно, что число
+        не отрицательное, то вместо отнимания единицы и проверки на
+        больше/меньше нуля можно сразу взять
+        <span class="but_f">F</span><span class="op_f">lg</span> и проверить на
+        больше/меньше нуля.
+        <p></p>
+      </li>
+      <li>
+        <b>Остановка по ошибке при условии.</b> Вот несколько способов
+        сгенерировать ошибку и сделать остановку без проверки условия:
+        <ol>
+          <li>
+            Если ноль - <span class="but_f">F</span><span class="op_f">1/x</span>.
+          </li>
+          <li>
+            Если меньше или равно нулю -
+            <span class="but_f">F</span><span class="op_f">lg</span>.
+          </li>
+          <li>
+            Если меньше нуля -
+            <span class="but_f">F</span><span class="op_f">&radic;</span>.
+          </li>
+          <li>
+            Если больше единицы -
+            <span class="but_f">F</span><span class="op_f">cos<sup>-1</sup></span> или
+            <span class="but_f">F</span><span class="op_f">sin<sup>-1</sup></span>.
+          </li>
+          <li>
+            Если больше или равно 100 -
+            <span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>.
+          </li>
+          <li>
+            Если дробная часть больше или равно 0.6 -
+            <span class="but_k">К</span><span class="op_k">&deg;&rarr;&prime;&quot;</span>.
+          </li>
+        </ol>
+        <p></p>
+      </li>
+      <li>
+        <b>Вызов части подпрограммы.</b> Пример, пусть есть некий алгоритм,
+        который особым образом обрабатывает число, но только целое или
+        дробное отдельно. А нужно сделать ее более универсальной, т.е. для
+        любого числа. Можно сделать так:
+        <p>
+          <small><b>00.</b></small><span class="but_k">К</span><span class="op_k">{x}</span>;
+          <small><b>01.</b></small><span class="but">0</span>;
+          <small><b>02.</b></small><span class="but_f">F</span><span class="op_f">Вx</span>;
+          <small><b>03.</b></small><span class="but_k">К</span><span class="op_k">[x]</span>;
+          <small><b>04.</b></small><span class="but_b">ПП</span>;
+          <small><b>05.</b></small><span class="but">07</span>;
+          <small><b>06.</b></small><span class="but">&xharr;</span>;
+          <small><b>07.</b></small>&hellip;;
+          <small><b>20.</b></small><span class="but">+</span>;
+          <small><b>21.</b></small><span class="but_b">В/О</span>.
+        </p>
+        Что здесь происходит? Сначала подготавливается на будущее дробная
+        часть, затем заталкивается ноль и оставляется целая часть.
+        Далее вызывается часть кода (часть кода текущей подпрограммы),
+        которая делает обработку над целой частью, а в конце делает сложение
+        (с нулем, в данном случае).  Затем целая и дробная часть меняются
+        местами и код повторяется, причем в конце сложение уже делает
+        объединение, а затем возврат.  Где экономия? Если бы мы вызывали
+        обрабатываемую часть по очереди, то нам все равно потребовалось бы
+        разделять на целую и дробную часть, обрабатывать по очереди, а затем
+        объединять сложением.  Для этого потребовались бы все те же команды,
+        кроме <span class="but">0</span>. Но при это пришлось бы делать дважды
+        <span class="but_b">ПП</span>, а это две команды. Заменив на одну команду
+        <span class="but">0</span> и вызвав свой "хвост", мы сэкономили одну команду.
+        <p></p>
+      </li>
+      <li>
+        <b>Совмещение констант и адресов перехода.</b> В данном случае речь
+        идет о том, что некоторая константа, используемая для вычислений,
+        одновременно содержит и адрес перехода. Иногда это делают
+        искусственно, перемещая программу под значение константы, а иногда
+        удается совместить. Пример из практики автора - для битового
+        положения игрока использовался формат N.0000H, где N - некий "этаж",
+        H - бит (число 1, 2, 4 или 8), а количество нулей в дробной части
+        определяет положение на "этаже". Движение по "этажу" выполнялось над
+        дробной частью, путем умножения/деления на два (биты) и путем
+        умножения/деления десять (влево/вправо на этаже). Подводный камень -
+        в автоматическом округлении ПМК, возникающим при сложении чисел
+        разных порядков.   В данном случае при дробной части =
+        0.000000H (H.^-07) и делении на 10 получается число "вне этажа",
+        H.^-08, которое должно обнулиться. Для H = 1, 2, 4 при сложении с
+        целым так и есть, но если H = 8, то происходит исключение: в
+        результате округления 8.^-08 превращается в 1.^-07 (неожиданный
+        телепорт). Чтобы программа вела себя корректно, необходимо перед
+        сложением от полученного числа отнять некое значение в диапазоне
+        3.^-08 &les; X &lt; 5.^-08, тогда это не испортит случая
+        H = 1, 2, 4, и сделает число с H = 8 обнуляемым при округлении.
+        Так вот, используя знание
+        <a href="#div_indirect_addr">косвенной адресации</a> можно к
+        3.^-08 (или 4.^-08) добавить пару цифр. Это на исправление округления
+        не скажется, но позволит использовать эти цифры как адрес перехода.
+        Пусть нужна косвенная адресация с адресом 77, тогда константа будет
+        3.77^.-08. А если учесть, что при косвенной адресации оно будет
+        не нормализовано, то оно же использовалось для видеоизображения особой
+        ситуации: <span class="code">&nbsp;0.0000377-03</span>.
+        <p></p>
+      </li>
+    </ul>
+  </div>
+  <hr>
+
+  <div id="div_command">
+    <h3>Приложение. Все команды</h3>
+    <p>
+      Список всех 256 команд ПМК с дополнительным комментарием, в случае
+      наличия недокументированных возможностей.
+    </p>
+    <table>
+      <tr><th>Код</th><th>Вид</th><th>Название</th><th>Комментарий</th></tr>
+      <tr>
+        <th>00&hellip;09</th>
+        <td class="tdcenter">
+          <span class="but">0</span>&hellip;<span class="but">9</span>
+        </td>
+        <td>Ввод числа</td>
+        <td>
+          Ввод цифр идет даже через границу С/П. Т.е. если в начале программы
+          идет цифра(ы), а перед ее запуском то же ввод, то он продолжиться.
+          То же касается и разделителя ".", он может как заканчиваться ввод в
+          режиме вычислений, так и начинаться в программе - будет воспринят
+          как разделитель целой и дробной части.
+          <br>
+          Второе нажатие "." для разделения разрядов игнорируется.
+          <br>
+          Если предыдущая команда была не ввод цифры или разделителя, а так
+          же не команда В&uarr;, то предварительно осуществляется сдвиг стека
+          под новое число.
+        </td>
+      </tr>
+      <tr>
+        <th>0A</th>
+        <td class="tdcenter"><span class="but">.</span></td>
+        <td>Разделитель целой и дробной части</td>
+        <td>
+          Кроме того, что указано выше см.
+          <a href="#div_x2_point">Таинственный регистр X2</a>.
+        </td>
+      </tr>
+      <tr>
+        <th>0B</th>
+        <td class="tdcenter"><span class="but">/-/</span></td>
+        <td>Смена знака</td>
+        <td>Cм. <a href="#div_x2_final">Таинственный регистр X2</a>.</td>
+      </tr>
+      <tr>
+        <th>0C</th>
+        <td class="tdcenter"><span class="but">ВП</span></td>
+        <td>Ввод порядка</td>
+        <td>
+          Если X=0, то заменяется на 1. Для многих чисел ввод порядка означает
+          умножение на 10 в соответствующей степени.
+          <br>
+          После ввода порядка можно еще раз нажать <span class="but">ВП</span> и 
+          ввести число - в этом случае порядки складываются.
+          <br>
+          Знак порядка можно ввести как сразу после <span class="but">ВП</span>, 
+          так и после ввода цифр.
+          <br>
+          Также см. <a href="#div_x2_exp">Таинственный регистр X2</a>.
+        </td>
+      </tr>
+      <tr>
+        <th>0D</th>
+        <td class="tdcenter"><span class="but_cx">Сx</span></td>
+        <td>Сброс X в ноль</td>
+        <td>Важное свойство - стек не двигается.</td>
+      </tr>
+      <tr>
+        <th>0E</th>
+        <td class="tdcenter"><span class="but">В&uarr;</span></td>
+        <td>Сдвиг стека</td>
+        <td>
+          Если последующая команда - ввод числа, то будет ввод в X, если
+          извлечение из памяти или &pi; - то стек еще раз сдвинется.
+        </td>
+      </tr>
+      <tr>
+        <th>0F</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">Вx</span></td>
+        <td>Полный сдвиг, включая X1</td>
+        <td>
+          Единственная документированная и вводимая команда с цифрой F в коде.
+        </td>
+      </tr>
+      <tr>
+        <th>10</th>
+        <td class="tdcenter"><span class="but">+</span></td>
+        <td>Сложение</td>
+        <td>
+          Результат проверяется только при X&rarr;X2, т.е. можно использовать
+          для получения сверхчисел.
+        </td>
+      </tr>
+      <tr>
+        <th>11</th>
+        <td class="tdcenter"><span class="but">-</span></td>
+        <td>Вычитание</td>
+        <td>
+          Результат проверяется только при X&rarr;X2, т.е. можно использовать
+          для получения сверхчисел.
+        </td>
+      </tr>
+      <tr>
+        <th>12</th>
+        <td class="tdcenter"><span class="but">&times;</span></td>
+        <td>Умножение</td>
+        <td>
+          Результат проверяется при X&rarr;X2, т.е. можно использовать
+          для получения сверхчисел.
+        </td>
+      </tr>
+      <tr>
+        <th>13</th>
+        <td class="tdcenter"><span class="but">&divide;</span></td>
+        <td>Деление</td>
+        <td>
+          Ошибка деления на ноль возникает безусловно, остальное при
+          X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>14</th>
+        <td class="tdcenter"><span class="but">&xharr;</span></td>
+        <td>Обмен X и Y</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>15</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">10<sup>x</sup></span>
+        </td>
+        <td>Возведение в степень числа 10</td>
+        <td>
+          Аргументы на переполнение порядка (сверхчисло) проверяется
+          безусловно, а не при X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>16</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">e<sup>x</sup></span>
+        </td>
+        <td>Возведение в степень числа e (экспонента)</td>
+        <td>
+          Аргументы на переполнение порядка (сверхчисло) проверяется
+          безусловно, а не при X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>17</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">lg</span></td>
+        <td>Десятичный логарифм</td>
+        <td>
+          Аргументы (должно быть больше нуля) проверяется безусловно, а не
+          при X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>18</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">ln</span></td>
+        <td>Натуральный (экспоненциальный) логарифм</td>
+        <td>
+          Аргументы (должно быть больше нуля) проверяется безусловно, а не
+          при X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>19</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">sin<sup>-1</sup></span>
+        </td>
+        <td>Арксинус</td>
+        <td>
+          Аргументы (должно |X|&les;1) проверяется безусловно, а не при
+          X&rarr;X2. Для ГРД/Г и X=0 выводит X=00.
+        </td>
+      </tr>
+      <tr>
+        <th>1A</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">cos<sup>-1</sup></span>
+        </td>
+        <td>Арккосинус</td>
+        <td>
+          Аргументы (должно |X|&les;1) проверяется безусловно, а не при
+          X&rarr;X2. arccos(1) для ГРД/Г дает ненормализованное 00.
+        </td>
+      </tr>
+      <tr>
+        <th>1B</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">tg<sup>-1</sup></span>
+        </td>
+        <td>Арктангенс</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>1C</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">sin</span></td>
+        <td>Синус</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>1D</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">cos</span></td>
+        <td>Косинус</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>1E</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">tg</span></td>
+        <td>Тангенс</td>
+        <td>
+          Аргументы проверяется безусловно, а не при X&rarr;X2.
+          При X=&pi;/2+n&times;&pi; будет ошибка.
+        </td>
+      </tr>
+      <tr>
+        <th>1F</th>
+        <td></td>
+        <td>Пустой оператор</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>20</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">&pi;</span></td>
+        <td>Число &pi; (пи)</td>
+        <td>
+          Кроме того, что сдвигает стек (это документировано), также копирует
+          предыдущее X в X1, как арифметическая операция (а это нет).
+        </td>
+      </tr>
+      <tr>
+        <th>21</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">&radic;</span>
+        </td>
+        <td>Квадратный корень</td>
+        <td>Аргументы проверяется безусловно (X&ges;0), а не при X&rarr;X2.</td>
+      </tr>
+      <tr>
+        <th>21</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>
+        </td>
+        <td>Возведение в квадрат</td>
+        <td>
+          Результат проверяется при X&rarr;X2, т.е. можно использовать
+          для получения сверхчисел.
+        </td>
+      </tr>
+      <tr>
+        <th>23</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">1/x</span></td>
+        <td>Обратная величина</td>
+        <td>
+          Ошибка деления на ноль возникает безусловно, остальное -
+          при X&rarr;X2.
+        </td>
+      </tr>
+      <tr>
+        <th>24</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">x<sup>y</sup></span>
+        </td>
+        <td>Возведение в степень.</td>
+        <td>
+          Ошибка, если X=0. Не принимает отрицательный X, даже когда это
+          математически допустимо.
+          <br>
+          Ошибка переполнения возникает безусловно, а не при X&rarr;X2.
+          <br>
+          Стек не сокращается, в отличие от обычных арифметических операций.
+          Т.е. число в Y остается на месте (позволяя еще раз возвести в ту
+          же степень).
+        </td>
+      </tr>
+      <tr>
+        <th>25</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">&orarr;</span>
+        </td>
+        <td>Подтягивание стека</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>26</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&deg;&rarr;&prime;</span>
+        </td>
+        <td>
+          Перевод угловых или временных величин из обычной формы в часть целой
+        </td>
+        <td>Целая часть не меняется, даже если шестнадцатеричное число.</td>
+      </tr>
+      <tr>
+        <th>27</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but">&minus;</span>
+        </td>
+        <td>Ошибка</td>
+        <td>ЕГГ0Г.</td>
+      </tr>
+      <tr>
+        <th>28</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but">&times;</span>
+        </td>
+        <td>Ошибка</td>
+        <td>ЕГГ0Г.</td>
+      </tr>
+      <tr>
+        <th>29</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="but">&divide;</span></td>
+        <td>Ошибка</td>
+        <td>ЕГГ0Г.</td>
+      </tr>
+      <tr>
+        <th>2A</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&deg;&rarr;&prime;&quot;</span>
+        </td>
+        <td>
+          Перевод угловых или временных величин из обычной формы в часть
+          целой, включая секунды
+        </td>
+        <td>Целая часть не меняется, даже если шестнадцатеричное число.</td>
+      </tr>
+      <tr>
+        <th>2B&hellip;2E</th>
+        <td></td>
+        <td>Ошибка</td>
+        <td>ЕГГ0Г.</td>
+      </tr>
+      <tr>
+        <th>2F</th>
+        <td></td>
+        <td>Пустой оператор</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>30</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&deg;&larr;&prime;&quot;</span>
+        </td>
+        <td>
+          Перевод угловых или временных величин из части целого в обычную
+          форму, включая секунды
+        </td>
+        <td>
+          Если целая часть шестнадцатеричное число - оно преобразуется, как в
+          операциях с шестнадцатеричными цифрами.
+        </td>
+      </tr>
+      <tr>
+        <th>31</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&mid;x&mid;</span>
+        </td>
+        <td>Модуль</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>32</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">ЗН</span></td>
+        <td>Знак числа</td>
+        <td>Отрицательный ноль преобразуется в ноль.</td>
+      </tr>
+      <tr>
+        <th>33</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&deg;&larr;&prime;</span>
+        </td>
+        <td>
+          Перевод угловых или временных величин из части целого в обычную
+          форму
+        </td>
+        <td>
+          Если целая часть шестнадцатеричное число - оно преобразуется, как в
+          операциях с шестнадцатеричными цифрами.
+        </td>
+      </tr>
+      <tr>
+        <th>34</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">[x]</span></td>
+        <td>Целая часть</td>
+        <td>
+          Простое отбрасывание дробной части, а не математическое нахождение
+          целой части, т.е. [-1.2] = -1, а не -2.
+          <br>
+          Если число целое и шестнадцатеричное - оно преобразуется, как в
+          операциях с шестнадцатеричными цифрами. Если есть дробная часть, то
+          целая шестнадцатеричная часть остается без изменений.
+        </td>
+      </tr>
+      <tr>
+        <th>35</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">{x}</span></td>
+        <td>Дробная часть</td>
+        <td>
+          Простое отбрасывание целой части, а не математическое нахождение
+          целой части, т.е. {-1.2} = -0.2, а не 0.8.
+          <br>
+          Может получится отрицательный ноль (в сравнениях идет как
+          отрицательное число и как ноль).
+          <br>
+          Шестнадцатеричные числа сохраняются.
+        </td>
+      </tr>
+      <tr>
+        <th>36</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">max</span></td>
+        <td>Максимум</td>
+        <td>
+          Ноль исключение - самое большое число.
+          <br>
+          Обмена X и Y не происходит, т.е. либо X и Y после операции
+          совпадают (в Y был максимум), либо остаются как есть
+          (кроме копирования X в X1).
+        </td>
+      </tr>
+      <tr>
+        <th>37</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&and;</span>
+        </td>
+        <td>Логическое умножение (AND)</td>
+        <td rowspan="4">
+          В логических операциях первая цифра заменяется на 8, а над
+          остальными цифрами мантиссы проводится побитовая операция, как с
+          шестнадцатеричными числами.  Порядок и знак числа значения не имеют.
+          Исходное число может даже быть пустышкой. Результат всегда в
+          форме 8.HHHHHHH
+          <br>
+          Стек для двухоперандных операций не сокращается, что позволяет
+          выполнить операцию еще раз.
+        </td>
+      </tr>
+      <tr>
+        <th>38</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">&or;</span></td>
+        <td>Логическое сложение (OR)</td>
+      </tr>
+      <tr>
+        <th>39</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_k">&oplus;</span>
+        </td>
+        <td>Логическое исключающее или (XOR)</td>
+      </tr>
+      <tr>
+        <th>3A</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">ИНВ</span></td>
+        <td>Логическая инверсия (NOT)</td>
+      </tr>
+      <tr>
+        <th>3B</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">СЧ</span></td>
+        <td>Случайное число</td>
+        <td>
+          Ноль и единица не бывает. Датчик не очень хороший, часто
+          циклится (от применения команд с К).
+          <br>
+          Сбросить на начало (как при включении) можно с помощью операции
+          Kmax, когда аргумент нулевой.
+        </td>
+      </tr>
+      <tr>
+        <th>3C</th>
+        <td></td>
+        <td>Ошибка</td>
+        <td>ЕГГ0Г.</td>
+      </tr>
+      <tr>
+        <th>3D</th>
+        <td></td>
+        <td>
+          То же, что и команда
+          <span class="but_k">К</span><span class="op_k">&deg;&rarr;&prime;&quot;</span>
+          (код 2A)
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>3E</th>
+        <td></td>
+        <td>Копирование Y в X (а X&rarr;X1)</td>
+        <td>
+          Те же действия, что и пара команд
+          <span class="but_f">F</span><span class="op_f">&orarr;</span>;
+          <span class="but">В&uarr;</span>, только не X2-влияющая.
+        </td>
+      </tr>
+      <tr>
+        <th>3F</th>
+        <td></td>
+        <td>Пустой оператор</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>40&hellip;4E</th>
+        <td class="tdcenter">
+          <span class="but_b">x&rarr;П</span><span class="but">R</span>
+        </td>
+        <td>Сохранение X в регистр R0&hellip;Re</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>4F</th>
+        <td class="tdcenter"></td>
+        <td>Сохранение X в регистр R0</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>50</th>
+        <td class="tdcenter"><span class="but_b">С/П</span></td>
+        <td>Стоп/пуск</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>51</th>
+        <td class="tdcenter"><span class="but_b">БП</span></td>
+        <td>Безусловный переход</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>52</th>
+        <td class="tdcenter"><span class="but_b">В/О</span></td>
+        <td>Возврат обратно</td>
+        <td>
+          Стек обратных адресов подпрограмм из 5 ячеек, вначале нулевых.
+          При возврате из подпрограммы берется значение верхней ячейки
+          стека + 1 (для определения точки возврата) и стек сдвигается,
+          поэтому сразу после включения ПМК команда В/О эквивалентна БП 01.
+          Но если стек адресов возврата заполнился до конца, то последний
+          адрес стека начинает копироваться и В/О будет на этот адрес + 1.
+          Для зануления стека, в этом случае, удобнее воспользоваться
+          знаниями Еггогологии и вызвать нулевого 3Г0ГГа:
+          <p>
+            <span class="but_cx">Cx</span>;
+            <span class="but">В&uarr;</span>;
+            <span class="but">&divide;</span>;
+            <span class="but">ВП</span>;
+            <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+            <span class="but_cx">Cx</span>;
+            <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>.
+            Последняя команда прибивает пустышку в X1.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <th>53</th>
+        <td class="tdcenter"><span class="but_b">ПП</span></td>
+        <td>Вызов подпрограммы</td>
+        <td>
+          Переход на адрес подпрограммы, указанный следующей командой. Этот
+          адрес запоминается в стеке обратных адресов (см. В/О).
+        </td>
+      </tr>
+      <tr>
+        <th>54</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="op_k">НОП</span></td>
+        <td>Пустой оператор</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>55</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="but">1</span></td>
+        <td>Пустой оператор</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>56</th>
+        <td class="tdcenter"><span class="but_k">К</span><span class="but">2</span></td>
+        <td>Пустой оператор</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>57</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">x&ne;0</span>
+        </td>
+        <td>Если не ноль</td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X не равно нулю (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>58</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">L2</span></td>
+        <td>Цикл по регистру R2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>59</th>
+        <td class="tdcenter"
+          ><span class="but_f">F</span><span class="op_f">x&ges;0</span>
+        </td>
+        <td>Если больше или равно нулю</td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X больше или равно нулю (в большинстве языков обычно наоборот,
+          переход на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>5A</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">L3</span></td>
+        <td>Цикл по регистру R3</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>5B</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">L1</span></td>
+        <td>Цикл по регистру R1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>5C</th>
+        <td class="tdcenter">
+          <span class="but_f">F</span><span class="op_f">x&lt;0</span>
+        </td>
+        <td>Если меньше нуля</td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X меньше нуля (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>5D</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">L0</span></td>
+        <td>Цикл по регистру R0</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>5E</th>
+        <td class="tdcenter"><span class="but_f">F</span><span class="op_f">x=0</span></td>
+        <td>Если равно нулю</td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X равно нулю (в большинстве языков обычно наоборот, переход на
+          адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>5F</th>
+        <td class="tdcenter"></td>
+        <td>Зависание</td>
+        <td>
+          Визуально воспринимается как зависание. ПМК не реагирует на ввод
+          команд и ничего не отображает.
+          <br>
+          Обычным образом такую команду не ввести.
+        </td>
+      </tr>
+      <tr>
+        <th>60&hellip;6E</th>
+        <td class="tdcenter">
+          <span class="but_b">П&rarr;x</span><span class="but">R</span>
+        </td>
+        <td>Извлечение из регистра R0&hellip;Re в X</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>6F</th>
+        <td class="tdcenter"></td>
+        <td>Извлечение из регистра R0 в X</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>70&hellip;7E</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_f">x&ne;0</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенный условный переход при равенстве, адрес перехода в
+          регистре R0&hellip;Re
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X не равно нулю (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>7F</th>
+        <td></td>
+        <td>
+          Косвенный условный переход при равенстве, адрес перехода в
+          регистре R0
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X не равно нулю (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+          <br>
+          Обычным образом такую команду не ввести.
+        </td>
+      </tr>
+      <tr>
+        <th>80&hellip;8E</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but_b">БП</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенный безусловный переход на адрес перехода в регистре
+          R0&hellip;Re
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>8F</th>
+        <td></td>
+        <td>Косвенный безусловный переход на адрес перехода в регистре R0</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>90&hellip;9E</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_f">x&ges;0</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенный условный переход если больше или равно нулю, адрес
+          перехода в регистре R0&hellip;Re
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X больше или равно нулю (в большинстве языков обычно наоборот,
+          переход на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>9F</th>
+        <td></td>
+        <td>
+          Косвенный условный переход если больше или равно нулю, адрес
+          перехода в регистре R0
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X больше или равно нулю (в большинстве языков обычно наоборот,
+          переход на адрес при выполнении условия).
+          <br>
+          Обычным образом такую команду не ввести.
+        </td>
+      </tr>
+      <tr>
+        <th>A0&hellip;AE</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but_b">ПП</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенный вызов подпрограммы по адресу в регистре R0&hellip;Re
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>AF</th>
+        <td></td>
+        <td>Косвенный вызов подпрограммы по адресу в регистре R0</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>B0&hellip;BE</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but_b">x&rarr;П</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенное сохранение X в регистр, по номеру в регистре
+          R0&hellip;Re
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>BF</th>
+        <td></td>
+        <td>Косвенное сохранение X в регистр, по номеру в регистре R0</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>C0&hellip;CE</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_f">x&lt;0</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенный условный переход если меньше нуля, адрес перехода в
+          регистре R0&hellip;Re
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X меньше нуля (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>CF</th>
+        <td></td>
+        <td>
+          Косвенный условный переход если меньше нуля, адрес перехода в
+          регистре R0
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X меньше нуля (в большинстве языков обычно наоборот, переход
+          на адрес при выполнении условия).
+          <br>
+          Обычным образом такую команду не ввести.
+        </td>
+      </tr>
+      <tr>
+        <th>D0&hellip;DE</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="but_b">П&rarr;x</span><span class="but">R</span>
+        </td>
+        <td>
+          Косвенное извлечение X из регистра, по номеру в регистре
+          R0&hellip;Re
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>DF</th>
+        <td></td>
+        <td>Косвенное извлечение X из регистра, по номеру в регистре R0</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+      <tr>
+        <th>E0&hellip;EE</th>
+        <td class="tdcenter">
+          <span class="but_k">К</span><span class="op_f">x=0</span><span class="but">R</span>
+        </td>
+        <td>
+          освенный условный переход если равно нулю, адрес перехода в
+          регистре R0&hellip;Re
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X равно нулю (в большинстве языков обычно наоборот, переход на
+          адрес при выполнении условия).
+        </td>
+      </tr>
+      <tr>
+        <th>EF</th>
+        <td></td>
+        <td>
+          Косвенный условный переход если равно нулю, адрес перехода в
+          регистре R0
+        </td>
+        <td>
+          Пропуск адреса перехода, и выполнение следующей после него команды,
+          если X равно нулю (в большинстве языков обычно наоборот, переход на
+          адрес при выполнении условия).
+          <br>
+          Обычным образом такую команду не ввести.
+        </td>
+      </tr>
+      <tr>
+        <th>F0&hellip;FF</th>
+        <td></td>
+        <td>Пустой оператор</td>
+        <td>Обычным образом такую команду не ввести.</td>
+      </tr>
+    </table>
+    <p>
+      Некоторые команды с цифрой F в коде можно получить тоже
+      недокументированным образом.
+    </p>
+    <p>
+      Команды F0&hellip;FE получаются по адресам 30&hellip;44 после выполнения
+      в режиме вычислений пары команд
+      <span class="but_b">В/О</span>;
+      <span class="but_k">К</span><span class="but_b">ПП</span><span class="but">R</span>
+      (R=0&hellip;e), которые переведут ПМК в режим ввода программы и вставят
+      код с цифрой F.  При этом в регистрах R0&hellip;R3 должно быть число в
+      диапазоне -3 &lt; X &lt; 3. Если там будет другое (например, ноль, как
+      после включения ПМК), то для R1&hellip;R3 вставится F0&hellip;F2 по
+      адресу 30&hellip;32, а для R0 это будет самый быстрый способ получить
+      3Г0ГГа (причем перехода в режим ввода программы не произойдет).
+    </p>
+    <p>
+      Команду FF можно получить по адресам 50&hellip;59 с помощью ЕГГ0Га.
+      Пусть N=0&hellip;9. Сначала сохраним ЕГГ0Га:
+    </p>
+    <p>
+      <span class="but">1</span>;
+      <span class="but">ВП</span>;
+      <span class="but">5</span>;
+      <span class="but">0</span>;
+      <span class="but_f">F</span><span class="op_f">x<sup>2</sup></span>;
+      <span class="but_b">x&rarr;П</span><span class="but">9</span>;
+      <span class="but_cx">Сx</span>.
+    </p>
+    <p>
+      Затем выполним:
+    </p>
+    <p>
+      <span class="but_b">П&rarr;x</span><span class="but">9</span>;
+      <span class="but">ВП</span>;
+      <span class="but">N</span>;
+      <span class="but">.</span>;
+      <span class="but">N</span>;
+      <span class="but_f">F</span><span class="op_f">авт</span>.
+    </p>
+    <p>
+      По адресу 5N запишется код FF.
+    </p>
+    <p>
+      Не забудьте, что, вызывая "монстров" вы портите стек возврата из
+      процедур. Лучше после таких манипуляций его почистить (указано как
+      примечание для команды В/О).
+    </p>
+  </div>
+
+  <footer>
+    <address class="align_right">Автор документа: Анваров С.Р.</address>
+  </footer>
+</body>
+</html>

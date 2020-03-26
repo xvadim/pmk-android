@@ -121,6 +121,12 @@
                 android:layout="@layout/preferences_layout"
                 android:title="@string/settings_other_mem_buttons_34" />
 
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_y_indicator"
+                android:layout="@layout/preferences_layout"
+                android:title="@string/settings_other_y_indicator" />
+
         </PreferenceCategory>
     </PreferenceScreen>
 

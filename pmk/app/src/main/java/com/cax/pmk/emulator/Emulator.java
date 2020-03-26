@@ -1,5 +1,7 @@
 package com.cax.pmk.emulator;
 
+import android.util.Log;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,7 +134,7 @@ public class Emulator extends Thread implements EmulatorInterface
 			displayString.append(show_symbols[indicator[ix]]);
 			displayString.append(ind_comma[ix] ? "." : "/");
 		}
-		mainActivity.displayIndicator(displayString.toString());
+		mainActivity.displayIndicator(MainActivity.REGISTER_X, displayString.toString());
 	}
 
 	void tick() {
@@ -315,10 +317,35 @@ public class Emulator extends Thread implements EmulatorInterface
 			regsBuffer[regsBuffer.length - 1] = "";	//the e reg is absent on the MK54
 		}
 
+
+		String prevY = regsBuffer[2];
+
 		for(i = 0; i < 5; i++) {
 			int chipNum = stackAddrs[stackAddrsSwaps[i]][0];
 			int addr = stackAddrs[stackAddrsSwaps[i]][1];
 			regsBuffer[i] = readValue(chipNum, addr);
+		}
+
+		if (mainActivity.isYIndicatorVisible && (prevY == null || !prevY.equals(regsBuffer[2]))) {
+		    //convert value to the display format
+			displayString.setLength(0);
+			int idx;
+			int len = regsBuffer[2].length();
+			for(idx = 0; idx < len; idx++) {
+				displayString.append(regsBuffer[2].charAt(idx));
+				if (idx < len - 1 && regsBuffer[2].charAt(idx + 1) == '.') {
+					displayString.append(".");
+					idx++;
+				} else {
+					displayString.append("/");
+				}
+			}
+			idx--;
+			for( ; idx < 12; idx++) {
+				displayString.append(" /");
+			}
+
+			mainActivity.displayIndicator(MainActivity.REGISTER_Y, displayString.toString());
 		}
 
 		for(int j = 0; j < regsCount; j++, i++) {

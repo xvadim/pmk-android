@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
@@ -72,15 +73,17 @@ public class SkinHelper {
         labelTextSize  = ((TextView)mainActivity.findViewById(R.id.labelSquare)).getTextSize();
 
         // style indicator
-        TextView calculatorIndicator = (TextView) mainActivity.findViewById(R.id.textView_Indicator);
+        TextView calculatorIndicator = mainActivity.findViewById(R.id.textView_Indicator);
         Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_INDICATOR_DIGITS);
         calculatorIndicator.setTypeface(tf);
+        calculatorIndicator = mainActivity.findViewById(R.id.textView_IndicatorY);
+        calculatorIndicator.setTypeface(tf);
 
-        TextView indicator = (TextView)mainActivity.findViewById(R.id.indicatorF);
+        TextView indicator = mainActivity.findViewById(R.id.indicatorF);
         indicator.setTypeface(tf);
-        indicator = (TextView)mainActivity.findViewById(R.id.indicatorTurbo);
+        indicator = mainActivity.findViewById(R.id.indicatorTurbo);
         indicator.setTypeface(tf);
-        indicator = (TextView)mainActivity.findViewById(R.id.indicatorK);
+        indicator = mainActivity.findViewById(R.id.indicatorK);
         indicator.setTypeface(tf);
 
         // use manually created symbols for some labels
@@ -101,7 +104,7 @@ public class SkinHelper {
     static void setMkModelName(int mkModel) {
         View v = mainActivity.findViewById(R.id.buttonReturn);
         int x = v.getWidth() + v.getPaddingLeft();
-        AutoScaleTextView textView = (AutoScaleTextView)mainActivity.findViewById(R.id.TextViewTableCellCalculatorName);
+        AutoScaleTextView textView = mainActivity.findViewById(R.id.TextViewTableCellCalculatorName);
         if (textView != null) {
             textView.setMaxWidth(x * 3);
             textView.setText(mainActivity.getString(R.string.electronica) + "  MK" + (mkModel == 1 ? "-54" : " 61"));
@@ -115,7 +118,7 @@ public class SkinHelper {
             for (int i=0; i < blueLabels.length; i++) {
 
                 // remove blue labels
-                TextView blueLabel = (TextView) mainActivity.findViewById(blueLabels[i]);
+                TextView blueLabel = mainActivity.findViewById(blueLabels[i]);
                 blueLabel.setText("");
 
                 // center yellow labels
@@ -131,13 +134,13 @@ public class SkinHelper {
             ((TextView) mainActivity.findViewById(R.id.labelE)).setText("");
             ((TextView) mainActivity.findViewById(R.id.labelNop54)).setText("НОП");
 
-            Button clearButton = (Button)mainActivity.findViewById(R.id.buttonClear);
+            Button clearButton = mainActivity.findViewById(R.id.buttonClear);
             clearButton.setText("Cx");
             Typeface tf = clearButton.getTypeface();
 
             setMemoryButtonsSkin(true);
 
-            Button b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
+            Button b = mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText("XY");
             b.setTypeface(tf);
         } else { // 0 for MK-61
@@ -152,7 +155,7 @@ public class SkinHelper {
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
                 // add back blue labels
-                TextView blueLabel = (TextView) mainActivity.findViewById(blueLabels[i]);
+                TextView blueLabel = mainActivity.findViewById(blueLabels[i]);
                 blueLabel.setText(blueLabelsText[i]);
             }
 
@@ -169,13 +172,13 @@ public class SkinHelper {
             Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_MISSING_SYMBOLS);
             setMemoryButtonsSkin(isMemButtons34);
 
-            Button b = (Button)mainActivity.findViewById(R.id.buttonExchangeXY);
+            Button b = mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText(mainActivity.getString(R.string.buttonExchangeXY));
             b.setTypeface(tf, Typeface.NORMAL);
         }
     }
 
-    static void setMemoryButtonsSkin(boolean isMK54) {
+    static private void setMemoryButtonsSkin(boolean isMK54) {
          if (isMK54) {
              Button clearButton = mainActivity.findViewById(R.id.buttonClear);
              Typeface tf = clearButton.getTypeface();
@@ -200,8 +203,8 @@ public class SkinHelper {
     }
 
     static List<View> getAllChildrenBFS(View v) {
-        List<View> visited = new ArrayList<View>();
-        List<View> unvisited = new ArrayList<View>();
+        List<View> visited = new ArrayList<>();
+        List<View> unvisited = new ArrayList<>();
         unvisited.add(v);
 
         while (!unvisited.isEmpty()) {
@@ -243,7 +246,7 @@ public class SkinHelper {
      * @param mode -1 - off, 0 - fast mode, 1 - normal mode
      */
     static void styleIndicator(boolean grayscale, int mode) {
-        TextView calculatorIndicator = (TextView) mainActivity.findViewById(R.id.textView_Indicator);
+        TextView calculatorIndicator = mainActivity.findViewById(R.id.textView_Indicator);
 
         int indicatorTextColor = mainActivity.getResources().getColor(grayscale
                 ? R.color.indicatorDigitsGrayscale
@@ -251,11 +254,11 @@ public class SkinHelper {
 
         // set indicator digits color
         calculatorIndicator.setTextColor(indicatorTextColor);
-        TextView indicator = (TextView)mainActivity.findViewById(R.id.indicatorTurbo);
+        TextView indicator = mainActivity.findViewById(R.id.indicatorTurbo);
         indicator.setTextColor(indicatorTextColor);
-        indicator = (TextView)mainActivity.findViewById(R.id.indicatorF);
+        indicator = mainActivity.findViewById(R.id.indicatorF);
         indicator.setTextColor(indicatorTextColor);
-        indicator = (TextView)mainActivity.findViewById(R.id.indicatorK);
+        indicator = mainActivity.findViewById(R.id.indicatorK);
         indicator.setTextColor(indicatorTextColor);
 
         // set indicator background color
@@ -274,14 +277,19 @@ public class SkinHelper {
                       );
         }
 
-        calculatorIndicator.setBackgroundColor(mainActivity.getResources().getColor(color));
+        int bgColor = mainActivity.getResources().getColor(color);
+        calculatorIndicator.setBackgroundColor(bgColor);
+
+        calculatorIndicator = mainActivity.findViewById(R.id.textView_IndicatorY);
+        calculatorIndicator.setTextColor(indicatorTextColor);
+        calculatorIndicator.setBackgroundColor(bgColor);
 
         int indicatorVisibility = mode == 0 ? View.VISIBLE : View.INVISIBLE;
 
         mainActivity.findViewById(R.id.indicatorTurbo).setVisibility(indicatorVisibility);
     }
 
-    static void styleButtonF(boolean grayscale, boolean borderOtherButtons) {
+    static private void styleButtonF(boolean grayscale, boolean borderOtherButtons) {
         View buttonF = mainActivity.findViewById(R.id.buttonF);
 
         int bgResourceId;
@@ -295,7 +303,7 @@ public class SkinHelper {
         buttonF.setBackgroundResource(bgResourceId);
     }
 
-    static void styleButtonK(boolean grayscale, boolean borderOtherButtons) {
+    static private void styleButtonK(boolean grayscale, boolean borderOtherButtons) {
         View buttonK = mainActivity.findViewById(R.id.buttonK);
 
         int bgResourceId;
@@ -345,7 +353,7 @@ public class SkinHelper {
 
         int bgResource = borderOtherButtons ? R.drawable.button_other_border : R.drawable.button_other;
 
-        HashSet<View> set = new HashSet<View>(getAllChildrenBFS(mainActivity.findViewById(R.id.tableLayoutKeyboard)));
+        HashSet<View> set = new HashSet<>(getAllChildrenBFS(mainActivity.findViewById(R.id.tableLayoutKeyboard)));
         for (View view: set) {
             if (view instanceof Button) {
                 Button b = (Button)view;

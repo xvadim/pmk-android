@@ -6,7 +6,54 @@
     android:background="@color/commonBackground"
     android:orientation="vertical" >
 
-    <!-- ======================= Indicator ======================== -->
+    <!-- ======================= Y-Indicator ======================== -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout_IndicatorY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indicator_top_margin"
+        android:background="@color/indicatorOff"
+        android:orientation="vertical"
+        android:visibility="visible"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            >
+
+            <com.cax.pmk.widget.AutoScaleTextView
+                android:id="@+id/textView_IndicatorY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|left"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
+                android:minHeight="@dimen/indicator_min_height"
+                android:paddingLeft="@dimen/indicator_left_padding"
+                android:paddingRight="@dimen/indicator_right_padding"
+                android:text="@string/indicatorTestString"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/indicatorDigits"
+                android:textSize="@dimen/indicator_orig_text_size"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/indicatorDigits"
+                android:textSize="14sp"
+                android:text=" Y:"
+                android:visibility="visible"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- ======================= X Indicator ======================== -->
 
     <LinearLayout
         android:id="@+id/linearLayout_Indicator"

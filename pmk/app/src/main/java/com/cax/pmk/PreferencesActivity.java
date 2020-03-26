@@ -35,6 +35,7 @@ public class PreferencesActivity extends PreferenceActivity {
 	static final String PROGRAMS_DIR_KEY                = "programsDir";
 
 	static final String PREFERENCE_MEM_BUTTONS_54 = "pref_mem_buttons_54";
+	static final String PREFERENCE_Y_INDICATOR = "pref_y_indicator";
 	
 	// defaults
 	public static final boolean DEFAULT_DUMMY_BOOLEAN		 = false;
