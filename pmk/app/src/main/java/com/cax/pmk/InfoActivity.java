@@ -1,12 +1,15 @@
 package com.cax.pmk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -41,7 +44,34 @@ public class InfoActivity extends Activity {
 
         mWebView = findViewById(R.id.info_view);
         mWebView.setBackgroundColor(Color.parseColor("#BBBBBB"));
-        mWebView.setWebViewClient(new WebViewClient());
+
+        if (android.os.Build.VERSION.SDK_INT >= 24) {
+            mWebView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView webView, WebResourceRequest webResourceRequest) {
+                    if (webResourceRequest.getUrl().getScheme().equals("file")) {
+                        webView.loadUrl(webResourceRequest.getUrl().toString());
+                    } else {
+                        // If the URI is not pointing to a local file, open with an ACTION_VIEW Intent
+                        webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, webResourceRequest.getUrl()));
+                    }
+                    return true; // in both cases we handle the link manually
+                }
+            });
+        } else {
+            mWebView.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                    if (Uri.parse(url).getScheme().equals("file")) {
+                        webView.loadUrl(url);
+                    } else {
+                        // If the URI is not pointing to a local file, open with an ACTION_VIEW Intent
+                        webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    }
+                    return true; // in both cases we handle the link manually
+                }
+            });
+        }
 
         Bundle args = getIntent().getExtras();
         String descrFile;
