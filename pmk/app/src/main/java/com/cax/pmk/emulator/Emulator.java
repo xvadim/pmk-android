@@ -15,7 +15,10 @@ public class Emulator extends Thread implements EmulatorInterface
 		RUNNING, STOPPED, STOPPING_NORMAL, STOPPING_FORCED
 	}
 
-	public Emulator() {}
+	private int[] mImportCmds = new int[105];
+	private int mImportCmdCount = -1;
+
+	public Emulator() { }
 
 	public void initTransient(MainActivity mainActivity) {
     	this.mainActivity = mainActivity;
@@ -45,12 +48,14 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	public void run() {
 		runningState = RunningState.RUNNING;
-		while(runningState == RunningState.RUNNING) step();
+		while(runningState == RunningState.RUNNING) {
+			step();
+		}
 		
 		if (runningState != RunningState.STOPPING_FORCED) {
 			while(! (IR2_1.microtick == 84 && syncCounter == 0))
 				tick42();
-	}
+		}
 
 		runningState = RunningState.STOPPED;
         mainActivity = null;
@@ -99,6 +104,66 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	public String getSaveStateName() {
 		return saveStateName;
+	}
+
+	public void storeCmd(int address, int cmdCode) {
+		mImportCmds[address] = cmdCode;
+	}
+	public void setImportPrgSize(int prgSize) {
+		synchronized (this) {
+			mImportCmdCount = prgSize;
+		}
+	}
+
+	private void importIfNeeded() {
+		if (mImportCmdCount > 0) {
+			final int prgSize = mImportCmdCount;
+			mImportCmdCount = -1;
+			for(int a = 0; a < prgSize; a++) {
+				saveCmd(a, mImportCmds[a]);
+			}
+		}
+	}
+
+	public void saveCmd(int address, int cmdCode) {
+		int hi = cmdCode / 16;
+		int lo = cmdCode % 16;
+		int[] addr = cmdAddress(address, IR2_1.microtick / 84);
+		switch (addr[0]) {
+			case 1:
+			    IR2_1.M[addr[1]] = hi;
+				IR2_1.M[addr[1] - 3] = lo;
+				break;
+			case 2:
+				IR2_2.M[addr[1]] = hi;
+				IR2_2.M[addr[1] - 3] = lo;
+				break;
+			case 3:
+				IK1302.M[addr[1]] = hi;
+				IK1302.M[addr[1] - 3] = lo;
+				break;
+			case 4:
+				IK1303.M[addr[1]] = hi;
+				IK1303.M[addr[1] - 3] = lo;
+				break;
+			case 5:
+				IK1306.M[addr[1]] = hi;
+				IK1306.M[addr[1] - 3] = lo;
+				break;
+		}
+	}
+
+	private int[] cmdAddress(int address, int page) {
+		int addr1 = address / 7;
+		int addr2 = address % 7;
+		if (addr2 == 0) {
+			return memAddrsPages[memAddrsSwaps[page][addr1]];
+		} else {
+			return new int[]{
+					memAddrsPages[memAddrsSwaps[page][addr1]][0],
+					memAddrsPages[memAddrsSwaps[page][addr1]][1] - 42 + addr2 * 6,
+			};
+		}
 	}
 
 	public String indicatorString() {
@@ -164,6 +229,7 @@ public class Emulator extends Thread implements EmulatorInterface
 			syncCounter = (syncCounter + 1) % (mk_model == 0 ? 5 : 7);
 			if (IK1302.redraw_indic && syncCounter == (mk_model == 0 ? 4 : 6)) {
 				regsDump();
+				importIfNeeded();
 				return true;
 			}
 		}
@@ -177,24 +243,25 @@ public class Emulator extends Thread implements EmulatorInterface
 		IK1303.keyb_x = angle_mode;
 		for (int ix = 0; ix < 560; ix++) {
 			if (runningState == RunningState.STOPPING_FORCED) break;
-			if (speed_mode>0) try { sleep(1); } catch (InterruptedException e) {}
+			if (speed_mode > 0) try {
+				sleep(1);
+			} catch (InterruptedException ignored) {
+			}
 			tick42();
-			
+
 			if (IK1302.redraw_indic) {
-				for (i = 0; i <= 8; i++) indicator[i] 	  = IK1302.R[(8 - i) * 3];
+				for (i = 0; i <= 8; i++) indicator[i] = IK1302.R[(8 - i) * 3];
 				for (i = 0; i <= 2; i++) indicator[i + 9] = IK1302.R[(11 - i) * 3];
-				for (i = 0; i <= 8; i++) ind_comma[i]     = IK1302.ind_comma[9 - i];
+				for (i = 0; i <= 8; i++) ind_comma[i] = IK1302.ind_comma[9 - i];
 				for (i = 0; i <= 2; i++) ind_comma[i + 9] = IK1302.ind_comma[12 - i];
 				IK1302.redraw_indic = false;
-			}
-			else
-			{
+			} else {
 				for (i = 0; i < 12; i++) {
-					indicator[i] = 15; ind_comma[i] = false;
+					indicator[i] = 15;
+					ind_comma[i] = false;
 					IK1302.redraw_indic = false;
 				}
 			}
-
 			renew = false;
 			for (idx = 0; idx < 12; idx++) {
 				if (indicator_old[idx] != indicator[idx]) renew = true;
@@ -202,7 +269,9 @@ public class Emulator extends Thread implements EmulatorInterface
 				if (ind_comma_old[idx] != ind_comma[idx]) renew = true;
 				ind_comma_old[idx] = ind_comma[idx];
 			}
-			if (renew) show_indicator();
+			if (renew) {
+				show_indicator();
+			}
 		}
 	}
 
@@ -287,8 +356,16 @@ public class Emulator extends Thread implements EmulatorInterface
 	//swaps for mk54 looks different ??
 //	private static final int[] memAddrsSwaps54 = {3, 4, 5, 0, 1, 13, 12, 8, 9, 10, 11, 6, 7, 2};
 	private static final int[] memAddrsSwaps54 = {11, 6, 7, 2, 3, 4, 5, 0, 1, 13, 12, 8, 9, 10};
+
+	private static final int[][] memAddrsSwaps = {
+			{1, 2, 3, 4, 5, 14, 13, 12, 6, 7, 8, 9, 10, 11, 0},
+			{10, 11, 6, 7, 2, 3, 4, 5, 0, 1, 14, 13, 12, 8, 9},
+			{14, 13, 12, 10, 11, 6, 7, 8, 9, 4, 5, 0, 1, 2, 3}	//
+
+	};
 	private static final int[][] memAddrsPages = {
-			{1, 41}, {1, 83}, {1, 125}, {1, 167}, {1, 209}, {1, 251}, {2, 41}, {2, 83}, {2, 125}, {2, 167}, {2, 209}, {2, 251}, {3, 41}, {4, 41}, {5, 41}
+			{1, 41}, {1, 83}, {1, 125}, {1, 167}, {1, 209}, {1, 251}, {2, 41}, {2, 83}, {2, 125},
+			{2, 167}, {2, 209}, {2, 251}, {3, 41}, {4, 41}, {5, 41}
 	};
 
 	private static final int[] stackAddrsSwaps61 = {14, 13, 12, 8, 9};

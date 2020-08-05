@@ -239,7 +239,7 @@ public class SimpleFileDialog
 					dirs.add( fileName + "/" );
 				}
 				else if (Select_type == FileSave || Select_type == FileOpen) {
-                    if (fileName.endsWith(".pmk")) {
+                    if (fileName.endsWith(".pmk") || fileName.endsWith(".mk61")) {
                         // Add file names to the list if we are doing a file save or file open operation
                         dirs.add(fileName);
                     }

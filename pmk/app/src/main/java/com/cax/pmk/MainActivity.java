@@ -353,6 +353,9 @@ public class MainActivity extends Activity
              case R.id.menu_import:
                  importState();
                  return true;
+//             case R.id.menu_import_txt:
+//                 importTxtProgram();
+//                 return true;
              case R.id.menu_instruction:
                  openInfoActivity();
                  return true;
@@ -706,7 +709,6 @@ public class MainActivity extends Activity
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.importState(emulator);
         } else {
-
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED) {
                 saveStateManager.importState(emulator);
@@ -716,6 +718,23 @@ public class MainActivity extends Activity
             }
         }
     }
+
+    /*
+    private void importTxtProgram() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            saveStateManager.importTxtProgram(emulator);
+        } else {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                saveStateManager.importTxtProgram(emulator);
+            } else {
+                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        PERMISSION_REQUEST_READ_EXTERNAL);
+            }
+        }
+    }
+
+     */
 
     private void copyToClipboard() {
         String indStr = emulator.indicatorString();

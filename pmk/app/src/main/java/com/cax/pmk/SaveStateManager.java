@@ -1,9 +1,12 @@
 package com.cax.pmk;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -13,10 +16,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -254,6 +260,40 @@ public class SaveStateManager {
         return isLoaded;
     }
 
+    /*
+    boolean importTxtProgram(final EmulatorInterface emulator) {
+
+        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
+                new SimpleFileDialog.SimpleFileDialogListener()  {
+                    @Override
+                    public void onChosenDir(String chosenFileName)  {
+                        File file = new File(chosenFileName);
+                        saveProgramsDir(file);
+
+                        FileInputStream fileIn = null;
+                        mProgramDescription = null;
+                        try {
+                            fileIn = new FileInputStream(file);
+//                            if (!loadStateFromFile(emulator, fileIn)) {
+//                                showErrorMessage(R.string.import_common_error);
+//                            } else {
+//                                loadProgramDescription(chosenFileName);
+//                            }
+                        } catch (Exception e) {
+                            showErrorMessage(R.string.import_common_error);
+                        } finally {
+                            try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
+                        }
+                    }
+                });
+
+        setupDataStorage(FileOpenDialog);
+
+        return true;
+    }
+
+     */
+
     boolean importState(final EmulatorInterface emulator) {
 
         SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
@@ -267,11 +307,20 @@ public class SaveStateManager {
                         mProgramDescription = null;
                         try {
                             fileIn = new FileInputStream(file);
-                            if (!loadStateFromFile(emulator, fileIn)) {
-                                showErrorMessage(R.string.import_common_error);
+                            if (chosenFileName.endsWith(".pmk")) {  //binary emulator's dump
+                                if (!loadStateFromFile(emulator, fileIn)) {
+                                    showErrorMessage(R.string.import_common_error);
+                                } else {
+                                    loadProgramDescription(chosenFileName);
+                                }
                             } else {
-                                loadProgramDescription(chosenFileName);
+                                //import from a text file
+                                importTxtProgram(emulator, fileIn);
                             }
+                            showErrorMessage("Импорт успешен");
+                        } catch (ParserException parseEx) {
+                            Log.d("GAME1", "Err: " + parseEx.cmd);
+                            showErrorMessage("Неизвестная команда: " + parseEx.cmd);
                         } catch (Exception e) {
                             showErrorMessage(R.string.import_common_error);
                         } finally {
@@ -352,6 +401,49 @@ public class SaveStateManager {
         } catch (Exception ex) {}
     }
 
+    private void importTxtProgram(final EmulatorInterface emulator, FileInputStream fileIn)
+            throws IOException, ParserException {
+        BufferedReader buf = new BufferedReader(new InputStreamReader(fileIn));
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        String line = buf.readLine();
+        while(line != null){
+            line = line.trim();
+            //skip lines like '#	|	00	01	02	03	04	05	06	07	08	09'
+            if (!line.startsWith("#")) {
+                stringBuilder.append(line);
+                stringBuilder.append(' ');
+            }
+            line = buf.readLine();
+        }
+        buf.close();
+
+        //replace parts '00	|	В/О' to '00.В/О' and Russian letters to English ones
+        String prgString = stringBuilder.toString().toUpperCase()
+                .replaceAll("\\s+\\|\\s+", ".")
+                .replaceAll("А", "A")
+                .replaceAll("В", "B")
+                .replaceAll("С", "C")
+                .replaceAll("Д", "D")
+                .replaceAll("Е", "E")
+                .replaceAll("К", "K")
+                .replaceAll("М", "M")
+                .replaceAll("О", "O")
+                .replaceAll("Х", "X")
+                ;
+        Log.d("GAME1", "PRG: " + prgString);
+        String[] prgCommands = prgString.split("\\s+");
+        CommandParser cmdParser = new CommandParser();
+        int addr = 0;
+        for (String cmd : prgCommands) {
+            cmdParser.parseCommand(addr, cmd);
+            emulator.storeCmd(cmdParser.cmdAddress(), cmdParser.cmdCode());
+            addr++;
+        }
+        //inform the emulator that the program is ready to import
+        emulator.setImportPrgSize(addr);
+    }
+
     public void deleteSlot(int slot) {
         File file = getFileStreamPath(getSlotFilename(slot));
         if (file.exists())
@@ -359,7 +451,13 @@ public class SaveStateManager {
     }
 
     private void showErrorMessage(int errorTextID) {
-        Toast.makeText(mainActivity, mainActivity.getString(errorTextID), Toast.LENGTH_SHORT).show();
+        showErrorMessage(mainActivity.getString(errorTextID));
+    }
+
+    private void showErrorMessage(String message) {
+        Toast toast = Toast.makeText(mainActivity, message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 
     private void saveProgramsDir(File pFile) {
