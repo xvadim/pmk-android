@@ -14,7 +14,6 @@
     <string name="menu_swap" translatable="false">MK 61 ↔ MK-54</string>
     <string name="menu_export">Export</string>
     <string name="menu_import">Import</string>
-    <!-- <string name="menu_import_txt">Import (txt)</string> -->
     <string name="menu_description">Description</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_instruction">Information</string>
@@ -96,6 +95,10 @@
     <string name="savestate_name_empty">(empty)</string>
     <string name="savestate_name_noname">(no name)</string>
     <string name="import_common_error">Can\'t import program</string>
+    <string name="import_successfull">Import successful</string>
+    <string name="import_unsupported_error">Import error: only MK-61 is supported</string>
+    <string name="import_turned_off_error">Import error: the emulator is turned off</string>
+    <string name="import_parse_error">Import error: unknown command %s</string>
     <string name="export_common_error">Can\'t export program</string>
     <string name="export_no_sd_card_error">SD-card is not mounted</string>
 

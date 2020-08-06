@@ -338,7 +338,7 @@ class CommandParser {
             parseCmd(cmd);
         } catch (NumberFormatException ex) {
             throw new ParserException(cmd.contains(".") ? cmd :
-                    String.format("%d.%s", mAddress, mCode));
+                    String.format("%d.%s", mAddress, cmd));
         }
     }
 

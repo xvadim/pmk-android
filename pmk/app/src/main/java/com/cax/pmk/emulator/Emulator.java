@@ -286,8 +286,8 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	private int angle_mode = 10; // R=10, GRD=11, G=12
 	private int speed_mode = 0;  // 0=fast, 1=real speed
-    private static final int modelMK61 = 0;
-	private static final int modelMK54 = 1;
+    public static final int modelMK61 = 0;
+	public static final int modelMK54 = 1;
 	private int mk_model   = 0;  // 0=MK-61, 1=MK-54
 	
 	private transient int syncCounter = 0;

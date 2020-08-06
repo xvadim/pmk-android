@@ -26,6 +26,8 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cax.pmk.emulator.Emulator;
+
 public class SaveStateManager {
 	
 	private static final String PERSISTENCE_STATE_FILENAME 	= "persist";
@@ -317,10 +319,9 @@ public class SaveStateManager {
                                 //import from a text file
                                 importTxtProgram(emulator, fileIn);
                             }
-                            showErrorMessage("Импорт успешен");
+
                         } catch (ParserException parseEx) {
-                            Log.d("GAME1", "Err: " + parseEx.cmd);
-                            showErrorMessage("Неизвестная команда: " + parseEx.cmd);
+                            showErrorMessage(mainActivity.getString(R.string.import_parse_error, parseEx.cmd));
                         } catch (Exception e) {
                             showErrorMessage(R.string.import_common_error);
                         } finally {
@@ -403,6 +404,17 @@ public class SaveStateManager {
 
     private void importTxtProgram(final EmulatorInterface emulator, FileInputStream fileIn)
             throws IOException, ParserException {
+
+        if (emulator == null) {
+            showErrorMessage(R.string.import_turned_off_error);
+            return;
+        }
+
+        if (emulator.getMkModel() != Emulator.modelMK61) {
+            showErrorMessage(R.string.import_unsupported_error);
+            return;
+        }
+
         BufferedReader buf = new BufferedReader(new InputStreamReader(fileIn));
         final StringBuilder stringBuilder = new StringBuilder();
 
@@ -431,7 +443,6 @@ public class SaveStateManager {
                 .replaceAll("О", "O")
                 .replaceAll("Х", "X")
                 ;
-        Log.d("GAME1", "PRG: " + prgString);
         String[] prgCommands = prgString.split("\\s+");
         CommandParser cmdParser = new CommandParser();
         int addr = 0;
@@ -442,6 +453,8 @@ public class SaveStateManager {
         }
         //inform the emulator that the program is ready to import
         emulator.setImportPrgSize(addr);
+
+        showErrorMessage(R.string.import_successfull);
     }
 
     public void deleteSlot(int slot) {
@@ -465,7 +478,7 @@ public class SaveStateManager {
 	    if (dir != null) {
             SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(mainActivity).edit();
             sharedPrefEditor.putString(PreferencesActivity.PROGRAMS_DIR_KEY, dir);
-            sharedPrefEditor.commit();
+            sharedPrefEditor.apply();
         }
     }
 }

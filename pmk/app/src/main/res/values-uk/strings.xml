@@ -4,6 +4,10 @@
     <string name="export_common_error">Помилка експорту</string>
     <string name="export_no_sd_card_error">SD-карта недоступна</string>
     <string name="import_common_error">Помилка експорту</string>
+    <string name = "import_successfull"> Імпорт вдалий </string>
+    <string name = "import_unsupported_error"> Помилка імпорту: підтримується лише MK-61 </string>
+    <string name = "import_turned_off_error"> Помилка імпорту: емулятор вимкнено </string>
+    <string name = "import_parse_error"> Помилка імпорту: невідома команда %s </string>
     <string name="item_mk54">Электроника MK&#x2010;54 (сумісний з Б3&#x2010;34, MK 56)</string>
     <string name="item_mk61">Электроника MK 61 (сумісний з MK 52 без ↑↓)</string>
     <string name="label_cancel">Скасувати</string>

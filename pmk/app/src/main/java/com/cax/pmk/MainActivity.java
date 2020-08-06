@@ -691,13 +691,11 @@ public class MainActivity extends Activity
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.exportState(emulator);
-            return;
         } else {
 
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED) {
                 saveStateManager.exportState(emulator);
-                return;
             } else {
                 requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         PERMISSION_REQUEST_WRITE_EXTERNAL);
@@ -718,23 +716,6 @@ public class MainActivity extends Activity
             }
         }
     }
-
-    /*
-    private void importTxtProgram() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            saveStateManager.importTxtProgram(emulator);
-        } else {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                saveStateManager.importTxtProgram(emulator);
-            } else {
-                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        PERMISSION_REQUEST_READ_EXTERNAL);
-            }
-        }
-    }
-
-     */
 
     private void copyToClipboard() {
         String indStr = emulator.indicatorString();
