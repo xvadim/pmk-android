@@ -122,11 +122,12 @@
         <p>
         Usage hints:
         <ul>
-        <li> to open the Info panel use menu or swipe from left to right or tap on the <b>ⓘ</b> button</li>
+        <li> to open the Info panel use menu or tap on the <b>ⓘ</b> button</li>
         <li> Tap the \"Вкл\" label to open menu</li>
         <li> ouch indicator to toggle emulation speed slow/fast</li>
         <li> Long-touch indicator to hide/show switches</li>
-        <li> ou can import programms from external files via the \"Import\" menu</li>
+        <li> ou can import programms from external files via the \"Import\" menu. More information about import
+        <a href="https://xvadim.github.io/xbasoft//pmk/program_package.html">here</a> (on Russian)</li>
         <li> Switch calculator off to select MK 61 or MK-54 in Menu</li>
         <li> Long-touch the \"Электроника МК\" label when calculator turned off to toggle calculator model</li>
         </ul>

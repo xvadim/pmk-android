@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -16,11 +15,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.widget.EditText;
@@ -41,7 +38,7 @@ public class SaveStateManager {
     private static int tempSaveSlot = 0;
 
 	MainActivity mainActivity;
-    public String mProgramDescription = null;
+    String mProgramDescription = null;
 	
 	private String getString(int resId) { return mainActivity.getString(resId); }
 	private File getFileStreamPath(String file) { return mainActivity.getFileStreamPath(file); }
@@ -146,8 +143,8 @@ public class SaveStateManager {
 		    	e.printStackTrace();
 			} finally {
 				com.cax.pmk.emulator.Emulator.readStateNamesMode = false;
-				try { if (in != null) in.close(); } catch(IOException e) {} 
-				try { if (fileIn != null) fileIn.close(); } catch(IOException e) {}
+				try { if (in != null) in.close(); } catch(IOException ignored) {}
+				try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
 			}
     	}
     	return "[" + i_str + "] " + ("".equals(slotName) ? getString(R.string.savestate_name_noname) : slotName);
@@ -216,7 +213,7 @@ public class SaveStateManager {
                         } catch (IOException e) {
                             showErrorMessage(R.string.export_common_error);
                         } finally {
-                            try { if (fileOut != null) fileOut.close(); } catch(IOException i) {}
+                            try { if (fileOut != null) fileOut.close(); } catch(IOException ignored) {}
                         }
                     }
                 });
@@ -239,7 +236,7 @@ public class SaveStateManager {
             return false;
         } finally {
             mainActivity.setEmulator(null);
-            try { if (out != null)         out.close(); } catch(IOException i) {}
+            try { if (out != null)         out.close(); } catch(IOException ignored) {}
         }
     }
 
@@ -257,44 +254,11 @@ public class SaveStateManager {
         } catch(Exception i) {
             return false;
         } finally {
-            try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
+            try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
         }
         return isLoaded;
     }
 
-    /*
-    boolean importTxtProgram(final EmulatorInterface emulator) {
-
-        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
-                new SimpleFileDialog.SimpleFileDialogListener()  {
-                    @Override
-                    public void onChosenDir(String chosenFileName)  {
-                        File file = new File(chosenFileName);
-                        saveProgramsDir(file);
-
-                        FileInputStream fileIn = null;
-                        mProgramDescription = null;
-                        try {
-                            fileIn = new FileInputStream(file);
-//                            if (!loadStateFromFile(emulator, fileIn)) {
-//                                showErrorMessage(R.string.import_common_error);
-//                            } else {
-//                                loadProgramDescription(chosenFileName);
-//                            }
-                        } catch (Exception e) {
-                            showErrorMessage(R.string.import_common_error);
-                        } finally {
-                            try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
-                        }
-                    }
-                });
-
-        setupDataStorage(FileOpenDialog);
-
-        return true;
-    }
-
-     */
 
     boolean importState(final EmulatorInterface emulator) {
 
@@ -325,7 +289,7 @@ public class SaveStateManager {
                         } catch (Exception e) {
                             showErrorMessage(R.string.import_common_error);
                         } finally {
-                            try { if (fileIn != null) fileIn.close(); } catch(IOException i) {}
+                            try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
                         }
                     }
                 });
@@ -355,7 +319,7 @@ public class SaveStateManager {
 
     private boolean loadStateFromFile(EmulatorInterface emulator, FileInputStream fileIn) {
         ObjectInputStream in = null;
-        EmulatorInterface loadedEmulator = null;
+        EmulatorInterface loadedEmulator;
         try {
             in = new ObjectInputStream(fileIn);
             loadedEmulator = (com.cax.pmk.emulator.Emulator) in.readObject();
@@ -367,7 +331,7 @@ public class SaveStateManager {
         } finally {
             try {
                 if (in != null)         in.close();
-            } catch(IOException i) {}
+            } catch(IOException ignored) {}
         }
 
         if (emulator != null) {
@@ -395,7 +359,7 @@ public class SaveStateManager {
             int pointIndex = pFileName.lastIndexOf('.');
             if (pointIndex != -1) {
                 pointIndex++;
-                StringBuffer descrFileName = new StringBuffer(pFileName);
+                StringBuilder descrFileName = new StringBuilder(pFileName);
                 descrFileName.replace(pointIndex, pFileName.length(), "html");
                 mProgramDescription = descrFileName.toString();
             }

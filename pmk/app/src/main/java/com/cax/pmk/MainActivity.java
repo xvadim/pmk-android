@@ -81,18 +81,6 @@ public class MainActivity extends Activity
     private LinearLayout mYIndicator;
     public boolean isYIndicatorVisible = false;
 
-    private GestureDetector swipeDetector;
-
-    class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-            if(event2.getX() < event1.getX()){
-                MainActivity.this.openInfoActivity();
-            }
-            return true;
-        }
-    }
-
     private static final int sPowerOFF = 0;
     private static final int sPowerON = 1;
     private int poweredOn = sPowerOFF;
@@ -229,8 +217,6 @@ public class MainActivity extends Activity
         speedMode = sharedPref.getInt(PreferencesActivity.SPEED_MODE_PREFERENCE_KEY, PreferencesActivity.DEFAULT_SPEED_MODE);
         setAngleModeControl(sharedPref.getInt(PreferencesActivity.ANGLE_MODE_PREFERENCE_KEY, PreferencesActivity.DEFAULT_ANGLE_MODE));
         setMkModel(sharedPref.getInt(PreferencesActivity.MK_MODEL_PREFERENCE_KEY, PreferencesActivity.DEFAULT_MK_MODEL), false);
-
-        swipeDetector = new GestureDetector(this, new SwipeGestureListener());
     }
         
     @Override
@@ -290,12 +276,6 @@ public class MainActivity extends Activity
         PENDING_PERMISSION_REQUEST = -1;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        swipeDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-    
     // ----------------------- Menu hooks --------------------------------
     public boolean onPrepareOptionsMenu(Menu menu)  {
         MenuItem menu_save = menu.findItem(R.id.menu_save);
