@@ -593,6 +593,9 @@ public class MainActivity extends Activity
         isYIndicatorVisible = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_Y_INDICATOR,
                 PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
         mYIndicator.setVisibility(isYIndicatorVisible ? View.VISIBLE : View.GONE);
+
+        findViewById(R.id.butInfo).setVisibility(sharedPref.getBoolean("pref_show_i_button",
+                true) ? View.VISIBLE : View.INVISIBLE);
     }
         
     private void switchOnCalculator(boolean enable) {

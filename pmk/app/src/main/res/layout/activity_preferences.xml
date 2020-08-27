@@ -127,6 +127,12 @@
                 android:layout="@layout/preferences_layout"
                 android:title="@string/settings_other_y_indicator" />
 
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_show_i_button"
+                android:layout="@layout/preferences_layout"
+                android:title="@string/settings_show_i_button" />
+
         </PreferenceCategory>
     </PreferenceScreen>
 
