@@ -8,9 +8,11 @@ import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -26,7 +28,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -319,10 +320,10 @@ public class MainActivity extends Activity
                 MenuHelper.onChooseMkModel(mkModel);
                 return true;
              case R.id.menu_save:
-                saveStateManager.chooseAndUseSaveSlot(emulator, true);
-                return true;
+                 processMemorySlot(true);
+                 return true;
              case R.id.menu_load:
-                saveStateManager.chooseAndUseSaveSlot(emulator, false);
+                 processMemorySlot(false);
                 return true;
              case R.id.menu_export:
                  exportState();
@@ -333,9 +334,6 @@ public class MainActivity extends Activity
              case R.id.menu_import:
                  importState();
                  return true;
-//             case R.id.menu_import_txt:
-//                 importTxtProgram();
-//                 return true;
              case R.id.menu_instruction:
                  openInfoActivity();
                  return true;
@@ -669,6 +667,24 @@ public class MainActivity extends Activity
 
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
+
+    private void processMemorySlot(final boolean isSaveMode) {
+        new AlertDialog.Builder(this)
+                .setTitle(android.R.string.dialog_alert_title)
+                .setMessage(R.string.slots_deprecation)
+
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!isSaveMode) {
+                            saveStateManager.chooseAndUseSaveSlot(emulator, false);
+                        }
+                    }
+                })
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 
     private void exportState() {
 

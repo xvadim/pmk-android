@@ -92,6 +92,7 @@
     <string name="import_common_error">Ошибка импорта</string>
     <string name="export_common_error">Ошибка экспорта</string>
     <string name="export_no_sd_card_error">SD-карта недоступна</string>
+    <string name = "slots_deprecation"> Поддержка внутренних слотов устарела и скоро будет удалена. Пожалуйста, используйте экспорт/импорт во внешние файлы. </string>
     <string name = "import_successfull"> Импорт успешен </string>
     <string name = "import_unsupported_error"> Ошибка импорта: поддерживается только MK-61 </string>
     <string name = "import_turned_off_error"> Ошибка импорта: эмулятор выключен </string>

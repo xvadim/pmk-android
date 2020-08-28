@@ -95,6 +95,7 @@
     <string name="savestate_name_slot">Slot</string>
     <string name="savestate_name_empty">(empty)</string>
     <string name="savestate_name_noname">(no name)</string>
+    <string name="slots_deprecation">Internal slots support is deprecated and will be removed soon. Please, use export/import to external files.</string>
     <string name="import_common_error">Can\'t import program</string>
     <string name="import_successfull">Import successful</string>
     <string name="import_unsupported_error">Import error: only MK-61 is supported</string>
