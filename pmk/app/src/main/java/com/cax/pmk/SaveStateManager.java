@@ -169,7 +169,7 @@ public class SaveStateManager {
     	FileOutputStream fileOut = null;
         try {
             fileOut = mainActivity.openFileOutput(filename, Context.MODE_PRIVATE);
-            return saveStateStoppingEmulatorToFile(emulator, fileOut);
+            return saveStateStoppingEmulatorToFile(emulator, fileOut) != null;
         } catch(IOException i) {
             return false;
         } finally {
@@ -200,18 +200,25 @@ public class SaveStateManager {
                         try {
                             emulator.setSaveStateName(chosenFileName);
                             fileOut = new FileOutputStream(file);
-                            if (!saveStateStoppingEmulatorToFile(emulator, fileOut)) {
-                                showErrorMessage(R.string.export_common_error);
+                            String resSaving = saveStateStoppingEmulatorToFile(emulator, fileOut);
+                            if (resSaving != null) {
+                                showErrorMessage(mainActivity.getString(R.string.export_common_error) +
+                                        ":" + resSaving);
                             }
 
                             //keep going
                             mainActivity.setEmulator(null);
                             FileInputStream fileIn = new FileInputStream(file);
-                            if (!loadStateFromFile(null, fileIn)) {
-                                showErrorMessage(R.string.export_common_error);
+                            resSaving = loadStateFromFile(null, fileIn);
+                            if (resSaving != null) {
+//                                showErrorMessage(R.string.export_common_error);
+                                showErrorMessage(mainActivity.getString(R.string.export_common_error) +
+                                        ":" + resSaving);
                             }
                         } catch (IOException e) {
-                            showErrorMessage(R.string.export_common_error);
+//                            showErrorMessage(R.string.export_common_error);
+                            showErrorMessage(mainActivity.getString(R.string.export_common_error) +
+                                    ":" + e.getMessage());
                         } finally {
                             try { if (fileOut != null) fileOut.close(); } catch(IOException ignored) {}
                         }
@@ -223,7 +230,7 @@ public class SaveStateManager {
         return true;
     }
 
-    private boolean saveStateStoppingEmulatorToFile(EmulatorInterface emulator, FileOutputStream fileOut) {
+    private String saveStateStoppingEmulatorToFile(EmulatorInterface emulator, FileOutputStream fileOut) {
         ObjectOutputStream out = null;
 
         emulator.stopEmulator(false);
@@ -231,9 +238,9 @@ public class SaveStateManager {
         try {
             out = new ObjectOutputStream(fileOut);
             out.writeObject(emulator);
-            return true;
+            return null;
         } catch(IOException i) {
-            return false;
+            return i.getMessage();
         } finally {
             mainActivity.setEmulator(null);
             try { if (out != null)         out.close(); } catch(IOException ignored) {}
@@ -250,7 +257,9 @@ public class SaveStateManager {
         boolean isLoaded = false;
         try {
             fileIn = mainActivity.openFileInput(filename);
-            isLoaded = loadStateFromFile(emulator, fileIn);
+            if (loadStateFromFile(emulator, fileIn) != null) {
+                isLoaded = true;
+            }
         } catch(Exception i) {
             return false;
         } finally {
@@ -274,7 +283,7 @@ public class SaveStateManager {
                         try {
                             fileIn = new FileInputStream(file);
                             if (chosenFileName.endsWith(".pmk")) {  //binary emulator's dump
-                                if (!loadStateFromFile(emulator, fileIn)) {
+                                if (loadStateFromFile(emulator, fileIn) != null) {
                                     showErrorMessage(R.string.import_common_error);
                                 } else {
                                     loadProgramDescription(chosenFileName);
@@ -317,7 +326,7 @@ public class SaveStateManager {
         }
     }
 
-    private boolean loadStateFromFile(EmulatorInterface emulator, FileInputStream fileIn) {
+    private String loadStateFromFile(EmulatorInterface emulator, FileInputStream fileIn) {
         ObjectInputStream in = null;
         EmulatorInterface loadedEmulator;
         try {
@@ -327,7 +336,7 @@ public class SaveStateManager {
             fileIn.close();
 
         } catch(Exception i) {
-            return false;
+            return i.getMessage();
         } finally {
             try {
                 if (in != null)         in.close();
@@ -350,7 +359,7 @@ public class SaveStateManager {
 
         emulator.start();
 
-        return true;
+        return null;
     }
 
     private void loadProgramDescription(String pFileName) {
