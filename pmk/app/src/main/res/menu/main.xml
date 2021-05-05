@@ -1,7 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-
-
     <item
         android:id="@+id/menu_swap_model"
         android:icon="@android:drawable/ic_menu_always_landscape_portrait"
@@ -10,6 +8,16 @@
         android:id="@+id/menu_import"
         android:icon="@android:drawable/ic_menu_upload"
         android:title="@string/menu_import"/>
+
+    <item
+        android:id="@+id/menu_import_txt"
+        android:icon="@android:drawable/ic_menu_upload"
+        android:title="@string/menu_import_txt"/>
+
+    <item
+        android:id="@+id/menu_import_descr"
+        android:icon="@android:drawable/ic_menu_upload"
+        android:title="@string/menu_import_descr"/>
 
     <item
         android:id="@+id/menu_export"

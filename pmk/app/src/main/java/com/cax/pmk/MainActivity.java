@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.cax.pmk.widget.AutoScaleTextView;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -18,7 +17,6 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -28,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -47,12 +46,23 @@ public class MainActivity extends Activity
                           implements PopupMenu.OnMenuItemClickListener
 {
 
+    enum ExtUriType {
+        IMPORT_PMK,
+        IMPORT_TXT,
+        IMPORT_DESCR,
+        EXPORT,
+    }
+
     public static int REGISTER_X = 0;
     public static int REGISTER_Y = 1;
 
-    private static int PENDING_PERMISSION_REQUEST = -1;
-    private static final int PERMISSION_REQUEST_READ_EXTERNAL = 0;
-    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL = 1;
+//    private static int PENDING_PERMISSION_REQUEST = -1;
+//    private static final int PERMISSION_REQUEST_READ_EXTERNAL = 0;
+//    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL = 1;
+    private static final int RC_IMPORT = 12345;
+    private static final int RC_EXPORT = 12346;
+    private static final int RC_IMPORT_TXT = 12347;
+    private static final int RC_IMPORT_DESCR = 12348;
 
     private final static int BUTTON_SOUNDS_NUMBER = 5;
     private static final String SOUND_BUTTON_CLICK_TEMPLATE = "sounds/button_click%d.ogg";
@@ -62,7 +72,9 @@ public class MainActivity extends Activity
 
 
     private EmulatorInterface emulator = null;
-    void setEmulator(EmulatorInterface emulator) { this.emulator = emulator; }
+    void setEmulator(EmulatorInterface emulator) {
+        this.emulator = emulator;
+    }
 
     private int angleMode	= 0;
     private int speedMode	= 0;
@@ -90,9 +102,12 @@ public class MainActivity extends Activity
     private boolean makeSounds = false;
     private int buttonSoundType = 0;
     private SoundPool soundPool = null;
-    private int[] buttonSoundId = new int[BUTTON_SOUNDS_NUMBER];
+    private final int[] buttonSoundId = new int[BUTTON_SOUNDS_NUMBER];
 
     private SaveStateManager saveStateManager = null;
+
+    private Uri externalUri = null;
+    private ExtUriType externalUriType = ExtUriType.EXPORT;
 
     // flags that regulate onPause/onResume behavior
     static boolean splashScreenMode = false;
@@ -235,7 +250,7 @@ public class MainActivity extends Activity
         editor.putInt(PreferencesActivity.ANGLE_MODE_PREFERENCE_KEY, angleMode);
         editor.putInt(PreferencesActivity.MK_MODEL_PREFERENCE_KEY,   mkModel);
         editor.putBoolean(PreferencesActivity.HIDE_SWITCHES_PREFERENCE_KEY, hideSwitches);
-        editor.commit();
+        editor.apply();
 
         super.onDestroy();
     }
@@ -267,14 +282,20 @@ public class MainActivity extends Activity
             saveStateManager.loadState(emulator, -1); // load persistence emulation state
         }
 
+        /*
         //check if we return from permission request
         if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_WRITE_EXTERNAL) {
             saveStateManager.exportState(emulator);
         } else if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_READ_EXTERNAL) {
             saveStateManager.importState(emulator);
         }
-
         PENDING_PERMISSION_REQUEST = -1;
+        */
+
+        if (externalUri != null) {
+            processExternalUri();
+        }
+
     }
 
     // ----------------------- Menu hooks --------------------------------
@@ -307,6 +328,7 @@ public class MainActivity extends Activity
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          switch (item.getItemId()) {
@@ -332,7 +354,13 @@ public class MainActivity extends Activity
                  copyToClipboard();
                  return true;
              case R.id.menu_import:
-                 importState();
+                 importState(ExtUriType.IMPORT_PMK);
+                 return true;
+             case R.id.menu_import_txt:
+                 importState(ExtUriType.IMPORT_TXT);
+                 return true;
+             case R.id.menu_import_descr:
+                 importState(ExtUriType.IMPORT_DESCR);
                  return true;
              case R.id.menu_instruction:
                  openInfoActivity();
@@ -351,12 +379,21 @@ public class MainActivity extends Activity
         return true;
     }
 
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             //save the current request, as real export/import will be performed in onREsume
             PENDING_PERMISSION_REQUEST = requestCode;
+        }
+    }
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null && requestCode >= RC_IMPORT && requestCode <= RC_IMPORT_DESCR) {
+            externalUri = data.getData();
         }
     }
     
@@ -687,7 +724,11 @@ public class MainActivity extends Activity
 
 
     private void exportState() {
-
+        externalUriType = ExtUriType.EXPORT;
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.setType("*/pmk");
+        startActivityForResult(intent, RC_EXPORT);
+        /*
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.exportState(emulator);
         } else {
@@ -700,9 +741,21 @@ public class MainActivity extends Activity
                         PERMISSION_REQUEST_WRITE_EXTERNAL);
             }
         }
+
+         */
     }
 
-    private void importState() {
+    private void importState(ExtUriType uriType) {
+        externalUriType = uriType;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        if (uriType == ExtUriType.IMPORT_DESCR) {
+            intent.setType("text/html");
+            startActivityForResult(intent, RC_IMPORT_DESCR);
+        } else {
+            intent.setType("*/*");
+            startActivityForResult(intent, (uriType == ExtUriType.IMPORT_PMK ? RC_IMPORT : RC_IMPORT_TXT));
+        }
+        /*
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.importState(emulator);
         } else {
@@ -713,6 +766,28 @@ public class MainActivity extends Activity
                 requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                         PERMISSION_REQUEST_READ_EXTERNAL);
             }
+        }
+
+         */
+
+    }
+
+    private void processExternalUri() {
+        final Uri tempUri = externalUri;
+        externalUri = null;
+        switch (externalUriType) {
+            case IMPORT_PMK:
+                saveStateManager.importStatePmk(emulator, tempUri);
+                break;
+            case IMPORT_TXT:
+                saveStateManager.importStateTxt(emulator, tempUri);
+                break;
+            case IMPORT_DESCR:
+                saveStateManager.importProgDescr(tempUri);
+                break;
+            case EXPORT:
+                saveStateManager.exportState(emulator, tempUri);
+                break;
         }
     }
 
@@ -733,6 +808,7 @@ public class MainActivity extends Activity
         clipboard.setPrimaryClip(clip);
     }
 
+    /*
     @TargetApi(23)
     private void requestPermission(String aPermission, int aRequestCode) {
         if (shouldShowRequestPermissionRationale(aPermission)) {
@@ -742,4 +818,5 @@ public class MainActivity extends Activity
             requestPermissions(new String[]{aPermission}, aRequestCode);
         }
     }
+     */
 }

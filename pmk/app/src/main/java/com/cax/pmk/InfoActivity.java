@@ -1,5 +1,6 @@
 package com.cax.pmk;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,7 +81,11 @@ public class InfoActivity extends Activity {
         } else {
             descrFile = args.getString(KEY_DESCRIPTION_FILE);
             if (descrFile != null) {
-               mDescription = "file://" + descrFile;
+                if (descrFile.startsWith("/")) {
+                    mDescription = "file://" + descrFile;
+                } else {
+                    mDescription = descrFile;
+                }
             }
 
             buildRegsDumpString(args);
@@ -116,6 +121,7 @@ public class InfoActivity extends Activity {
         switchMode(butId);
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void switchMode(int modeId) {
         SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         prefEditor.putInt(sKeyInfoMode, modeId).apply();
@@ -132,7 +138,12 @@ public class InfoActivity extends Activity {
                     mWebView.loadData(getString(R.string.default_description),
                             "text/html; charset=utf-8", "UTF-8");
                 } else {
-                    mWebView.loadUrl(mDescription);
+                    if (mDescription.startsWith("/")) {
+                        mWebView.loadUrl(mDescription);
+                    } else {
+                        mWebView.loadDataWithBaseURL(null, mDescription,"text/html",
+                                "UTF-8", null);
+                    }
                 }
                 break;
             case R.id.butInstruction:

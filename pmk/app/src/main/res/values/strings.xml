@@ -13,7 +13,9 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_swap" translatable="false">MK 61 ↔ MK-54</string>
     <string name="menu_export">Export</string>
-    <string name="menu_import">Import</string>
+    <string name="menu_import">Import pmk</string>
+    <string name="menu_import_txt">Import txt</string>
+    <string name="menu_import_descr">Import descr.</string>
     <string name="menu_description">Description</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_instruction">Information</string>

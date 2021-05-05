@@ -7,7 +7,9 @@
     <string name="menu_settings">Настройки</string>
     <string name="menu_about">Репозитарий</string>
     <string name="menu_export">Экспорт</string>
-    <string name="menu_import">Импорт</string>
+    <string name="menu_import">Импорт pmk</string>
+    <string name="menu_import_txt">Импорт txt</string>
+    <string name="menu_import_descr">Импорт опис.</string>
     <string name="menu_description">Описание</string>
     <string name="menu_donate">Поддержать разработку</string>
     <string name="menu_instruction">Информация</string>

@@ -1,23 +1,29 @@
 package com.cax.pmk;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.widget.EditText;
@@ -33,6 +39,9 @@ public class SaveStateManager {
 	private static final int    EDIT_TEXT_ENTRY_ID = 12345; // it has to be some number, so let it be 12345
 	private static final int    SAVE_SLOTS_NUMBER = 99;
 	private static final int    SAVE_NAME_MAX_LEN = 25;
+
+	private static final String PROVIDER_PREFIX = "/document/raw:";
+	private static final int PROVIDER_PREFIX_LEN = PROVIDER_PREFIX.length();
 
 	private static int selectedSaveSlot = 0;
     private static int tempSaveSlot = 0;
@@ -106,7 +115,7 @@ public class SaveStateManager {
         builder.setPositiveButton(getString(R.string.label_save), new DialogInterface.OnClickListener() {
             //@Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText input = (EditText) ((Dialog)dialog).findViewById(EDIT_TEXT_ENTRY_ID);
+                EditText input = ((Dialog)dialog).findViewById(EDIT_TEXT_ENTRY_ID);
                 Editable value = input.getText();
                 emulator.setSaveStateName(value.toString());
 	    		saveStateStoppingEmulator(emulator, tempSaveSlot); // stop and save
@@ -178,13 +187,14 @@ public class SaveStateManager {
         }
     }
 
-    boolean exportState(final EmulatorInterface emulator) {
+    /*
+    void exportState(final EmulatorInterface emulator) {
         if (emulator == null) // disable saving when calculator is switched off
-            return false;
+            return;
 
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             showErrorMessage(R.string.export_no_sd_card_error);
-            return false;
+            return;
         }
 
         SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileSave",
@@ -226,11 +236,10 @@ public class SaveStateManager {
                 });
 
         setupDataStorage(FileOpenDialog);
-
-        return true;
     }
+     */
 
-    private String saveStateStoppingEmulatorToFile(EmulatorInterface emulator, FileOutputStream fileOut) {
+    private String saveStateStoppingEmulatorToFile(EmulatorInterface emulator, OutputStream fileOut) {
         ObjectOutputStream out = null;
 
         emulator.stopEmulator(false);
@@ -243,7 +252,10 @@ public class SaveStateManager {
             return i.getMessage();
         } finally {
             mainActivity.setEmulator(null);
-            try { if (out != null)         out.close(); } catch(IOException ignored) {}
+            try {
+                if (out != null)
+                    out.close();
+            } catch(IOException ignored) {}
         }
     }
 
@@ -268,7 +280,107 @@ public class SaveStateManager {
         return isLoaded;
     }
 
+    void exportState(final EmulatorInterface emulator, Uri uri) {
+        if (emulator == null) // disable saving when calculator is switched off
+            return;
 
+        final ContentResolver cr = mainActivity.getContentResolver();
+        OutputStream os;
+        InputStream is;
+        try {
+            os = cr.openOutputStream(uri);
+            String resSaving = saveStateStoppingEmulatorToFile(emulator, os);
+            if (resSaving != null) {
+                showErrorMessage(mainActivity.getString(R.string.export_common_error) + ":" + resSaving);
+                return;
+            }
+            //keep going
+            mainActivity.setEmulator(null);
+            is = cr.openInputStream(uri);
+            resSaving = loadStateFromFile(null, is);
+            if (resSaving != null) {
+                showErrorMessage(mainActivity.getString(R.string.export_common_error) + ":" + resSaving);
+            }
+        } catch (RuntimeException rethrown) {
+            throw rethrown;
+        } catch (Exception ignored) {
+            showErrorMessage(mainActivity.getString(R.string.export_common_error));
+        }
+    }
+
+    void importStatePmk(final EmulatorInterface emulator, Uri uri) {
+        final ContentResolver cr = mainActivity.getContentResolver();
+        InputStream is;
+        try {
+            is = cr.openInputStream(uri);
+            if (is == null) {
+                showErrorMessage(R.string.import_common_error);
+                return;
+            }
+            if (loadStateFromFile(emulator, is) != null) {
+                showErrorMessage(R.string.import_common_error);
+            } else {
+                showErrorMessage(R.string.import_successfull);
+            }
+        } catch (RuntimeException rethrown) {
+            throw rethrown;
+        } catch (Exception ignored) {
+            showErrorMessage(R.string.import_common_error);
+        }
+    }
+
+    void importStateTxt(final EmulatorInterface emulator, Uri uri) {
+        final ContentResolver cr = mainActivity.getContentResolver();
+        InputStream is;
+        try {
+            is = cr.openInputStream(uri);
+            if (is == null) {
+                showErrorMessage(R.string.import_common_error);
+                return;
+            }
+            importTxtProgram(emulator, is);
+        } catch (ParserException parseEx) {
+            showErrorMessage(mainActivity.getString(R.string.import_parse_error, parseEx.cmd));
+        } catch (RuntimeException rethrown) {
+            throw rethrown;
+        } catch (Exception ignored) {
+            showErrorMessage(R.string.import_common_error);
+        }
+    }
+
+    void importProgDescr(Uri uri) {
+        mProgramDescription = null;
+        final ContentResolver cr = mainActivity.getContentResolver();
+        InputStream is = null;
+        BufferedReader buf = null;
+        try {
+            is = cr.openInputStream(uri);
+            if (is == null) {
+                return;
+            }
+            buf = new BufferedReader(new InputStreamReader(is));
+            final StringBuilder stringBuilder = new StringBuilder();
+
+            String line = buf.readLine();
+            while(line != null){
+                stringBuilder.append(line);
+                stringBuilder.append('\n');
+                line = buf.readLine();
+            }
+            buf.close();
+            is.close();
+            mProgramDescription = stringBuilder.toString();
+        } catch (RuntimeException rethrown) {
+            throw rethrown;
+        } catch (Exception ignored) {
+            showErrorMessage(R.string.import_common_error);
+        } finally {
+            closeQuietly(buf);
+            closeQuietly(is);
+        }
+    }
+
+    /*
     boolean importState(final EmulatorInterface emulator) {
 
         SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
@@ -307,7 +419,9 @@ public class SaveStateManager {
 
         return true;
     }
+     */
 
+    /*
     private void setupDataStorage(SimpleFileDialog FileOpenDialog) {
         String programsDir = null;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
@@ -325,8 +439,9 @@ public class SaveStateManager {
             FileOpenDialog.chooseFile_or_Dir(programsDir);
         }
     }
+     */
 
-    private String loadStateFromFile(EmulatorInterface emulator, FileInputStream fileIn) {
+    private String loadStateFromFile(EmulatorInterface emulator, InputStream fileIn) {
         ObjectInputStream in = null;
         EmulatorInterface loadedEmulator;
         try {
@@ -362,6 +477,7 @@ public class SaveStateManager {
         return null;
     }
 
+    /*
     private void loadProgramDescription(String pFileName) {
         mProgramDescription = null;
         try {
@@ -370,12 +486,16 @@ public class SaveStateManager {
                 pointIndex++;
                 StringBuilder descrFileName = new StringBuilder(pFileName);
                 descrFileName.replace(pointIndex, pFileName.length(), "html");
+                if (pFileName.startsWith(PROVIDER_PREFIX)) {
+                    descrFileName.replace(0, PROVIDER_PREFIX_LEN, "");
+                }
                 mProgramDescription = descrFileName.toString();
             }
-        } catch (Exception ex) {}
+        } catch (Exception ignored) {}
     }
+     */
 
-    private void importTxtProgram(final EmulatorInterface emulator, FileInputStream fileIn)
+    private void importTxtProgram(final EmulatorInterface emulator, InputStream fileIn)
             throws IOException, ParserException {
 
         if (emulator == null) {
@@ -402,6 +522,7 @@ public class SaveStateManager {
             line = buf.readLine();
         }
         buf.close();
+        fileIn.close();
 
         //replace parts '00	|	В/О' to '00.В/О' and Russian letters to English ones
         String prgString = stringBuilder.toString().toUpperCase()
@@ -446,12 +567,25 @@ public class SaveStateManager {
         toast.show();
     }
 
+    /*
     private void saveProgramsDir(File pFile) {
 	    String dir = pFile.getParent();
 	    if (dir != null) {
             SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(mainActivity).edit();
             sharedPrefEditor.putString(PreferencesActivity.PROGRAMS_DIR_KEY, dir);
             sharedPrefEditor.apply();
+        }
+    }
+     */
+
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (RuntimeException rethrown) {
+                throw rethrown;
+            } catch (Exception ignored) {
+            }
         }
     }
 }

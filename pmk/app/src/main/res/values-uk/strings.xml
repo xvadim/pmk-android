@@ -20,7 +20,9 @@
     <string name="locale">uk</string>
     <string name="menu_about">Репозиторій</string>
     <string name="menu_export">Експорт</string>
-    <string name="menu_import">Імпорт</string>
+    <string name="menu_import">Імпорт pmk</string>
+    <string name="menu_import_txt">Імпорт txt</string>
+    <string name="menu_import_descr">Імпорт опис.</string>
     <string name="menu_description">Опис</string>
     <string name="menu_load">Завантажити</string>
     <string name="menu_save">Зберегти</string>
