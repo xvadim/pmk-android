@@ -6,14 +6,10 @@ import java.util.List;
 
 import com.cax.pmk.widget.AutoScaleTextView;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
@@ -26,7 +22,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -264,7 +259,7 @@ public class MainActivity extends Activity
             return;
         }
 
-        saveStateManager.saveStateStoppingEmulator(emulator, -1); // save persistence emulation state
+        saveStateManager.saveStateStoppingEmulator(emulator); // save persistence emulation state
         emulator = null;
     }
 
@@ -279,7 +274,7 @@ public class MainActivity extends Activity
         activateSettings();
 
         if (emulator == null) {
-            saveStateManager.loadState(emulator, -1); // load persistence emulation state
+            saveStateManager.loadState(emulator); // load persistence emulation state
         }
 
         /*
@@ -300,7 +295,7 @@ public class MainActivity extends Activity
 
     // ----------------------- Menu hooks --------------------------------
     public boolean onPrepareOptionsMenu(Menu menu)  {
-        MenuItem menu_save = menu.findItem(R.id.menu_save);
+//        MenuItem menu_save = menu.findItem(R.id.menu_save);
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
         MenuItem menu_copy_x = menu.findItem(R.id.menu_copy_x);
@@ -308,14 +303,14 @@ public class MainActivity extends Activity
         if(poweredOn == sPowerON)
         {           
             menu_swap.setVisible(false);
-            menu_save.setVisible(true);
+//            menu_save.setVisible(true);
             menu_export.setVisible(true);
             menu_copy_x.setVisible(true);
         }
         else
         {
             menu_swap.setVisible(true);
-            menu_save.setVisible(false);
+//            menu_save.setVisible(false);
             menu_export.setVisible(false);
             menu_copy_x.setVisible(false);
         }
@@ -341,12 +336,14 @@ public class MainActivity extends Activity
              case R.id.menu_swap_model:
                 MenuHelper.onChooseMkModel(mkModel);
                 return true;
+                /*
              case R.id.menu_save:
                  processMemorySlot(true);
                  return true;
              case R.id.menu_load:
                  processMemorySlot(false);
                 return true;
+                 */
              case R.id.menu_export:
                  exportState();
                  return true;
@@ -659,7 +656,7 @@ public class MainActivity extends Activity
             setPowerOnOffControl(0);
             
             //erase persistence file
-            saveStateManager.deleteSlot(-1);
+            saveStateManager.deletePersistentFile();
 
             setIndicatorColor(-1);
         }
@@ -705,6 +702,7 @@ public class MainActivity extends Activity
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
+    /*
     private void processMemorySlot(final boolean isSaveMode) {
         new AlertDialog.Builder(this)
                 .setTitle(android.R.string.dialog_alert_title)
@@ -721,6 +719,7 @@ public class MainActivity extends Activity
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+     */
 
 
     private void exportState() {

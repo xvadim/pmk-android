@@ -38,10 +38,12 @@
             android:name=".PreferencesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PreferencesTheme" />
+        <!--
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
+            -->
         <activity
             android:name=".DescriptionActivity"
             android:theme="@style/Theme.FullScreen" />

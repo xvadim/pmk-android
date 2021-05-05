@@ -23,12 +23,12 @@
         android:id="@+id/menu_export"
         android:icon="@android:drawable/ic_menu_share"
         android:title="@string/menu_export"/>
+
     <!--
     <item
         android:id="@+id/menu_description"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/menu_description"/>
--->
     <item
         android:id="@+id/menu_load"
         android:icon="@android:drawable/ic_menu_upload"
@@ -37,6 +37,8 @@
         android:id="@+id/menu_save"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/menu_save"/>
+-->
+
     <item
         android:id="@+id/menu_copy_x"
         android:icon="@android:drawable/ic_menu_share"
