@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
@@ -101,6 +101,7 @@ public class SkinHelper {
 
     }
 
+    @SuppressLint("SetTextI18n")
     static void setMkModelName(int mkModel) {
         View v = mainActivity.findViewById(R.id.buttonReturn);
         int x = v.getWidth() + v.getPaddingLeft();
@@ -111,6 +112,7 @@ public class SkinHelper {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     static void setMkModelSkin(int mkModel) {
 
         if (mkModel == 1) { // 1 for MK-54
@@ -329,18 +331,18 @@ public class SkinHelper {
         int color = mainActivity.getResources().getColor(grayscale
                 ? R.color.aboveButtonTextYellowGrayscale
                 : R.color.aboveButtonTextYellow);
-        for (int i=0; i < singleYellowLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(singleYellowLabels[i])).setTextColor(color);
+        for (int singleYellowLabel : singleYellowLabels) {
+            ((TextView) mainActivity.findViewById(singleYellowLabel)).setTextColor(color);
         }
-        for (int i=0; i < pairedYellowLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(pairedYellowLabels[i])).setTextColor(color);
+        for (int pairedYellowLabel : pairedYellowLabels) {
+            ((TextView) mainActivity.findViewById(pairedYellowLabel)).setTextColor(color);
         }
 
         color = mainActivity.getResources().getColor(grayscale
                 ? R.color.aboveButtonTextBlueGrayscale
                 : R.color.aboveButtonTextBlue);
-        for (int i=0; i < blueLabels.length; i++) {
-            ((TextView)mainActivity.findViewById(blueLabels[i])).setTextColor(color);
+        for (int blueLabel : blueLabels) {
+            ((TextView) mainActivity.findViewById(blueLabel)).setTextColor(color);
         }
     }
     
