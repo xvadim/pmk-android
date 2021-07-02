@@ -52,58 +52,6 @@ public class SaveStateManager {
         }
     }
 
-    /*
-    void exportState(final EmulatorInterface emulator) {
-        if (emulator == null) // disable saving when calculator is switched off
-            return;
-
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            showErrorMessage(R.string.export_no_sd_card_error);
-            return;
-        }
-
-        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileSave",
-                new SimpleFileDialog.SimpleFileDialogListener()
-                {
-                    @Override
-                    public void onChosenDir(String chosenFileName)
-                    {
-                        File file = new File(chosenFileName);
-                        saveProgramsDir(file);
-
-                        FileOutputStream fileOut = null;
-                        try {
-                            emulator.setSaveStateName(chosenFileName);
-                            fileOut = new FileOutputStream(file);
-                            String resSaving = saveStateStoppingEmulatorToFile(emulator, fileOut);
-                            if (resSaving != null) {
-                                showErrorMessage(mainActivity.getString(R.string.export_common_error) +
-                                        ":" + resSaving);
-                            }
-
-                            //keep going
-                            mainActivity.setEmulator(null);
-                            FileInputStream fileIn = new FileInputStream(file);
-                            resSaving = loadStateFromFile(null, fileIn);
-                            if (resSaving != null) {
-//                                showErrorMessage(R.string.export_common_error);
-                                showErrorMessage(mainActivity.getString(R.string.export_common_error) +
-                                        ":" + resSaving);
-                            }
-                        } catch (IOException e) {
-//                            showErrorMessage(R.string.export_common_error);
-                            showErrorMessage(mainActivity.getString(R.string.export_common_error) +
-                                    ":" + e.getMessage());
-                        } finally {
-                            try { if (fileOut != null) fileOut.close(); } catch(IOException ignored) {}
-                        }
-                    }
-                });
-
-        setupDataStorage(FileOpenDialog);
-    }
-     */
-
     private String saveStateStoppingEmulatorToFile(EmulatorInterface emulator, OutputStream fileOut) {
         ObjectOutputStream out = null;
 
@@ -239,67 +187,6 @@ public class SaveStateManager {
         }
     }
 
-    /*
-    boolean importState(final EmulatorInterface emulator) {
-
-        SimpleFileDialog FileOpenDialog =  new SimpleFileDialog(mainActivity, "FileOpen",
-                new SimpleFileDialog.SimpleFileDialogListener()  {
-                    @Override
-                    public void onChosenDir(String chosenFileName)  {
-                        File file = new File(chosenFileName);
-                        saveProgramsDir(file);
-
-                        FileInputStream fileIn = null;
-                        mProgramDescription = null;
-                        try {
-                            fileIn = new FileInputStream(file);
-                            if (chosenFileName.endsWith(".pmk")) {  //binary emulator's dump
-                                if (loadStateFromFile(emulator, fileIn) != null) {
-                                    showErrorMessage(R.string.import_common_error);
-                                } else {
-                                    loadProgramDescription(chosenFileName);
-                                }
-                            } else {
-                                //import from a text file
-                                importTxtProgram(emulator, fileIn);
-                            }
-
-                        } catch (ParserException parseEx) {
-                            showErrorMessage(mainActivity.getString(R.string.import_parse_error, parseEx.cmd));
-                        } catch (Exception e) {
-                            showErrorMessage(R.string.import_common_error);
-                        } finally {
-                            try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
-                        }
-                    }
-                });
-
-        setupDataStorage(FileOpenDialog);
-
-        return true;
-    }
-     */
-
-    /*
-    private void setupDataStorage(SimpleFileDialog FileOpenDialog) {
-        String programsDir = null;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
-        String dataStorage = prefs.getString(PreferencesActivity.PREFERENCE_DATA_STORAGE,
-                PreferencesActivity.PREFERENCE_DATA_STORAGE_DEF_VALUE);
-
-        if (dataStorage.equals(PreferencesActivity.PREFERENCE_DATA_STORAGE_DEF_VALUE)) {
-            programsDir = prefs.getString(PreferencesActivity.PROGRAMS_DIR_KEY,
-                    PreferencesActivity.DEFAULT_DUMMY_STRING);
-        }
-        FileOpenDialog.Default_File_Name = "dump.pmk";
-        if (programsDir == null) {
-            FileOpenDialog.chooseFile_or_Dir();
-        } else {
-            FileOpenDialog.chooseFile_or_Dir(programsDir);
-        }
-    }
-     */
-
     private String loadStateFromFile(EmulatorInterface emulator, InputStream fileIn) {
         ObjectInputStream in = null;
         EmulatorInterface loadedEmulator;
@@ -335,24 +222,6 @@ public class SaveStateManager {
 
         return null;
     }
-
-    /*
-    private void loadProgramDescription(String pFileName) {
-        mProgramDescription = null;
-        try {
-            int pointIndex = pFileName.lastIndexOf('.');
-            if (pointIndex != -1) {
-                pointIndex++;
-                StringBuilder descrFileName = new StringBuilder(pFileName);
-                descrFileName.replace(pointIndex, pFileName.length(), "html");
-                if (pFileName.startsWith(PROVIDER_PREFIX)) {
-                    descrFileName.replace(0, PROVIDER_PREFIX_LEN, "");
-                }
-                mProgramDescription = descrFileName.toString();
-            }
-        } catch (Exception ignored) {}
-    }
-     */
 
     private void importTxtProgram(final EmulatorInterface emulator, InputStream fileIn)
             throws IOException, ParserException {
@@ -425,17 +294,6 @@ public class SaveStateManager {
         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
         toast.show();
     }
-
-    /*
-    private void saveProgramsDir(File pFile) {
-	    String dir = pFile.getParent();
-	    if (dir != null) {
-            SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(mainActivity).edit();
-            sharedPrefEditor.putString(PreferencesActivity.PROGRAMS_DIR_KEY, dir);
-            sharedPrefEditor.apply();
-        }
-    }
-     */
 
     public static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
