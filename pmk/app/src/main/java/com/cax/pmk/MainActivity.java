@@ -619,7 +619,6 @@ public class MainActivity extends Activity
                 sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_BLACK_BUTTONS,
                                       PreferencesActivity.DEFAULT_DUMMY_BOOLEAN),
                 borderOtherButtons,
-                mkModel == 1 ||
                         sharedPref.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54, false));
 
         isYIndicatorVisible = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_Y_INDICATOR,

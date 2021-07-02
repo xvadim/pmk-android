@@ -140,8 +140,6 @@ public class SkinHelper {
             clearButton.setText("Cx");
             Typeface tf = clearButton.getTypeface();
 
-            setMemoryButtonsSkin(true);
-
             Button b = mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText("XY");
             b.setTypeface(tf);
@@ -166,18 +164,18 @@ public class SkinHelper {
             ((TextView) mainActivity.findViewById(R.id.labelNop54)).setText("");
             ((Button)mainActivity.findViewById(R.id.buttonClear)).setText("CX");
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
-            boolean isMemButtons34 = prefs.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54,
-                    false);
-
             // use manually created symbols for some buttons
             Typeface tf = Typeface.createFromAsset(mainActivity.getAssets(), FONT_MISSING_SYMBOLS);
-            setMemoryButtonsSkin(isMemButtons34);
 
             Button b = mainActivity.findViewById(R.id.buttonExchangeXY);
             b.setText(mainActivity.getString(R.string.buttonExchangeXY));
             b.setTypeface(tf, Typeface.NORMAL);
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        boolean isMemButtons34 = prefs.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54,
+                false);
+        setMemoryButtonsSkin(isMemButtons34);
     }
 
     static private void setMemoryButtonsSkin(boolean isMK54) {
