@@ -178,14 +178,14 @@ public class InfoActivity extends Activity {
         int regsCount = regs.size() - 1;    //the e reg may be absent
         int i;
         Locale nullLocale = null;
-        for(i = 0; i < 5; i++) {
+        for(i = 4; i >= 0; i--) {
             regsBuffer.append(String.format(nullLocale, sRegValueTemplate, sRegNames[i],
                     String.format(nullLocale,"%-13s", regs.get(i))));
         }
 
         regsBuffer.append("<tr><td colspan=2><hr></td></tr>\n");
 
-        for( ; i < regsCount; i++) {
+        for(i = 5 ; i < regsCount; i++) {
             regsBuffer.append(String.format(nullLocale, sRegValueTemplate, sRegNames[i],
                     String.format(nullLocale,"%-13s", regs.get(i))));
         }
