@@ -15,8 +15,9 @@ public class Emulator extends Thread implements EmulatorInterface
 		RUNNING, STOPPED, STOPPING_NORMAL, STOPPING_FORCED
 	}
 
-	private int[] mImportCmds = new int[105];
+	private final int[] mImportCmds = new int[105];
 	private int mImportCmdCount = -1;
+	private boolean mIsExportRequested = false;
 
 	public Emulator() { }
 
@@ -98,13 +99,13 @@ public class Emulator extends Thread implements EmulatorInterface
 		return mk_model;
 	}
 
-	public void setSaveStateName(String name) {
-		saveStateName = name;
-	}
+//	public void setSaveStateName(String name) {
+//		saveStateName = name;
+//	}
 
-	public String getSaveStateName() {
-		return saveStateName;
-	}
+//	public String getSaveStateName() {
+//		return saveStateName;
+//	}
 
 	public void storeCmd(int address, int cmdCode) {
 		mImportCmds[address] = cmdCode;
@@ -112,6 +113,12 @@ public class Emulator extends Thread implements EmulatorInterface
 	public void setImportPrgSize(int prgSize) {
 		synchronized (this) {
 			mImportCmdCount = prgSize;
+		}
+	}
+
+	public void requestExportTxt() {
+		synchronized (this) {
+			mIsExportRequested = true;
 		}
 	}
 
@@ -123,6 +130,40 @@ public class Emulator extends Thread implements EmulatorInterface
 				saveCmd(a, mImportCmds[a]);
 			}
 		}
+	}
+
+	private void exportIfNeeded() {
+		if (!mIsExportRequested) {
+			return;
+		}
+		synchronized (this) {
+			mIsExportRequested = false;
+		}
+		final int prgSize = 105;
+		ArrayList<Integer> cmds = new ArrayList<>(prgSize);
+		for(int address = 0; address < prgSize; address++) {
+			int[] addr = cmdAddress(address, IR2_1.microtick / 84);
+			int cmdCode = 0;
+			switch(addr[0]) {
+				case 1:
+					cmdCode = IR2_1.M[addr[1]] * 16 + IR2_1.M[addr[1] - 3];
+					break;
+				case 2:
+				    cmdCode = IR2_2.M[addr[1]] * 16 + IR2_2.M[addr[1] - 3];
+					break;
+				case 3:
+					cmdCode = IK1302.M[addr[1]] * 16 + IK1302.M[addr[1] - 3];
+					break;
+				case 4:
+					cmdCode = IK1303.M[addr[1]] * 16 + IK1303.M[addr[1] - 3];
+					break;
+				case 5:
+					cmdCode = IK1306.M[addr[1]] * 16 + IK1306.M[addr[1] - 3];
+					break;
+			}
+			cmds.add(cmdCode);
+		}
+		mainActivity.exportedCmds(cmds);
 	}
 
 	public void saveCmd(int address, int cmdCode) {
@@ -230,6 +271,7 @@ public class Emulator extends Thread implements EmulatorInterface
 			if (IK1302.redraw_indic && syncCounter == (mk_model == 0 ? 4 : 6)) {
 				regsDump();
 				importIfNeeded();
+				exportIfNeeded();
 				return true;
 			}
 		}
@@ -349,7 +391,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	}
 
 	//5 stack regs & 14/15 regs
-	private String[] regsBuffer = new String[5 + 15];
+	private final String[] regsBuffer = new String[5 + 15];
 
 	private static final int[] memAddrsSwaps61 = {10, 11, 6, 7, 2, 3, 4, 5, 0, 1, 14, 13, 12, 8, 9};
 	//view-source:https://pmk.arbinada.com/mk61emuweb.html

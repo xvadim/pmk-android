@@ -7,6 +7,7 @@
     <string name="menu_settings">Настройки</string>
     <string name="menu_about">Репозитарий</string>
     <string name="menu_export">Экспорт</string>
+    <string name="menu_export_txt">Экспорт txt</string>
     <string name="menu_import">Импорт pmk</string>
     <string name="menu_import_txt">Импорт txt</string>
     <string name="menu_import_descr">Импорт описания</string>
@@ -96,8 +97,8 @@
     <string name="export_no_sd_card_error">SD-карта недоступна</string>
     <string name = "slots_deprecation"> Поддержка внутренних слотов устарела и скоро будет удалена. Пожалуйста, используйте экспорт/импорт во внешние файлы. </string>
     <string name = "import_successfull"> Импорт успешен </string>
-    <string name = "import_unsupported_error"> Ошибка импорта: поддерживается только MK-61 </string>
-    <string name = "import_turned_off_error"> Ошибка импорта: эмулятор выключен </string>
+    <string name = "import_unsupported_error"> Ошибка: поддерживается только MK-61 </string>
+    <string name = "import_turned_off_error"> Ошибка: эмулятор выключен </string>
     <string name = "import_parse_error"> Ошибка импорта: неизвестная команда %s</string>
 
     <string name="msg_choose_name">Введите название сохранения</string>

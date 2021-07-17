@@ -13,6 +13,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_swap" translatable="false">MK 61 ↔ MK-54</string>
     <string name="menu_export">Export</string>
+    <string name="menu_export_txt">Export txt</string>
     <string name="menu_import">Import pmk</string>
     <string name="menu_import_txt">Import txt</string>
     <string name="menu_import_descr">Import descr.</string>
@@ -100,8 +101,8 @@
     <string name="slots_deprecation">Internal slots support is deprecated and will be removed soon. Please, use export/import to external files.</string>
     <string name="import_common_error">Can\'t import program</string>
     <string name="import_successfull">Import successful</string>
-    <string name="import_unsupported_error">Import error: only MK-61 is supported</string>
-    <string name="import_turned_off_error">Import error: the emulator is turned off</string>
+    <string name="import_unsupported_error">Error: only MK-61 is supported</string>
+    <string name="import_turned_off_error">Error: the emulator is turned off</string>
     <string name="import_parse_error">Import error: unknown command %s</string>
     <string name="export_common_error">Can\'t export program</string>
     <string name="export_no_sd_card_error">SD-card is not mounted</string>

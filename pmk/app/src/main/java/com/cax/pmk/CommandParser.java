@@ -1,7 +1,5 @@
 package com.cax.pmk;
 
-import android.util.Log;
-
 import java.util.Arrays;
 
 class ParserException extends Exception {
@@ -23,12 +21,12 @@ class ParserException extends Exception {
 class CommandParser {
 
     //codes of commands
-    private static int[] mCodes = {
+    private static final int[] mCodes = {
             0x15,   //F10ˣ
             0x54,   //KНОП
             0x1F,   //1F
             0x2F,   //2F
-            0x0,    //K2
+            0x56,   //K2
             0x16,   //Feˣ
             0x17,   //Flg
             0x18,   //Fln
@@ -119,7 +117,7 @@ class CommandParser {
     };
 
     //mnemonics of codes
-    private static String[][] mMnemonics = {
+    private static final String[][] mMnemonics = {
             {"F10ˣ", "10ˣ", "F10^X", "10X", "F10X", "10**X"},
             {"KНОП", "KНOП", "НOП", "K0"},  // O кроме первой на анлийском
             {"1F"},
@@ -227,7 +225,7 @@ class CommandParser {
     // 0 - ordinary command
     // 1 - with a register
     // 2 - with an address
-    private static int[] mTypes = {
+    private static final int[] mTypes = {
             0, //F10ˣ
             0, //KНОП
             0, //1F
@@ -322,11 +320,17 @@ class CommandParser {
             0, //"FF"
     };
 
+
+
+    // parsing vars
     private int mAddress;
     private int mCode;
+
+    // coding vars
+    private boolean mIsAddress; // the next command is address
     /**
      * Parses the given command. Sets command vars
-     * @param cmd
+     * @param cmd a command for parsing
      */
     void parseCommand(int address, String cmd) throws ParserException {
         if (cmd.length() == 0) {
@@ -355,6 +359,42 @@ class CommandParser {
      */
     int cmdCode() {
         return mCode;
+    }
+
+    void initExport() {
+        mIsAddress = false;
+    }
+
+    String cmdMnemonic(int cmd) {
+        String res = null;
+
+        if (mIsAddress) {
+            mIsAddress = false;
+            res = cmd < 10 ? "0" : "";
+            return res + Integer.toString(cmd, 16).toUpperCase();
+        }
+
+        int i;
+        for(i = 0; i < mCodes.length; i++) {
+            if (mTypes[i] == 1) {   // a command with a reg
+                int regNum = cmd % 0x10;
+                if (regNum < 0xF && (cmd / 0x10 == mCodes[i] / 0x10)) {
+                    res = mMnemonics[i][0] + Integer.toString(regNum, 16).toUpperCase();
+                    break;
+                }
+            } else {
+                if (mCodes[i] == cmd) {
+                    res = mMnemonics[i][0];
+                    break;
+                }
+            }
+        }
+        if (i == mCodes.length) {
+            res = Integer.toString(cmd, 16).toUpperCase();
+        } else {
+            mIsAddress = mTypes[i] == 2;
+        }
+        return res;
     }
 
     /**

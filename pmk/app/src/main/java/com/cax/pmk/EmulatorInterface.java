@@ -10,11 +10,12 @@ public interface EmulatorInterface extends Runnable, java.io.Externalizable
     int  getSpeedMode();
 	void setMkModel(int mkModel);
     int  getMkModel();
-	void setSaveStateName(String name);
+//	void setSaveStateName(String name);
 //	void saveCmd(int address, int cmdCode);
 	void storeCmd(int address, int cmdCode);
 	void setImportPrgSize(int prgSize);
-    String getSaveStateName();
+    void requestExportTxt();
+//    String getSaveStateName();
     String indicatorString();
     ArrayList<String> regsDumpBuffer();
     void keypad(int keycode);

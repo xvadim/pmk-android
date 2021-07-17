@@ -1,6 +1,7 @@
 package com.cax.pmk;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,10 +12,13 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -108,6 +112,63 @@ public class SaveStateManager {
             if (resSaving != null) {
                 showErrorMessage(mainActivity.getString(R.string.export_common_error) + ":" + resSaving);
             }
+        } catch (RuntimeException rethrown) {
+            throw rethrown;
+        } catch (Exception ignored) {
+            showErrorMessage(mainActivity.getString(R.string.export_common_error));
+        }
+    }
+
+    void exportStateTxt(final EmulatorInterface emulator) {
+        if (emulator == null) {
+            showErrorMessage(R.string.import_turned_off_error);
+            return;
+        }
+        emulator.requestExportTxt();
+    }
+
+    void exportCmdsTxt(ArrayList<Integer> cmds, Uri uri) {
+        CommandParser parser = new CommandParser();
+        parser.initExport();
+
+        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('0');
+
+        boolean isFirstLine = true;
+        int cmdNum = 0;
+        try{
+            for(Integer cmd: cmds) {
+                String cmdMnemonic = parser.cmdMnemonic(cmd);
+                if (cmdNum % 10 == 0) {
+                    if (isFirstLine) {
+                        isFirstLine = false;
+                    } else {
+                        stringBuilder.append('\n');
+                    }
+                    if (cmdNum < 100) {
+                        stringBuilder.append(cmdNum);
+                    } else {
+                        stringBuilder.append("A0");
+                    }
+                    stringBuilder.append(" | ");
+                }
+                stringBuilder.append(cmdMnemonic);
+                stringBuilder.append('\t');
+                cmdNum++;
+            }
+
+            final ContentResolver cr = mainActivity.getContentResolver();
+            OutputStream os;
+            os = cr.openOutputStream(uri);
+            if (os == null) {
+                showErrorMessage(R.string.import_common_error);
+                return;
+            }
+
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os));
+            bufferedWriter.write(stringBuilder.toString());
+            bufferedWriter.close();
+            os.close();
         } catch (RuntimeException rethrown) {
             throw rethrown;
         } catch (Exception ignored) {
@@ -285,7 +346,7 @@ public class SaveStateManager {
         	file.delete();
     }
 
-    private void showErrorMessage(int errorTextID) {
+    public void showErrorMessage(int errorTextID) {
         showErrorMessage(mainActivity.getString(errorTextID));
     }
 

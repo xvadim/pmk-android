@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cax.pmk.emulator.Emulator;
 import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.content.ClipData;
@@ -22,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -46,6 +48,7 @@ public class MainActivity extends Activity
         IMPORT_TXT,
         IMPORT_DESCR,
         EXPORT,
+        EXPORT_TXT,
     }
 
     public static int REGISTER_X = 0;
@@ -58,6 +61,7 @@ public class MainActivity extends Activity
     private static final int RC_EXPORT = 12346;
     private static final int RC_IMPORT_TXT = 12347;
     private static final int RC_IMPORT_DESCR = 12348;
+    private static final int RC_EXPORT_TXT = 12349;
 
     private final static int BUTTON_SOUNDS_NUMBER = 5;
     private static final String SOUND_BUTTON_CLICK_TEMPLATE = "sounds/button_click%d.ogg";
@@ -189,12 +193,15 @@ public class MainActivity extends Activity
     }
 
     // ----------------------- Activity life cycle handlers --------------------------------
+    @SuppressLint("ResourceType")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // preferences initialization
-        PreferenceManager.setDefaultValues(this, R.layout.activity_preferences, false);
+        PreferenceManager.setDefaultValues(this,
+                R.layout.activity_preferences,
+                false);
 
         // sound initialization
         soundPool = new SoundPool(BUTTON_SOUNDS_NUMBER, AudioManager.STREAM_MUSIC, 0);
@@ -345,7 +352,10 @@ public class MainActivity extends Activity
                 return true;
                  */
              case R.id.menu_export:
-                 exportState();
+                 exportState(ExtUriType.EXPORT);
+                 return true;
+             case R.id.menu_export_txt:
+                 exportState(ExtUriType.EXPORT_TXT);
                  return true;
              case R.id.menu_copy_x:
                  copyToClipboard();
@@ -389,7 +399,7 @@ public class MainActivity extends Activity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && data != null && requestCode >= RC_IMPORT && requestCode <= RC_IMPORT_DESCR) {
+        if (resultCode == RESULT_OK && data != null && requestCode >= RC_IMPORT && requestCode <= RC_EXPORT_TXT) {
             externalUri = data.getData();
         }
     }
@@ -721,11 +731,16 @@ public class MainActivity extends Activity
      */
 
 
-    private void exportState() {
-        externalUriType = ExtUriType.EXPORT;
+    private void exportState(ExtUriType uriType) {
+        externalUriType = uriType;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.setType("*/pmk");
-        startActivityForResult(intent, RC_EXPORT);
+        if (uriType == ExtUriType.EXPORT) {
+            intent.setType("*/pmk");
+            startActivityForResult(intent, RC_EXPORT);
+        } else {
+            intent.setType("text/txt");
+            startActivityForResult(intent, RC_EXPORT_TXT);
+        }
         /*
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             saveStateManager.exportState(emulator);
@@ -742,6 +757,7 @@ public class MainActivity extends Activity
 
          */
     }
+
 
     private void importState(ExtUriType uriType) {
         externalUriType = uriType;
@@ -786,7 +802,21 @@ public class MainActivity extends Activity
             case EXPORT:
                 saveStateManager.exportState(emulator, tempUri);
                 break;
+            case EXPORT_TXT:
+                if (emulator == null || emulator.getMkModel() != Emulator.modelMK61) {
+                    saveStateManager.showErrorMessage(R.string.import_unsupported_error);
+                } else {
+                    saveStateManager.exportStateTxt(emulator);
+                    externalUri = tempUri;
+                }
+                break;
         }
+    }
+
+    public void exportedCmds(ArrayList<Integer> cmds) {
+        final Uri tempUri = externalUri;
+        externalUri = null;
+        saveStateManager.exportCmdsTxt(cmds, tempUri);
     }
 
     private void copyToClipboard() {
