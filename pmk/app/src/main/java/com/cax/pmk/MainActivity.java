@@ -306,13 +306,19 @@ public class MainActivity extends Activity
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
         MenuItem menu_copy_x = menu.findItem(R.id.menu_copy_x);
+        MenuItem menu_import_txt = menu.findItem(R.id.menu_import_txt);
+        MenuItem menu_export_txt = menu.findItem(R.id.menu_export_txt);
 
         if(poweredOn == sPowerON)
-        {           
+        {
             menu_swap.setVisible(false);
 //            menu_save.setVisible(true);
             menu_export.setVisible(true);
             menu_copy_x.setVisible(true);
+            final boolean isSupportedModel = emulator != null &&
+                    emulator.getMkModel() == Emulator.modelMK61;
+            menu_import_txt.setVisible(isSupportedModel);
+            menu_export_txt.setVisible(isSupportedModel);
         }
         else
         {
@@ -320,6 +326,8 @@ public class MainActivity extends Activity
 //            menu_save.setVisible(false);
             menu_export.setVisible(false);
             menu_copy_x.setVisible(false);
+            menu_import_txt.setVisible(false);
+            menu_export_txt.setVisible(false);
         }
         return true;
     }
@@ -355,22 +363,28 @@ public class MainActivity extends Activity
                  exportState(ExtUriType.EXPORT);
                  return true;
              case R.id.menu_export_txt:
-                 exportState(ExtUriType.EXPORT_TXT);
-                 return true;
-             case R.id.menu_copy_x:
-                 copyToClipboard();
+                 //just for robust as this item available when the emulator is turned onn and mk-61
+                 if (emulator != null && emulator.getMkModel() == Emulator.modelMK61) {
+                     exportState(ExtUriType.EXPORT_TXT);
+                 }
                  return true;
              case R.id.menu_import:
                  importState(ExtUriType.IMPORT_PMK);
                  return true;
              case R.id.menu_import_txt:
-                 importState(ExtUriType.IMPORT_TXT);
+                 //just for robust as this item available when the emulator is turned onn and mk-61
+                 if (emulator != null && emulator.getMkModel() == Emulator.modelMK61) {
+                     importState(ExtUriType.IMPORT_TXT);
+                 }
                  return true;
              case R.id.menu_import_descr:
                  importState(ExtUriType.IMPORT_DESCR);
                  return true;
              case R.id.menu_instruction:
                  openInfoActivity();
+                 return true;
+             case R.id.menu_copy_x:
+                 copyToClipboard();
                  return true;
              case R.id.menu_donate:
                  openProgramDescription(getString(R.string.msg_donate));
@@ -479,7 +493,8 @@ public class MainActivity extends Activity
     }
 
     // calculator button touch callback
-    private OnTouchListener onButtonTouchListener = new OnTouchListener() {
+    private final OnTouchListener onButtonTouchListener = new OnTouchListener() {
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             if (buttonPressOnTouch && event.getAction() == MotionEvent.ACTION_DOWN ) {
