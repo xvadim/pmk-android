@@ -119,12 +119,17 @@ public class SaveStateManager {
         }
     }
 
-    void exportStateTxt(final EmulatorInterface emulator) {
+    void exportStateTxt(final EmulatorInterface emulator, final Uri uri) {
 //        if (emulator == null) {
 //            showErrorMessage(R.string.import_turned_off_error);
 //            return;
 //        }
-        emulator.requestExportTxt();
+        emulator.requestExportTxt(new Emulator.ExportTxtListener() {
+            @Override
+            public void exportedCmds(ArrayList<Integer> cmds) {
+                exportCmdsTxt(cmds, uri);
+            }
+        });
     }
 
     void exportCmdsTxt(ArrayList<Integer> cmds, Uri uri) {

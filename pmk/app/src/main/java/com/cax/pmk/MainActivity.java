@@ -821,17 +821,10 @@ public class MainActivity extends Activity
                 if (emulator == null || emulator.getMkModel() != Emulator.modelMK61) {
                     saveStateManager.showErrorMessage(R.string.import_unsupported_error);
                 } else {
-                    saveStateManager.exportStateTxt(emulator);
-                    externalUri = tempUri;
+                    saveStateManager.exportStateTxt(emulator, tempUri);
                 }
                 break;
         }
-    }
-
-    public void exportedCmds(ArrayList<Integer> cmds) {
-        final Uri tempUri = externalUri;
-        externalUri = null;
-        saveStateManager.exportCmdsTxt(cmds, tempUri);
     }
 
     private void copyToClipboard() {

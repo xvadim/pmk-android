@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public interface EmulatorInterface extends Runnable, java.io.Externalizable
 {
+    interface ExportTxtListener {
+        void exportedCmds(ArrayList<Integer> cmds);
+    }
+
 	void setAngleMode(int mode);
     int  getAngleMode();
 	void setSpeedMode(int mode);
@@ -14,7 +18,7 @@ public interface EmulatorInterface extends Runnable, java.io.Externalizable
 //	void saveCmd(int address, int cmdCode);
 	void storeCmd(int address, int cmdCode);
 	void setImportPrgSize(int prgSize);
-    void requestExportTxt();
+    void requestExportTxt(ExportTxtListener exportTxtListener);
 //    String getSaveStateName();
     String indicatorString();
     ArrayList<String> regsDumpBuffer();

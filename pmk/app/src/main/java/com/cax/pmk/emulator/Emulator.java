@@ -18,6 +18,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	private final int[] mImportCmds = new int[105];
 	private int mImportCmdCount = -1;
 	private boolean mIsExportRequested = false;
+	private ExportTxtListener mExportTxtListener = null;
 
 	public Emulator() { }
 
@@ -116,9 +117,10 @@ public class Emulator extends Thread implements EmulatorInterface
 		}
 	}
 
-	public void requestExportTxt() {
+	public void requestExportTxt(ExportTxtListener exportTxtListener) {
 		synchronized (this) {
 			mIsExportRequested = true;
+			mExportTxtListener = exportTxtListener;
 		}
 	}
 
@@ -133,12 +135,10 @@ public class Emulator extends Thread implements EmulatorInterface
 	}
 
 	private void exportIfNeeded() {
-		if (!mIsExportRequested) {
-			return;
+        if (mExportTxtListener == null) {
+        	return;
 		}
-		synchronized (this) {
-			mIsExportRequested = false;
-		}
+
 		final int prgSize = 105;
 		ArrayList<Integer> cmds = new ArrayList<>(prgSize);
 		for(int address = 0; address < prgSize; address++) {
@@ -163,7 +163,10 @@ public class Emulator extends Thread implements EmulatorInterface
 			}
 			cmds.add(cmdCode);
 		}
-		mainActivity.exportedCmds(cmds);
+		mExportTxtListener.exportedCmds(cmds);
+		synchronized (this) {
+			mExportTxtListener = null;
+		}
 	}
 
 	public void saveCmd(int address, int cmdCode) {
@@ -280,7 +283,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	
 	void step() {
 		int i,idx;
-		boolean renew = false;
+		boolean renew;
 		IK1303.keyb_y = 1;
 		IK1303.keyb_x = angle_mode;
 		for (int ix = 0; ix < 560; ix++) {
@@ -330,7 +333,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	private int speed_mode = 0;  // 0=fast, 1=real speed
     public static final int modelMK61 = 0;
 	public static final int modelMK54 = 1;
-	private int mk_model   = 0;  // 0=MK-61, 1=MK-54
+	private int mk_model   = modelMK61;  // 0=MK-61, 1=MK-54
 	
 	private transient int syncCounter = 0;
 	private transient int[] indicator;
