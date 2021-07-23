@@ -54,9 +54,6 @@ public class MainActivity extends Activity
     public static int REGISTER_X = 0;
     public static int REGISTER_Y = 1;
 
-//    private static int PENDING_PERMISSION_REQUEST = -1;
-//    private static final int PERMISSION_REQUEST_READ_EXTERNAL = 0;
-//    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL = 1;
     private static final int RC_IMPORT = 12345;
     private static final int RC_EXPORT = 12346;
     private static final int RC_IMPORT_TXT = 12347;
@@ -284,16 +281,6 @@ public class MainActivity extends Activity
             saveStateManager.loadState(emulator); // load persistence emulation state
         }
 
-        /*
-        //check if we return from permission request
-        if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_WRITE_EXTERNAL) {
-            saveStateManager.exportState(emulator);
-        } else if (PENDING_PERMISSION_REQUEST == PERMISSION_REQUEST_READ_EXTERNAL) {
-            saveStateManager.importState(emulator);
-        }
-        PENDING_PERMISSION_REQUEST = -1;
-        */
-
         if (externalUri != null) {
             processExternalUri();
         }
@@ -302,7 +289,6 @@ public class MainActivity extends Activity
 
     // ----------------------- Menu hooks --------------------------------
     public boolean onPrepareOptionsMenu(Menu menu)  {
-//        MenuItem menu_save = menu.findItem(R.id.menu_save);
         MenuItem menu_export = menu.findItem(R.id.menu_export);
         MenuItem menu_swap = menu.findItem(R.id.menu_swap_model);
         MenuItem menu_copy_x = menu.findItem(R.id.menu_copy_x);
@@ -312,7 +298,6 @@ public class MainActivity extends Activity
         if(poweredOn == sPowerON)
         {
             menu_swap.setVisible(false);
-//            menu_save.setVisible(true);
             menu_export.setVisible(true);
             menu_copy_x.setVisible(true);
             final boolean isSupportedModel = emulator != null &&
@@ -323,7 +308,6 @@ public class MainActivity extends Activity
         else
         {
             menu_swap.setVisible(true);
-//            menu_save.setVisible(false);
             menu_export.setVisible(false);
             menu_copy_x.setVisible(false);
             menu_import_txt.setVisible(false);
@@ -351,14 +335,6 @@ public class MainActivity extends Activity
              case R.id.menu_swap_model:
                 MenuHelper.onChooseMkModel(mkModel);
                 return true;
-                /*
-             case R.id.menu_save:
-                 processMemorySlot(true);
-                 return true;
-             case R.id.menu_load:
-                 processMemorySlot(false);
-                return true;
-                 */
              case R.id.menu_export:
                  exportState(ExtUriType.EXPORT);
                  return true;
@@ -399,17 +375,6 @@ public class MainActivity extends Activity
         onOptionsItemSelected(item);
         return true;
     }
-
-    /*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            //save the current request, as real export/import will be performed in onREsume
-            PENDING_PERMISSION_REQUEST = requestCode;
-        }
-    }
-     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -726,26 +691,6 @@ public class MainActivity extends Activity
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
-    /*
-    private void processMemorySlot(final boolean isSaveMode) {
-        new AlertDialog.Builder(this)
-                .setTitle(android.R.string.dialog_alert_title)
-                .setMessage(R.string.slots_deprecation)
-
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!isSaveMode) {
-                            saveStateManager.chooseAndUseSaveSlot(emulator, false);
-                        }
-                    }
-                })
-
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-     */
-
-
     private void exportState(ExtUriType uriType) {
         externalUriType = uriType;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -756,21 +701,6 @@ public class MainActivity extends Activity
             intent.setType("text/txt");
             startActivityForResult(intent, RC_EXPORT_TXT);
         }
-        /*
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            saveStateManager.exportState(emulator);
-        } else {
-
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                saveStateManager.exportState(emulator);
-            } else {
-                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        PERMISSION_REQUEST_WRITE_EXTERNAL);
-            }
-        }
-
-         */
     }
 
 
@@ -784,21 +714,6 @@ public class MainActivity extends Activity
             intent.setType("*/*");
             startActivityForResult(intent, (uriType == ExtUriType.IMPORT_PMK ? RC_IMPORT : RC_IMPORT_TXT));
         }
-        /*
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            saveStateManager.importState(emulator);
-        } else {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                saveStateManager.importState(emulator);
-            } else {
-                requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        PERMISSION_REQUEST_READ_EXTERNAL);
-            }
-        }
-
-         */
-
     }
 
     private void processExternalUri() {
@@ -843,16 +758,4 @@ public class MainActivity extends Activity
         ClipData clip = ClipData.newPlainText("MK-54/61 Emulator", valueX);
         clipboard.setPrimaryClip(clip);
     }
-
-    /*
-    @TargetApi(23)
-    private void requestPermission(String aPermission, int aRequestCode) {
-        if (shouldShowRequestPermissionRationale(aPermission)) {
-            //TODO: show additional rationale
-            requestPermissions(new String[]{aPermission}, aRequestCode);
-        } else {
-            requestPermissions(new String[]{aPermission}, aRequestCode);
-        }
-    }
-     */
 }

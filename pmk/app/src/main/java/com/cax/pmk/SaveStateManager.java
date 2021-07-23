@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -120,10 +119,6 @@ public class SaveStateManager {
     }
 
     void exportStateTxt(final EmulatorInterface emulator, final Uri uri) {
-//        if (emulator == null) {
-//            showErrorMessage(R.string.import_turned_off_error);
-//            return;
-//        }
         emulator.requestExportTxt(new Emulator.ExportTxtListener() {
             @Override
             public void exportedCmds(ArrayList<Integer> cmds) {
@@ -291,16 +286,6 @@ public class SaveStateManager {
 
     private void importTxtProgram(final EmulatorInterface emulator, InputStream fileIn)
             throws IOException, ParserException {
-
-//        if (emulator == null) {
-//            showErrorMessage(R.string.import_turned_off_error);
-//            return;
-//        }
-//
-//        if (emulator.getMkModel() != Emulator.modelMK61) {
-//            showErrorMessage(R.string.import_unsupported_error);
-//            return;
-//        }
 
         BufferedReader buf = new BufferedReader(new InputStreamReader(fileIn));
         final StringBuilder stringBuilder = new StringBuilder();

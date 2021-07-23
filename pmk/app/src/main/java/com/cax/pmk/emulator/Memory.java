@@ -1,7 +1,5 @@
 package com.cax.pmk.emulator;
 
-import android.util.Log;
-
 import java.io.*;
 
 public class Memory implements Externalizable

@@ -1,7 +1,5 @@
 package com.cax.pmk.emulator;
 
-import android.util.Log;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +15,6 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	private final int[] mImportCmds = new int[105];
 	private int mImportCmdCount = -1;
-	private boolean mIsExportRequested = false;
 	private ExportTxtListener mExportTxtListener = null;
 
 	public Emulator() { }
@@ -71,7 +68,7 @@ public class Emulator extends Thread implements EmulatorInterface
 		}
 
 		while (runningState == RunningState.STOPPING_NORMAL || runningState == RunningState.STOPPING_FORCED)
-        	try { sleep(10); } catch (Exception e) {}
+        	try { sleep(10); } catch (Exception ignored) {}
 	}
 
 	public void setAngleMode(int mode) {
@@ -100,14 +97,6 @@ public class Emulator extends Thread implements EmulatorInterface
 		return mk_model;
 	}
 
-//	public void setSaveStateName(String name) {
-//		saveStateName = name;
-//	}
-
-//	public String getSaveStateName() {
-//		return saveStateName;
-//	}
-
 	public void storeCmd(int address, int cmdCode) {
 		mImportCmds[address] = cmdCode;
 	}
@@ -119,7 +108,6 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	public void requestExportTxt(ExportTxtListener exportTxtListener) {
 		synchronized (this) {
-			mIsExportRequested = true;
 			mExportTxtListener = exportTxtListener;
 		}
 	}
