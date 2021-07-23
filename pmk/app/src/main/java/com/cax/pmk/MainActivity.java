@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cax.pmk.emulator.Emulator;
+import com.cax.pmk.emulator.IndicatorInterface;
 import com.cax.pmk.widget.AutoScaleTextView;
 
 import android.content.ClipData;
@@ -23,7 +24,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,7 +40,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
-                          implements PopupMenu.OnMenuItemClickListener
+                          implements PopupMenu.OnMenuItemClickListener,
+        IndicatorInterface
 {
 
     enum ExtUriType {
@@ -88,7 +89,7 @@ public class MainActivity extends Activity
     private boolean buttonKPressed = false;
     private TextView buttonKIndicator;
     private LinearLayout mYIndicator;
-    public boolean isYIndicatorVisible = false;
+    public boolean mIsYIndicatorVisible = false;
 
     private static final int sPowerOFF = 0;
     private static final int sPowerON = 1;
@@ -408,8 +409,10 @@ public class MainActivity extends Activity
         switches.setVisibility(hideSwitches ? View.GONE : View.VISIBLE);
     }
 
+
     // ----------------------- UI update calls, also from other thread --------------------------------
     // Show string on calculator's indicator
+    @Override
     public void displayIndicator(final int registerNum, final String text) {
         runOnUiThread(new Runnable() {
            public void run() {
@@ -419,7 +422,22 @@ public class MainActivity extends Activity
            }
         });
     }
-    
+
+    @Override
+    public boolean isYIndicatorVisible() {
+        return mIsYIndicatorVisible;
+    }
+
+    @Override
+    public int registerXIndex() {
+        return REGISTER_X;
+    }
+
+    @Override
+    public int registerYIndex() {
+        return REGISTER_Y;
+    }
+
     // ----------------------- UI call backs --------------------------------
     // calculator indicator touch callback
     public void onIndicatorTouched(View view) {
@@ -611,9 +629,9 @@ public class MainActivity extends Activity
                 borderOtherButtons,
                         sharedPref.getBoolean(PreferencesActivity.PREFERENCE_MEM_BUTTONS_54, false));
 
-        isYIndicatorVisible = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_Y_INDICATOR,
+        mIsYIndicatorVisible = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_Y_INDICATOR,
                 PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
-        mYIndicator.setVisibility(isYIndicatorVisible ? View.VISIBLE : View.GONE);
+        mYIndicator.setVisibility(mIsYIndicatorVisible ? View.VISIBLE : View.GONE);
 
         findViewById(R.id.butInfo).setVisibility(sharedPref.getBoolean("pref_show_i_button",
                 true) ? View.VISIBLE : View.INVISIBLE);

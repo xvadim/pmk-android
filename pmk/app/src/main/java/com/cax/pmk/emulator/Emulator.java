@@ -19,8 +19,8 @@ public class Emulator extends Thread implements EmulatorInterface
 
 	public Emulator() { }
 
-	public void initTransient(MainActivity mainActivity) {
-    	this.mainActivity = mainActivity;
+	public void initTransient(IndicatorInterface IndicatorInterface) {
+    	this.indicatorInterface = IndicatorInterface;
 
     	indicator     = new int[12];
     	indicator_old = new int[12];
@@ -57,7 +57,7 @@ public class Emulator extends Thread implements EmulatorInterface
 		}
 
 		runningState = RunningState.STOPPED;
-        mainActivity = null;
+        indicatorInterface = null;
 	}
 
 	public void stopEmulator(boolean force) {
@@ -231,7 +231,8 @@ public class Emulator extends Thread implements EmulatorInterface
 			displayString.append(show_symbols[indicator[ix]]);
 			displayString.append(ind_comma[ix] ? "." : "/");
 		}
-		mainActivity.displayIndicator(MainActivity.REGISTER_X, displayString.toString());
+		indicatorInterface.displayIndicator(indicatorInterface.registerXIndex(),
+				displayString.toString());
 	}
 
 	void tick() {
@@ -330,7 +331,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	private transient boolean[] ind_comma_old;
     private transient StringBuffer displayString = new StringBuffer(24);
    	private transient RunningState runningState;
-   	private transient MainActivity mainActivity;
+   	private transient IndicatorInterface indicatorInterface;
 
 	private static final char[] show_symbols = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', 'L', 'C', 'D', 'E', ' '};
 	private static final int externalizeVersion = 1;
@@ -436,7 +437,8 @@ public class Emulator extends Thread implements EmulatorInterface
 			regsBuffer[i] = readValue(chipNum, addr);
 		}
 
-		if (mainActivity.isYIndicatorVisible && (prevY == null || !prevY.equals(regsBuffer[2]))) {
+		if (indicatorInterface.isYIndicatorVisible() &&
+				(prevY == null || !prevY.equals(regsBuffer[2]))) {
 		    //convert value to the display format
 			displayString.setLength(0);
 			int idx;
@@ -455,7 +457,8 @@ public class Emulator extends Thread implements EmulatorInterface
 				displayString.append(" /");
 			}
 
-			mainActivity.displayIndicator(MainActivity.REGISTER_Y, displayString.toString());
+			indicatorInterface.displayIndicator(indicatorInterface.registerYIndex(),
+					displayString.toString());
 		}
 
 		for(int j = 0; j < regsCount; j++, i++) {
