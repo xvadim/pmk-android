@@ -199,7 +199,7 @@ public class Emulator extends Thread implements EmulatorInterface
 	}
 
 	public String indicatorString() {
-		StringBuffer indBuf = new StringBuffer(24);
+		StringBuilder indBuf = new StringBuilder(24);
 		indBuf.setLength(0);
 		for (int ix = 0; ix < 12; ix++) {
 			indBuf.append(show_symbols[indicator[ix]]);
@@ -239,7 +239,7 @@ public class Emulator extends Thread implements EmulatorInterface
 		IK1302.in = IR2_2.out;		IK1302.tick();
 		IK1303.in = IK1302.out;		IK1303.tick();
 		
-		if (mk_model == 1) 
+		if (mk_model == modelMK54)
 		{ // MK-54
 			IR2_1.in  = IK1303.out;		IR2_1.tick();
 		}
@@ -259,8 +259,8 @@ public class Emulator extends Thread implements EmulatorInterface
 		}
 		
 		if (IR2_1.microtick == 84) {
-			syncCounter = (syncCounter + 1) % (mk_model == 0 ? 5 : 7);
-			if (IK1302.redraw_indic && syncCounter == (mk_model == 0 ? 4 : 6)) {
+			syncCounter = (syncCounter + 1) % (mk_model == modelMK61 ? 5 : 7);
+			if (IK1302.redraw_indic && syncCounter == (mk_model == modelMK61 ? 4 : 6)) {
 				regsDump();
 				importIfNeeded();
 				exportIfNeeded();
