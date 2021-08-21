@@ -23,6 +23,7 @@ public class InfoActivity extends Activity {
 
     public static final String KEY_DESCRIPTION_FILE = "keyDescriptionFile";
     public static final String KEY_REGS_DUMP = "keyRegsDump";
+    public static final String KEY_DONATE_MODE = "keyDonateMode";
 
     private static final String sKeyInfoMode = "keyInfoMode";
 
@@ -74,6 +75,10 @@ public class InfoActivity extends Activity {
             });
         }
 
+        //TODO: switch to the previous mode
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int mode = sharedPref.getInt(sKeyInfoMode, 0);
+
         Bundle args = getIntent().getExtras();
         String descrFile;
         if (args == null) {
@@ -87,13 +92,12 @@ public class InfoActivity extends Activity {
                     mDescription = descrFile;
                 }
             }
+            if (args.getBoolean(KEY_DONATE_MODE, false)) {
+                mode = R.id.butDonate;
+            }
 
             buildRegsDumpString(args);
         }
-
-        //TODO: switch to the previous mode
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int mode = sharedPref.getInt(sKeyInfoMode, 0);
 
         if (mode == 0) {
             mWebView.loadUrl(getString(R.string.info_panel_description_file));

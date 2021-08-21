@@ -364,7 +364,7 @@ public class MainActivity extends Activity
                  copyToClipboard();
                  return true;
              case R.id.menu_donate:
-                 openProgramDescription(getString(R.string.msg_donate));
+                 openDonatePage();
                 return true;
              default:
                  return super.onOptionsItemSelected(item);
@@ -686,12 +686,12 @@ public class MainActivity extends Activity
         }
     }
 
-    private void openProgramDescription(String pProgramDescription) {
-        Intent descrIntent = new Intent(this, DescriptionActivity.class);
-        if (pProgramDescription != null) {
-            descrIntent.putExtra(DescriptionActivity.KEY_DESCRIPTION, pProgramDescription);
-        }
-        startActivity(descrIntent);
+    private void openDonatePage() {
+        Intent infoIntent = new Intent(this, InfoActivity.class);
+        infoIntent.putExtra(InfoActivity.KEY_DONATE_MODE, true);
+        startActivity(infoIntent);
+
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
     private void openInfoActivity() {

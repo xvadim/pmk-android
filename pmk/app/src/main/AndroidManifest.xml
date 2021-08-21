@@ -45,9 +45,6 @@
             android:theme="@style/Theme.FullScreen" />
             -->
         <activity
-            android:name=".DescriptionActivity"
-            android:theme="@style/Theme.FullScreen" />
-        <activity
             android:name=".InstructionActivity"
             android:theme="@style/Theme.FullScreen" />
         <activity
