@@ -44,29 +44,14 @@ public class MainActivity extends Activity
         IndicatorInterface
 {
 
-    enum ExtUriType {
-        IMPORT_PMK,
-        IMPORT_TXT,
-        IMPORT_DESCR,
-        EXPORT,
-        EXPORT_TXT,
-    }
-
     public static int REGISTER_X = 0;
     public static int REGISTER_Y = 1;
-
-    private static final int RC_IMPORT = 12345;
-    private static final int RC_EXPORT = 12346;
-    private static final int RC_IMPORT_TXT = 12347;
-    private static final int RC_IMPORT_DESCR = 12348;
-    private static final int RC_EXPORT_TXT = 12349;
 
     private final static int BUTTON_SOUNDS_NUMBER = 5;
     private static final String SOUND_BUTTON_CLICK_TEMPLATE = "sounds/button_click%d.ogg";
 
     // slash is an empty comma placeholder in indicator font
     private static final String EMPTY_INDICATOR = "/ / / / / / / / / / / / //";
-
 
     private EmulatorInterface emulator = null;
     void setEmulator(EmulatorInterface emulator) {
@@ -103,8 +88,29 @@ public class MainActivity extends Activity
 
     private SaveStateManager saveStateManager = null;
 
+    private static final int RC_IMPORT = 12345;
+    private static final int RC_EXPORT = 12346;
+    private static final int RC_IMPORT_TXT = 12347;
+    private static final int RC_IMPORT_DESCR = 12348;
+    private static final int RC_EXPORT_TXT = 12349;
+
+    enum ExtUriType {
+        NOT_SET,
+        IMPORT_PMK,
+        IMPORT_TXT,
+        IMPORT_DESCR,
+        EXPORT,
+        EXPORT_TXT,
+    }
+
     private Uri externalUri = null;
-    private ExtUriType externalUriType = ExtUriType.EXPORT;
+    private ExtUriType externalUriType = ExtUriType.NOT_SET;
+    private ExtUriType[] rcToUriType = {
+            ExtUriType.IMPORT_PMK,
+            ExtUriType.EXPORT,
+            ExtUriType.IMPORT_TXT,
+            ExtUriType.IMPORT_DESCR,
+            ExtUriType.EXPORT_TXT};
 
     // flags that regulate onPause/onResume behavior
     static boolean splashScreenMode = false;
@@ -380,6 +386,9 @@ public class MainActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && data != null && requestCode >= RC_IMPORT && requestCode <= RC_EXPORT_TXT) {
+            if (externalUriType == ExtUriType.NOT_SET) {
+                externalUriType = rcToUriType[requestCode - RC_IMPORT];
+            }
             externalUri = data.getData();
         }
     }
