@@ -105,7 +105,7 @@ public class MainActivity extends Activity
 
     private Uri externalUri = null;
     private ExtUriType externalUriType = ExtUriType.NOT_SET;
-    private ExtUriType[] rcToUriType = {
+    private final ExtUriType[] rcToUriType = {
             ExtUriType.IMPORT_PMK,
             ExtUriType.EXPORT,
             ExtUriType.IMPORT_TXT,
