@@ -175,11 +175,8 @@
         <html>
             <body>
                 <h2 align="center">Program description</h2>
-                <p>
-                A program description can be imported with a program from an external file.
-                </p>
 
-                <p>The program description is stored in a <b><i>html</i></b>-file with the same name as the program file.</p>
+                <p>The program description usually is stored in a <b><i>html</i></b>-file with the same name as the program file.</p>
                 <p><a href="https://xvadim.github.io/xbasoft/pmk/program_package.html">Description</a> of the description file.</p>
 
                 <p>
