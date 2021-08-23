@@ -132,29 +132,26 @@ public class SaveStateManager {
         parser.initExport();
 
         final StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('0');
 
-        boolean isFirstLine = true;
         int cmdNum = 0;
         try{
             for(Integer cmd: cmds) {
                 String cmdMnemonic = parser.cmdMnemonic(cmd);
-                if (cmdNum % 10 == 0) {
-                    if (isFirstLine) {
-                        isFirstLine = false;
-                    } else {
-                        stringBuilder.append('\n');
-                    }
-                    if (cmdNum < 100) {
-                        stringBuilder.append(cmdNum);
-                    } else {
-                        stringBuilder.append("A0");
-                    }
-                    stringBuilder.append(" | ");
+                if (cmdNum < 10) {
+                    stringBuilder.append("0");
                 }
+                if (cmdNum < 100) {
+                    stringBuilder.append(cmdNum);
+                } else {
+                    stringBuilder.append("A0");
+                }
+                stringBuilder.append(".");
                 stringBuilder.append(cmdMnemonic);
                 stringBuilder.append('\t');
                 cmdNum++;
+                if (cmdNum % 10 == 0) {
+                    stringBuilder.append('\n');
+                }
             }
 
             final ContentResolver cr = mainActivity.getContentResolver();
