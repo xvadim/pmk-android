@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.cax.pmk">
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!--
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    -->
     <!--
  Some Chromebooks don't support touch. Although not essential,
          it's a good idea to explicitly include this declaration.
@@ -23,7 +17,6 @@
         android:theme="@style/AppTheme"
 
         >
-        <!-- android:requestLegacyExternalStorage="true" -->
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -38,12 +31,6 @@
             android:name=".PreferencesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PreferencesTheme" />
-        <!--
-        <activity
-            android:name=".SplashScreenActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.FullScreen" />
-            -->
         <activity
             android:name=".InstructionActivity"
             android:theme="@style/Theme.FullScreen" />
