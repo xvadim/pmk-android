@@ -23,7 +23,6 @@ public class InfoActivity extends Activity {
 
     public static final String KEY_DESCRIPTION_FILE = "keyDescriptionFile";
     public static final String KEY_REGS_DUMP = "keyRegsDump";
-    public static final String KEY_DONATE_MODE = "keyDonateMode";
 
     private static final String sKeyInfoMode = "keyInfoMode";
 
@@ -92,9 +91,6 @@ public class InfoActivity extends Activity {
                     mDescription = descrFile;
                 }
             }
-            if (args.getBoolean(KEY_DONATE_MODE, false)) {
-                mode = R.id.butDonate;
-            }
 
             buildRegsDumpString(args);
         }
@@ -153,10 +149,8 @@ public class InfoActivity extends Activity {
             case R.id.butInstruction:
                 mWebView.loadUrl("file:///android_asset/instruction.html");
                 break;
-            case R.id.butDonate:
-                mWebView.loadData(getString(R.string.msg_donate), "text/html; charset=utf-8", "UTF-8");
-                break;
             case R.id.butAbout:
+            default:
                 openAbout();
                 break;
         }

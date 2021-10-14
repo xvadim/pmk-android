@@ -126,16 +126,6 @@
         <p>
         Невеличкий <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html">репозитарій</a> програм для МК-61/54.
         </p>
-
-        <p align="center">
-        <font size=-1>Підтримати проект:
-        <ul>
-            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
-            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
-            <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.au">Gold donation</a> (1.5$)</li>
-        </ul>
-        </font>
-        </p>
         </body>
         </html>
         ]]>
@@ -160,25 +150,6 @@
         ]]>
     </string>
 
-    <string name="msg_donate">
-        <![CDATA[
-        <html>
-            <body>
-                <h2 align="center">Підтримати проект</h2>
-                <p>
-                Ви можете підтримати проект, придбавши один з цих donate-пакетів:
-                <ul>
-                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
-                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
-                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.au">Gold donation</a> (1.5$)</li>
-                </ul>
-                </p>
-
-                <p>Дякую!</p>
-            </body>
-        </html>
-        ]]>
-    </string>
     <string name="menu_copy_x">Копіювати рег. X</string>
     <string name="info_panel_description_file">file:///android_asset/info_panel_descr_uk.html</string>
 

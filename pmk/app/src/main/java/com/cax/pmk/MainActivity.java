@@ -369,9 +369,6 @@ public class MainActivity extends Activity
              case R.id.menu_copy_x:
                  copyToClipboard();
                  return true;
-             case R.id.menu_donate:
-                 openDonatePage();
-                return true;
              default:
                  return super.onOptionsItemSelected(item);
             }
@@ -693,14 +690,6 @@ public class MainActivity extends Activity
             startActivity(browserIntent);
         } catch (Exception ignored) {
         }
-    }
-
-    private void openDonatePage() {
-        Intent infoIntent = new Intent(this, InfoActivity.class);
-        infoIntent.putExtra(InfoActivity.KEY_DONATE_MODE, true);
-        startActivity(infoIntent);
-
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
     private void openInfoActivity() {
