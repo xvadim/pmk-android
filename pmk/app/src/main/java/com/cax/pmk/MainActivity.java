@@ -1,5 +1,7 @@
 package com.cax.pmk;
 
+import static java.lang.Thread.sleep;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -41,7 +44,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity
                           implements PopupMenu.OnMenuItemClickListener,
-        IndicatorInterface
+                                     IndicatorInterface
 {
 
     public static int REGISTER_X = 0;
@@ -87,6 +90,24 @@ public class MainActivity extends Activity
     private final int[] buttonSoundId = new int[BUTTON_SOUNDS_NUMBER];
 
     private SaveStateManager saveStateManager = null;
+
+    // == support of deleting last digit
+    // special codes
+    private static final int sZeroCode = 10;
+    private static final int sNineCode = 19;
+    private static final int sDotCode = 25;
+    private static final int sSignCode = 26;
+    private static final int sExpCode = 27;
+    private static final int sCxCode = 28;
+    private static final int sFPrgCode = 27;
+    private static final int sFAvtCode = 26;
+    private static final int sRXCode = 36;
+    private static final int sXRCode = 34;
+    private static final int sBPCode = 31;
+    // == and vars
+    private boolean isPrgMode = false;
+    private int skipCodesCount = 0;
+    private final ArrayList<Integer> mNumCodes = new ArrayList<>();
 
     private static final int RC_IMPORT = 12345;
     private static final int RC_EXPORT = 12346;
@@ -455,8 +476,12 @@ public class MainActivity extends Activity
     // calculator indicator touch callback
     public void onIndicatorTouched(View view) {
         if (emulator != null) {
-            emulator.setSpeedMode(1 - emulator.getSpeedMode());
-            setIndicatorColor(emulator.getSpeedMode());
+            if (mNumCodes.size() > 0) {
+                delLast();
+            } else {
+                emulator.setSpeedMode(1 - emulator.getSpeedMode());
+                setIndicatorColor(emulator.getSpeedMode());
+            }
         }
     }
 
@@ -516,6 +541,9 @@ public class MainActivity extends Activity
                 ? PreferencesActivity.VIBRATE_KEYPAD_MORE
                 : PreferencesActivity.VIBRATE_KEYPAD);
 
+        boolean isFPressed = buttonFPressed;
+        boolean isKPressed = buttonKPressed;
+
         int keycode = Integer.parseInt((String)view.getTag());
         if (keycode == 39) {    //button F
             buttonFPressed = true;
@@ -537,7 +565,53 @@ public class MainActivity extends Activity
             }
         }
 
+        saveNumCode(keycode, isFPressed, isKPressed);
         emulator.keypad(keycode);
+    }
+
+    private void saveNumCode(int keycode, boolean isFPressed, boolean isKPressed) {
+
+        if (isFPressed) {
+            if (keycode == sFAvtCode) {
+                isPrgMode = false;
+            } else if (keycode == sFPrgCode) {
+                isPrgMode = true;
+            }
+        }
+
+        if (isPrgMode || isFPressed) {
+            return;
+        }
+
+        if (skipCodesCount == 0 && ((keycode >= sZeroCode && keycode <= sNineCode) ||
+                keycode == sDotCode|| keycode == sSignCode  ||
+                keycode == sExpCode)) {
+            mNumCodes.add(keycode);
+        } else {
+            if (skipCodesCount > 0) {
+                skipCodesCount--;
+            }
+            if (keycode == sRXCode || keycode == sXRCode) {
+                skipCodesCount = 1; // to skip reg's num
+            } else if (keycode == sBPCode) {
+                skipCodesCount = isKPressed ? 1 : 2;    // skip goto address: number or reg's num
+            }
+            mNumCodes.clear();
+        }
+    }
+
+    private void delLast() {
+        mNumCodes.remove(mNumCodes.size() - 1);
+
+        emulator.keypad(sCxCode);
+
+        final long delay = emulator.getSpeedMode() == 0 ? 1 : 125;
+        for(int code: mNumCodes) {
+            try {
+                sleep(delay);
+            } catch (Exception ignored) {}
+            emulator.keypad(code);
+        }
     }
 
     // ----------------------- Other --------------------------------
@@ -653,6 +727,8 @@ public class MainActivity extends Activity
     private void switchOnCalculator(boolean enable) {
         if (enable) {
             if (poweredOn == sPowerON) {
+                mNumCodes.clear();
+
                 emulator = new com.cax.pmk.emulator.Emulator();
                 emulator.setAngleMode(angleMode);
                 emulator.setSpeedMode(speedMode);
