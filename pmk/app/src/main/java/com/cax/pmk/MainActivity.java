@@ -320,6 +320,10 @@ public class MainActivity extends Activity
             menu_import_txt.setVisible(false);
             menu_export_txt.setVisible(false);
         }
+
+        MenuItem menu_donate = menu.findItem(R.id.menu_donate);
+        menu_donate.setVisible(BuildConfig.IS_DONATION_INFO_ENABLED);
+
         return true;
     }
     

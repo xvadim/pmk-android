@@ -13,6 +13,7 @@ import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -75,7 +76,6 @@ public class InfoActivity extends Activity {
             });
         }
 
-        //TODO: switch to the previous mode
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int mode = sharedPref.getInt(sKeyInfoMode, 0);
 
@@ -92,7 +92,8 @@ public class InfoActivity extends Activity {
                     mDescription = descrFile;
                 }
             }
-            if (args.getBoolean(KEY_DONATE_MODE, false)) {
+            if (BuildConfig.IS_DONATION_INFO_ENABLED &&
+                    args.getBoolean(KEY_DONATE_MODE, false)) {
                 mode = R.id.butDonate;
             }
 
@@ -103,6 +104,11 @@ public class InfoActivity extends Activity {
             mWebView.loadUrl(getString(R.string.info_panel_description_file));
         } else {
             switchMode(mode);
+        }
+
+        if (BuildConfig.IS_DONATION_INFO_ENABLED) {
+            final Button donateBut = findViewById(R.id.butDonate);
+            donateBut.setVisibility(View.VISIBLE);
         }
     }
 
@@ -154,8 +160,10 @@ public class InfoActivity extends Activity {
                 mWebView.loadUrl("file:///android_asset/instruction.html");
                 break;
             case R.id.butDonate:
-                mWebView.loadData(getString(R.string.msg_donate), "text/html; charset=utf-8", "UTF-8");
-                break;
+                if (BuildConfig.IS_DONATION_INFO_ENABLED) {
+                    mWebView.loadData(getString(R.string.msg_donate), "text/html; charset=utf-8", "UTF-8");
+                    break;
+                }
             case R.id.butAbout:
                 openAbout();
                 break;

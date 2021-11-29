@@ -24,4 +24,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        full {
+            buildConfigField("boolean", "IS_DONATION_INFO_ENABLED", "true")
+        }
+
+        google {
+            buildConfigField("boolean", "IS_DONATION_INFO_ENABLED", "false")
+        }
+    }
 }
