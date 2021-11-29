@@ -87,6 +87,22 @@
             android:onClick="onClick"
             />
 
+        <!-- the Donate text dump button -->
+        <Button
+            android:id="@+id/butDonate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/button_info_panel_min_width"
+            android:minHeight="@dimen/button_info_panel_min_height"
+            android:background="@drawable/button_other"
+            android:textColor="@color/buttonTextBlack"
+            android:textColorHint="@color/buttonTextBlack"
+            android:textSize="@dimen/button_font_size_info_panel"
+            android:textStyle="bold"
+            android:text="$"
+            android:onClick="onClick"
+            />
+
         <!-- the Exit button -->
         <Button
             android:id="@+id/butExit"

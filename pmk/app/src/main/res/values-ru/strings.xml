@@ -149,6 +149,11 @@
         <p>
         Небольшой <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html">репозитарий</a> программ для МК-61/54.
         </p>
+
+        <p  align="center">
+        <font size=-1><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Поддержать проект</a></font>
+        </p>
+
         </body>
         </html>
         ]]>
@@ -168,6 +173,26 @@
                 Вы можете скачать несколько МК-программ и их описаний из этого
                 <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html#programs">репозитария</a>.
                 </p>
+            </body>
+        </html>
+        ]]>
+    </string>
+
+    <string name="msg_donate">
+        <![CDATA[
+        <html>
+            <body>
+                <h2 align="center">Поддержать проект</h2>
+                <p>
+                Вы можете поддержать проект, купив один из этих donate-пакетов:
+                <ul>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.ag">Silver donation</a> (1$)</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate.au">Gold donation</a> (1.5$)</li>
+                </ul>
+                </p>
+
+                <p>Спасибо!</p>
             </body>
         </html>
         ]]>
