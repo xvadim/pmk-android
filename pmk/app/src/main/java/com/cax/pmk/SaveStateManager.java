@@ -26,6 +26,8 @@ import com.cax.pmk.emulator.Emulator;
 public class SaveStateManager {
 	
 	private static final String PERSISTENCE_STATE_FILENAME 	= "persist.pmk";
+    private static final String PERSISTENCE_DESCR_FILENAME 	= "persist_descr.html";
+
 	MainActivity mainActivity;
     String mProgramDescription = null;
 	
@@ -53,6 +55,28 @@ public class SaveStateManager {
             mainActivity.setEmulator(null);
             try { if (fileOut != null) fileOut.close(); } catch(IOException ignored) {}
         }
+
+        if (mProgramDescription == null) {
+            deleteDescriptionFile();
+        } else {
+            savePersistentDescription();
+        }
+    }
+
+    private void savePersistentDescription() {
+        FileOutputStream fileOut = null;
+        try {
+            fileOut = mainActivity.openFileOutput(PERSISTENCE_DESCR_FILENAME, Context.MODE_PRIVATE);
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOut));
+            bufferedWriter.write(mProgramDescription);
+            bufferedWriter.close();
+        } catch (IOException ignored) {
+        } finally {
+            try {
+                if (fileOut != null) fileOut.close();
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     private String saveStateStoppingEmulatorToFile(EmulatorInterface emulator, OutputStream fileOut) {
@@ -77,13 +101,40 @@ public class SaveStateManager {
 
     void loadState(EmulatorInterface emulator) {
 
-    	if (! getFileStreamPath(PERSISTENCE_STATE_FILENAME).exists())
-    		return;
+    	if (! getFileStreamPath(PERSISTENCE_STATE_FILENAME).exists()) {
+            return;
+        }
     	
 		FileInputStream fileIn = null;
         try {
             fileIn = mainActivity.openFileInput(PERSISTENCE_STATE_FILENAME);
             loadStateFromFile(emulator, fileIn);
+        } catch(Exception ignored) {
+        } finally {
+            try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
+        }
+
+        loadPersistentDescription();
+    }
+
+    private void loadPersistentDescription() {
+        if (! getFileStreamPath(PERSISTENCE_DESCR_FILENAME).exists()) {
+            return;
+        }
+
+        FileInputStream fileIn = null;
+        try {
+            fileIn = mainActivity.openFileInput(PERSISTENCE_DESCR_FILENAME);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(fileIn));
+            final StringBuilder stringBuilder = new StringBuilder();
+
+            String line = buf.readLine();
+            while(line != null){
+                stringBuilder.append(line);
+                line = buf.readLine();
+            }
+            buf.close();
+            mProgramDescription = stringBuilder.toString();
         } catch(Exception ignored) {
         } finally {
             try { if (fileIn != null) fileIn.close(); } catch(IOException ignored) {}
@@ -331,6 +382,13 @@ public class SaveStateManager {
         File file = getFileStreamPath(PERSISTENCE_STATE_FILENAME);
         if (file.exists())
         	file.delete();
+    }
+
+    private void deleteDescriptionFile() {
+        File file = getFileStreamPath(PERSISTENCE_DESCR_FILENAME);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     public void showErrorMessage(int errorTextID) {
