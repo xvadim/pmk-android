@@ -21,8 +21,6 @@ import android.net.Uri;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.cax.pmk.emulator.Emulator;
-
 public class SaveStateManager {
 	
 	private static final String PERSISTENCE_STATE_FILENAME 	= "persist.pmk";
@@ -170,12 +168,7 @@ public class SaveStateManager {
     }
 
     void exportStateTxt(final EmulatorInterface emulator, final Uri uri) {
-        emulator.requestExportTxt(new Emulator.ExportTxtListener() {
-            @Override
-            public void exportedCmds(ArrayList<Integer> cmds) {
-                exportCmdsTxt(cmds, uri);
-            }
-        });
+        emulator.requestExportTxt(cmds -> exportCmdsTxt(cmds, uri));
     }
 
     void exportCmdsTxt(ArrayList<Integer> cmds, Uri uri) {
@@ -381,12 +374,14 @@ public class SaveStateManager {
     public void deletePersistentFile() {
         File file = getFileStreamPath(PERSISTENCE_STATE_FILENAME);
         if (file.exists())
-        	file.delete();
+            //noinspection ResultOfMethodCallIgnored
+            file.delete();
     }
 
     private void deleteDescriptionFile() {
         File file = getFileStreamPath(PERSISTENCE_DESCR_FILENAME);
         if (file.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             file.delete();
         }
     }
