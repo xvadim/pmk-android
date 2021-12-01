@@ -676,7 +676,7 @@ public class MainActivity extends Activity
             setPowerOnOffControl(0);
             
             //erase persistence file
-            saveStateManager.deletePersistentFile();
+            saveStateManager.deleteAllPersistentFiles();
 
             setIndicatorColor(-1);
         }

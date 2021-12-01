@@ -371,6 +371,11 @@ public class SaveStateManager {
         showErrorMessage(R.string.import_successfull);
     }
 
+    public void deleteAllPersistentFiles() {
+        deletePersistentFile();
+        deleteDescriptionFile();
+    }
+
     public void deletePersistentFile() {
         File file = getFileStreamPath(PERSISTENCE_STATE_FILENAME);
         if (file.exists())
@@ -379,6 +384,7 @@ public class SaveStateManager {
     }
 
     private void deleteDescriptionFile() {
+	    mProgramDescription = null;
         File file = getFileStreamPath(PERSISTENCE_DESCR_FILENAME);
         if (file.exists()) {
             //noinspection ResultOfMethodCallIgnored
