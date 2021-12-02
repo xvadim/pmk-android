@@ -1,0 +1,15 @@
+МК 61 was the best seller of all USSR programmable calculators of 1980-s (B3-34, MK-54, MK-56, MK-61, MK-52).
+
+Calculators are emulated on microcode level so they behave exactly like the original devices, including all non-documented features and inaccurate calculations. For ease of use application features saving and loading emulation states.
+
+This app's emulation engine Java code is based on C++ source of Felix Lazarev's emu145 project.
+Emulation was highly optimized for speed and should run in real time on any phone.
+
+It's an extended version of the original emulator МК 61/54 by Stanislav Borutsky
+(https://play.google.com/store/apps/details?id=com.cax.pmk). This version allows to export/import programs from external files and contains some UI improvements.
+
+Hint 0: you can found the list of all tips in the About dialog
+Hint 1: touch calculator's indicator to toggle slow/fast mode. Indicator's blinking looks better in slow mode.
+Hint 2: you can choose between MK-61 and MK-54 using menu option that becomes visible when calculator is switched off. 
+Hint 3: with the menu "Import" you can import programs from external files, several such programs you can find in https://xvadim.github.io/xbasoft/pmk/pmk.html
+Hit 4: you can open menu by long tap on the "Вкл" label.
