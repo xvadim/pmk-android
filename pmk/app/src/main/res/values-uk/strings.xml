@@ -83,6 +83,10 @@
     <string name="settings_data_storage_title">Каталог програм</string>
     <string name="settings_data_storage_summary">Каталог для зберігання програм</string>
 
+    <string name="settings_category_extended">Розширені</string>
+    <string name="settings_indicator_del_last_title">Видалення останньої цифри</string>
+    <string name="settings_indicator_del_last_summary">Дотик до індикатора видаляє останню введену цифру</string>
+
     <string name = "settings_category_other"> Інше </string>
     <string name = "settings_other_mem_buttons_34"> Кнопки ИП та П</string>
     <string name="settings_other_y_indicator">Показувати Y-індикатор</string>

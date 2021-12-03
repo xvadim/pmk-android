@@ -26,6 +26,8 @@ public class PreferencesActivity extends PreferenceActivity {
 	static final String PREFERENCE_DATA_STORAGE         = "pref_data_storage";
 	//by default use the last dir
     static final String PREFERENCE_DATA_STORAGE_DEF_VALUE = "2";
+
+	static final String PREFERENCE_INDICATOR_DEL_LAST   = "pref_del_last_digit";
 	
 	// internal settings
 	static final String ANGLE_MODE_PREFERENCE_KEY		= "angleMode";

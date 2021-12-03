@@ -84,6 +84,10 @@
     <string name="settings_on_button_touch_title">Pressed on touch</string>
     <string name="settings_on_button_touch_summary">Buttons react when touched and not when released</string>
 
+    <string name="settings_category_extended">Extended</string>
+    <string name="settings_indicator_del_last_title">Del last digit</string>
+    <string name="settings_indicator_del_last_summary">Tap on indicator dels the last entered digit</string>
+
     <!-- Dialogs buttons labels -->
     <string name="label_save">Save</string>
     <string name="label_load">Load</string>

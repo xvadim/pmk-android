@@ -211,7 +211,17 @@
                 android:summary="@string/settings_data_storage_summary"
                 android:title="@string/settings_data_storage_title"
                 />
+        </PreferenceCategory>
 
+        <PreferenceCategory
+            android:title="@string/settings_category_data_storage ">
+            <CheckBoxPreference
+                android:key="pref_del_last_digit"
+                android:defaultValue="false"
+                android:layout="@layout/preferences_layout"
+                android:title="@string/settings_indicator_del_last_title"
+                android:summary="@string/settings_indicator_del_last_summary"
+                />
         </PreferenceCategory>
     </PreferenceScreen>
 

@@ -108,6 +108,7 @@ public class MainActivity extends Activity
     private boolean isPrgMode = false;
     private int skipCodesCount = 0;
     private final ArrayList<Integer> mNumCodes = new ArrayList<>();
+    private boolean isDelLastEnabled = false;
 
     private static final int RC_IMPORT = 12345;
     private static final int RC_EXPORT = 12346;
@@ -164,52 +165,42 @@ public class MainActivity extends Activity
         angleModeSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { if (fromUser) onAngleMode(progress); }
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) onAngleMode(progress);
+            }
         });
         
         SeekBar powerOnOffSlider = findViewById(R.id.powerOnOffSlider);
         if (powerOnOffSlider != null) powerOnOffSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {} 
-            @Override public void onProgressChanged(final SeekBar seekBar, int progress, boolean fromUser) { if (fromUser) onPower(progress); }   	
+            @Override public void onProgressChanged(final SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) onPower(progress);
+            }
         });
                 
         View switches = findViewById(R.id.tableLayoutSwitches);
         switches.setVisibility(hideSwitches ? View.GONE : View.VISIBLE);
         
-        findViewById(R.id.textView_Indicator).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                toggleSwitchesVisibility();
-                return true;
-            }
+        findViewById(R.id.textView_Indicator).setOnLongClickListener(v -> {
+            toggleSwitchesVisibility();
+            return true;
         });
 
-        findViewById(R.id.TextViewPowerOnOff).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(MainActivity.this, v);
-                popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
-                onPrepareOptionsMenu(popup.getMenu());
-                popup.setOnMenuItemClickListener(MainActivity.this);
-                popup.show();
-            }
+        findViewById(R.id.TextViewPowerOnOff).setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(MainActivity.this, v);
+            popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
+            onPrepareOptionsMenu(popup.getMenu());
+            popup.setOnMenuItemClickListener(MainActivity.this);
+            popup.show();
         });
 
-        findViewById(R.id.TextViewTableCellCalculatorName).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setMkModel(1 - mkModel, false);
-                return true;
-            }
+        findViewById(R.id.TextViewTableCellCalculatorName).setOnLongClickListener(v -> {
+            setMkModel(1 - mkModel, false);
+            return true;
         });
 
-        findViewById(R.id.butInfo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openInfoActivity();
-            }
-        });
+        findViewById(R.id.butInfo).setOnClickListener(v -> openInfoActivity());
 
         buttonFIndicator = findViewById(R.id.indicatorF);
         buttonKIndicator = findViewById(R.id.indicatorK);
@@ -514,16 +505,13 @@ public class MainActivity extends Activity
     }
 
     // calculator button touch callback
-    private final OnTouchListener onButtonTouchListener = new OnTouchListener() {
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            if (buttonPressOnTouch && event.getAction() == MotionEvent.ACTION_DOWN ) {
-                onKeypadButtonTouched(view);
-                return true;
-            } else {
-                return false;
-            }
+    @SuppressLint("ClickableViewAccessibility")
+    private final OnTouchListener onButtonTouchListener = (view, event) -> {
+        if (buttonPressOnTouch && event.getAction() == MotionEvent.ACTION_DOWN ) {
+            onKeypadButtonTouched(view);
+            return true;
+        } else {
+            return false;
         }
     };
     
@@ -565,7 +553,9 @@ public class MainActivity extends Activity
             }
         }
 
-        saveNumCode(keycode, isFPressed, isKPressed);
+        if (isDelLastEnabled) {
+            saveNumCode(keycode, isFPressed, isKPressed);
+        }
         emulator.keypad(keycode);
     }
 
@@ -674,6 +664,9 @@ public class MainActivity extends Activity
                                           PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
         borderOtherButtons = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_BORDER_OTHER_BUTTONS,
                                           PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
+
+        isDelLastEnabled = sharedPref.getBoolean(PreferencesActivity.PREFERENCE_INDICATOR_DEL_LAST,
+                PreferencesActivity.DEFAULT_DUMMY_BOOLEAN);
 
         TextView calculatorIndicator = findViewById(R.id.textView_Indicator);
         calculatorIndicator.setKeepScreenOn(

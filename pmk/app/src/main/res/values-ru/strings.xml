@@ -78,6 +78,10 @@
     <string name="settings_data_storage_title">Каталог программ</string>
     <string name="settings_data_storage_summary">Каталог для хранения программ</string>
 
+    <string name = "settings_category_extended"> Расширенные </string>
+    <string name = "settings_indicator_del_last_title"> Удаление последней цифры </string>
+    <string name = "settings_indicator_del_last_summary"> Нажатие на индикатор удаляет последнюю введенную цифру </string>
+
 <!-- Dialogs buttons labels -->		
     <string name="label_save">Сохранить</string>
     <string name="label_load">Загрузить</string>
