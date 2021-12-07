@@ -595,7 +595,7 @@ public class MainActivity extends Activity
 
         emulator.keypad(sCxCode);
 
-        final long delay = emulator.getSpeedMode() == 0 ? 1 : 125;
+        final long delay = emulator.getSpeedMode() == 0 ? 2 : 135;
         for(int code: mNumCodes) {
             try {
                 sleep(delay);
