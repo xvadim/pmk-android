@@ -5,9 +5,12 @@
 Данный форк содержит немного улучшенный вид для МК-54 и возможность экспортировать/импортировать программы в/из 
 внешних файлов.
 
-<a href="https://play.google.com/store/apps/details?id=com.cax.pmk.ext&hl=ru" alt="Download from Google Play">
-  <img src="http://www.android.com/images/brand/android_app_on_play_large.png">
-</a>
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.cax.pmk.ext/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.cax.pmk.ext)
 
 ## Лицензия
 
