@@ -160,7 +160,13 @@
         A small  <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html">repository</a> of МК-61/54 programs.
         </p>
 
-        <p align="center">
+        </body>
+        </html>
+        ]]>
+    </string>
+
+    <!--
+    <p align="center">
         <font size=-1>Support project
         <ul>
             <li><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Base donation</a> (0.5$)</li>
@@ -169,10 +175,7 @@
         </ul>
         </font>
         </p>
-        </body>
-        </html>
-        ]]>
-    </string>
+    -->
 
     <string name="default_description">
         <![CDATA[

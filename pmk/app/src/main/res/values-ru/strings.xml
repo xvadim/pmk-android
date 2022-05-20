@@ -154,14 +154,16 @@
         Небольшой <a href="https://xvadim.github.io/xbasoft/pmk/pmk.html">репозитарий</a> программ для МК-61/54.
         </p>
 
-        <p  align="center">
-        <font size=-1><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Поддержать проект</a></font>
-        </p>
-
         </body>
         </html>
         ]]>
     </string>
+
+    <!--
+    <p  align="center">
+        <font size=-1><a href="https://play.google.com/store/apps/details?id=org.xbasoft.pmk_donate">Поддержать проект</a></font>
+        </p>
+    -->
 
     <string name="default_description">
         <![CDATA[
