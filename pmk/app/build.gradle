@@ -35,4 +35,5 @@ android {
             buildConfigField("boolean", "IS_DONATION_INFO_ENABLED", "false")
         }
     }
+    namespace 'com.cax.pmk'
 }
