@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.cax.pmk.ext"
         minSdkVersion 19
-        targetSdkVersion 32
-        versionCode 332
-        versionName "3.3.2"
+        targetSdkVersion 33
+        versionCode 333
+        versionName "3.3.3"
 
         lintOptions {
             checkReleaseBuilds false
