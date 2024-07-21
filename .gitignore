@@ -33,3 +33,5 @@ proguard/
 gradlew*
 
 pmk/app/release/*
+pmk/app/full/*
+pmk/app/google/*
