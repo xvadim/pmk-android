@@ -9,9 +9,8 @@ public class Memory implements Externalizable
 		for (int i = 0; i < MEM_SIZE; i++) M[i] = 0;
 	}
 
-	public final void tick()
-	{
- 		if (microtick == MEM_SIZE) microtick = 0;
+	public final void tick() {
+		if (microtick == MEM_SIZE) microtick = 0;
 		out = M[microtick];
 		M[(microtick + MEM_SIZE) % MEM_SIZE] = in;
 		microtick++;
