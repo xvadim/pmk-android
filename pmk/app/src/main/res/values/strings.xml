@@ -328,11 +328,11 @@
 
     <string name="button6" translatable="false">6</string>
     <string name="button6Yellow" translatable="false">tg-¹</string>
-    <string name="button6Blue" translatable="false">←°\'</string>
+    <string name="button6Blue" translatable="false">°\'←</string>
 
     <string name="buttonAdd" translatable="false">+</string>
     <string name="buttonAddYellow" translatable="false">π</string>
-    <string name="buttonAddBlue" translatable="false">→°\'</string>
+    <string name="buttonAddBlue" translatable="false">°\'→</string>
 
     <string name="buttonMultiply" translatable="false">×</string>
     <string name="buttonMultiplyYellow" translatable="false">x²</string>
@@ -346,11 +346,11 @@
 
     <string name="button3" translatable="false">3</string>
     <string name="button3Yellow" translatable="false">ln</string>
-    <string name="button3Blue" translatable="false">←°\'\"</string>
+    <string name="button3Blue" translatable="false">°\'\"←</string>
 
     <string name="buttonExchangeXY" translatable="false">=</string> <!-- ↔ -->
     <string name="buttonExchangeXYYellow" translatable="false">(&amp;</string> <!-- x^y -->
-    <string name="buttonExchangeXYBlue" translatable="false">→°\'\"</string>
+    <string name="buttonExchangeXYBlue" translatable="false">°\'\"→</string>
 
     <string name="buttonUpStack" translatable="false">BA</string> <!-- В↑ -->
     <string name="buttonUpStackYellow" translatable="false">Bx</string>
