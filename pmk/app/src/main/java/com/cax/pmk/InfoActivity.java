@@ -3,6 +3,8 @@ package com.cax.pmk;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.ActivityNotFoundException;
+import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -56,7 +58,11 @@ public class InfoActivity extends Activity {
                         webView.loadUrl(webResourceRequest.getUrl().toString());
                     } else {
                         // If the URI is not pointing to a local file, open with an ACTION_VIEW Intent
-                        webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, webResourceRequest.getUrl()));
+                        try {
+                            webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, webResourceRequest.getUrl()));
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(webView.getContext(), "No app found to open this link", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     return true; // in both cases we handle the link manually
                 }
@@ -69,7 +75,11 @@ public class InfoActivity extends Activity {
                         webView.loadUrl(url);
                     } else {
                         // If the URI is not pointing to a local file, open with an ACTION_VIEW Intent
-                        webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        try {
+                            webView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(webView.getContext(), "No app found to open this link", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     return true; // in both cases we handle the link manually
                 }
